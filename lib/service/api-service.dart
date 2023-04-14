@@ -9,9 +9,9 @@ import 'package:panoptesan_alpha/models/user.dart';
 
 class ApiService {
 
-    ApiResponse();
+    ApiService();
 
-    static Future<T?> _makeRequest<T>(RestMethod requestMethod, String endPoint, Map<dynamic, dynamic> body, Map<dynamic, dynamic> headers) async {
+    static Future<Map> _makeRequest(RestMethod requestMethod, String endPoint, Map<String, String> body, Map<String, String> headers) async {
         try {
             if (headers == null) {
                 headers = new Map();
@@ -20,6 +20,12 @@ class ApiService {
             headers["Content-Type"] = "application/json; charset=UTF-8";
 
             var url = ApiConstants.baseUrl + endPoint;
+
+            print(url);
+            print(requestMethod);
+            print(body);
+            print(jsonEncode(body));
+
             var response = null;
 
             if (requestMethod == RestMethod.POST) {
@@ -46,18 +52,22 @@ class ApiService {
                 );
             }
 
-            return T.fromJson(jsonDecode(response.body));
+            print(jsonDecode(response.body));
+
+            return jsonDecode(response.body);
         } catch (e) {
-            log(e.toString());
+            print(e.toString());
         }
+
+        return new Map<String, dynamic>();
     }
 
-    static Future<T?> postRequest<T>(String endPoint, Map<dynamic, dynamic> body, [Map<dynamic, dynamic> headers]) async {
-        return await _makeRequest<T>(RestMethod.POST, endPoint, body, headers);
+    static Future<Map> postRequest(String endPoint, Map<String, String> body, Map<String, String> headers) async {
+        return await _makeRequest(RestMethod.POST, endPoint, body, headers);
     }
 
-    static Future<T?> getRequest<T>(String endPoint, Map<dynamic, dynamic> body, [Map<dynamic, dynamic> headers]) async {
-        return await _makeRequest<T>(RestMethod.GET, endPoint, body, headers);
+    static Future<Map> getRequest(String endPoint, Map<String, String> body, Map<String, String> headers) async {
+        return await _makeRequest(RestMethod.GET, endPoint, body, headers);
     }
 
     

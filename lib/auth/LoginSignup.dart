@@ -26,6 +26,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int groupValue = 0;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -169,8 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 1.sw,
                       height: 55,
                       child: TextFormField(
+                        controller: emailController,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.black
                         ),
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -239,8 +251,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 1.sw,
                 height: 55,
                 child: TextFormField(
+                  controller: passwordController,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.black
                   ),
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -404,7 +417,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                   : CustomButton(
                       textColor: kprimary,
-                      tap: () => LoginSignupHandler.login("test1@test.com", "123456789", () => Get.to(() => MainScreen()) ),
+                      tap: () => LoginSignupHandler.login(emailController.text, passwordController.text, () => Get.to(() => MainScreen()) ),
                       ButtonText: "Login",
                       width: 0.9.sw,
                       colors: white,

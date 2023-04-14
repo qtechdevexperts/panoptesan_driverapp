@@ -1,4 +1,4 @@
-import 'package:panoptesan_alpha/helper/activator.dart';
+import 'package:panoptesan_alpha/models/user.dart';
 
 class ApiResponse<T> {
     bool? status;
@@ -8,11 +8,14 @@ class ApiResponse<T> {
 
     ApiResponse({this.status, this.code, this.message, this.data});
 
-    ApiResponse.fromJson(Map<String, dynamic> json) {
+    ApiResponse.fromJson(Map json) {
         status = json['status'];
         code = json['code'];
         message = json['message'];
-        data = json['data'] != null ? Activator.createInstance(T).fromJson(json['data']) : null;
+
+        if (T is User) {
+            data = json['data'] != null ? User.fromJson(json['data']) as T : null;
+        }
     }
 
     Map<String, dynamic> toJson() {
@@ -21,8 +24,8 @@ class ApiResponse<T> {
         data['code'] = this.code;
         data['message'] = this.message;
         
-        if (this.data != null) {
-            data['data'] = this.data!.toJson();
+        if (this.data != null && this.data is User) {
+            data['data'] = (this.data! as User).toJson();
         }
         
         return data;

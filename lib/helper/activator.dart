@@ -1,6 +1,6 @@
 class Activator {
-    static createInstance(Type type, [Symbol constructor, List
-        arguments, Map<Symbol, dynamic> namedArguments]) {
+    static createInstance(Type type, Symbol constructor, List
+        arguments, Map<Symbol, dynamic> namedArguments) {
             if (type == null) {
                 throw new ArgumentError("type: $type");
             }
