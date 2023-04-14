@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.708" height="28.708" viewBox="0 0 28.708 28.708">
+  <defs>
+    <filter id="Icon_metro-cross" x="0" y="0" width="28.708" height="28.708" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Icon_metro-cross)">
+    <path id="Icon_metro-cross-2" data-name="Icon metro-cross" d="M13.181,10.531h0L9.933,7.282l3.248-3.248h0a.335.335,0,0,0,0-.473L11.647,2.026a.336.336,0,0,0-.473,0h0L7.925,5.274,4.676,2.026h0a.335.335,0,0,0-.473,0L2.669,3.56a.335.335,0,0,0,0,.473h0L5.917,7.282,2.669,10.531h0a.335.335,0,0,0,0,.473L4.2,12.538a.335.335,0,0,0,.473,0h0L7.925,9.29l3.248,3.248h0a.335.335,0,0,0,.473,0L13.181,11a.335.335,0,0,0,0-.473Z" transform="translate(6.43 4.07)" fill="#e23939"/>
+  </g>
+</svg>
