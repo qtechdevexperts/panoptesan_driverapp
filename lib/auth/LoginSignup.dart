@@ -29,6 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final nameController = TextEditingController();
+  final repeatPasswordController = TextEditingController();
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -147,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 1.sw,
                       height: 55,
                       child: TextFormField(
+                        controller: nameController,
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -216,6 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 1.sw,
                       height: 55,
                       child: TextFormField(
+                        controller: emailController,
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -294,6 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 1.sw,
                       height: 55,
                       child: TextFormField(
+                        controller: repeatPasswordController,
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -409,7 +415,7 @@ class _LoginScreenState extends State<LoginScreen> {
               signUp == true
                   ? CustomButton(
                       textColor: kprimary,
-                      tap: () => Get.to(() => SetProfileScreen()),
+                      tap: () => LoginSignupHandler.register(nameController.text, emailController.text, passwordController.text, repeatPasswordController.text, () => Get.to(() => SetProfileScreen())),
                       ButtonText: "Signup",
                       width: 0.9.sw,
                       colors: white,

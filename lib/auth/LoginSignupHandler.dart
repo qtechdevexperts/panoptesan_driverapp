@@ -25,4 +25,31 @@ class LoginSignupHandler {
             //Show error
         }
     }
+
+    static Future<void> register(String name, String email, String password, String repeatPassword, Function successCallback) async {
+        if (password != repeatPassword) {
+            return;
+        }
+        
+        var body = new Map<String, String>();
+        body["email"] = email;
+        body["password"] = password;
+        body["city_id"] = "1";
+        body["is_active"] = "true";
+        
+        var apiResponseMap = await ApiService.postRequest(ApiConstants.registerEndpoint, body, new Map<String, String>());
+
+        print(apiResponseMap);
+
+        var apiResponse = ApiResponse<Auth>.fromJson(apiResponseMap);
+
+        print(apiResponse);
+
+        if (apiResponse != null && apiResponse.status == true) {
+            //Save token here
+            successCallback();
+        } else {
+            //Show error
+        }
+    }
 }
