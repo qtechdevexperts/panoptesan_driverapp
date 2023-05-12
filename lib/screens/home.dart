@@ -25,12 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 56.h,
-        width: 150.w,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: reddishColor),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Container(
+      //   height: 56.h,
+      //   width: 150.w,
+      //   decoration: BoxDecoration(
+      //       borderRadius: BorderRadius.circular(5), color: reddishColor),
+      // ),
       backgroundColor: Color(0xffF1F2F6),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,7 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 width: 55,
                 height: 50,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: white),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
@@ -91,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
               40.verticalSpace,
               Text(
                 'Recent Videos',
-                style: GoogleFonts.inter(fontSize: 28, fontWeight: FontWeight.w800, color: kprimary),
+                style: GoogleFonts.inter(
+                    fontSize: 28, fontWeight: FontWeight.w800, color: kprimary),
               ),
               15.verticalSpace,
               Container(
@@ -141,7 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                     },
                                     child: Container(
-                                      child: SvgPicture.asset('assets/folder.svg'),
+                                      child:
+                                          SvgPicture.asset('assets/folder.svg'),
                                     ),
                                   ),
                                   15.horizontalSpace,
@@ -154,9 +158,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
                                               insetPadding: horizontal40Padding,
-                                              contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 20.w,
+                                                      vertical: 0.h),
                                               actionsPadding: EdgeInsets.zero,
                                               content: Column(
                                                 mainAxisSize: MainAxisSize.min,
@@ -165,7 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   GestureDetector(
                                                     onTap: () => Get.back(),
                                                     child: Align(
-                                                      alignment: Alignment.topRight,
+                                                      alignment:
+                                                          Alignment.topRight,
                                                       child: FaIcon(
                                                         FontAwesomeIcons.x,
                                                         color: Colors.red,
@@ -176,15 +187,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   20.verticalSpace,
                                                   Text(
                                                     "Share",
-                                                    style: GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.w700, color: black),
+                                                    style: GoogleFonts.inter(
+                                                        fontSize: 30,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: black),
                                                   ),
                                                   SizedBox(height: 10.h),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: <Widget>[
-                                                      SvgPicture.asset('assets/fbshare.svg'),
-                                                      SvgPicture.asset('assets/ig.svg'),
-                                                      SvgPicture.asset('assets/twitter.svg'),
+                                                      SvgPicture.asset(
+                                                          'assets/fbshare.svg'),
+                                                      SvgPicture.asset(
+                                                          'assets/ig.svg'),
+                                                      SvgPicture.asset(
+                                                          'assets/twitter.svg'),
                                                     ],
                                                   ),
                                                   25.verticalSpace,
@@ -194,17 +214,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                           },
                                         );
                                       },
-                                      child: Container(child: SvgPicture.asset('assets/share.svg'))),
+                                      child: Container(
+                                          child: SvgPicture.asset(
+                                              'assets/share.svg'))),
                                 ],
                               ),
                               Expanded(
                                 child: Center(
-                                  child: SvgPicture.asset('assets/videocam.svg'),
+                                  child:
+                                      SvgPicture.asset('assets/videocam.svg'),
                                 ),
                               ),
                               Text(
                                 '11/15/2022',
-                                style: GoogleFonts.inter(fontWeight: FontWeight.w200, fontSize: 16, color: white),
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 16,
+                                    color: white),
                               )
                             ],
                           ),

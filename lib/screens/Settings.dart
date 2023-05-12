@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/Helper/golbal.dart';
 import 'package:panoptesan_alpha/auth/LoginSignup.dart';
+import 'package:panoptesan_alpha/helper/localstorage.dart';
 import 'package:panoptesan_alpha/screens/AboutApp.dart';
 import 'package:panoptesan_alpha/screens/CarHistory.dart';
 import 'package:panoptesan_alpha/screens/Discailmer.dart';
@@ -39,7 +40,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -339,9 +341,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       insetPadding: horizontal40Padding,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                       actionsPadding: EdgeInsets.zero,
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -350,13 +354,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                           Text(
                             "Logout",
-                            style: GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.w700, color: black),
+                            style: GoogleFonts.inter(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                                color: black),
                           ),
                           SizedBox(height: 10.h),
                           Text(
                             "Are you sure you want\n to logout",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w400, color: grey),
+                            style: GoogleFonts.inter(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                color: grey),
                           ),
                           SizedBox(height: 30.h),
 
@@ -388,11 +398,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     setState(() {
                                       signUp = false;
                                     });
-                                    Get.to(() => LoginScreen());
+                                    await LocalStorage.prefs?.clear();
+                                    await Get.offAll(LoginScreen());
+
+                                    // Get.to(() => LoginScreen());
                                   },
                                   child: Container(
                                       width: 1.sw,
@@ -451,7 +464,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                     5.horizontalSpace,
-                    FaIcon(FontAwesomeIcons.arrowRightLong, color: white, size: 15)
+                    FaIcon(FontAwesomeIcons.arrowRightLong,
+                        color: white, size: 15)
                   ],
                 ),
               ),

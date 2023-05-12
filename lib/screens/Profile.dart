@@ -11,6 +11,8 @@ import 'package:panoptesan_alpha/screens/editProfile.dart';
 import 'package:panoptesan_alpha/screens/subscriotion.dart';
 import 'package:panoptesan_alpha/videos.dart';
 
+import '../controller/profilecontroller.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -52,13 +54,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: () => Get.to(() => EditProfileScreen()),
+            onTap: () async {
+              var controller = Get.put(ProfileController());
+
+              await controller.callgetprofile(context, () {
+                Get.to(() => EditProfileScreen());
+              });
+            },
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: Container(
                 width: 55,
                 height: 50,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: white),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
@@ -92,12 +101,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Text(
                 'Steve Rogers',
-                style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700, color: black),
+                style: GoogleFonts.inter(
+                    fontSize: 22, fontWeight: FontWeight.w700, color: black),
               ),
               5.verticalSpace,
               Text(
                 'Intermediate - City,ST',
-                style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w300, color: grey),
+                style: GoogleFonts.inter(
+                    fontSize: 16, fontWeight: FontWeight.w300, color: grey),
               ),
               20.verticalSpace,
               CustomButton(
@@ -113,7 +124,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 alignment: Alignment.center,
                 child: Text(
                   'Videos',
-                  style: GoogleFonts.inter(fontSize: 19, fontWeight: FontWeight.w400, color: kprimary),
+                  style: GoogleFonts.inter(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w400,
+                      color: kprimary),
                 ),
               ),
               Divider(color: kprimary, thickness: 2, height: 20),
@@ -172,7 +186,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Text(
                                 '11/15/2022',
-                                style: GoogleFonts.inter(fontWeight: FontWeight.w200, fontSize: 14, color: white),
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 14,
+                                    color: white),
                               )
                             ],
                           ),

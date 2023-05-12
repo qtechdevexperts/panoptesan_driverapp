@@ -67,9 +67,11 @@ class _VidCallScreen extends State<VidCallScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   insetPadding: horizontal40Padding,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                   actionsPadding: EdgeInsets.zero,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -78,13 +80,19 @@ class _VidCallScreen extends State<VidCallScreen> {
 
                       Text(
                         "Discard",
-                        style: GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.w700, color: black),
+                        style: GoogleFonts.inter(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                            color: black),
                       ),
                       SizedBox(height: 10.h),
                       Text(
                         "Are you sure you want\n to leave",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w400, color: grey),
+                        style: GoogleFonts.inter(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            color: grey),
                       ),
                       SizedBox(height: 30.h),
 
@@ -171,7 +179,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                   ),
                 ],
               ),
-              child: Center(child: Icon(Icons.close)), // x icon in center of container
+              child: Center(
+                  child: Icon(Icons.close)), // x icon in center of container
             ),
           ),
         ),
@@ -192,7 +201,9 @@ class _VidCallScreen extends State<VidCallScreen> {
                       width: 0.9.sw,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0)),
                       ),
                       child: Column(
                         children: <Widget>[
@@ -205,7 +216,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                               color: black,
                             ),
                           ), // Title Text Here
-                          SizedBox(height: 20.0), // Space Between Title and Buttons
+                          SizedBox(
+                              height: 20.0), // Space Between Title and Buttons
 
                           CustomButton(
                             tap: () {},
@@ -223,9 +235,12 @@ class _VidCallScreen extends State<VidCallScreen> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     insetPadding: horizontal40Padding,
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 0.w, vertical: 0.h),
                                     actionsPadding: EdgeInsets.zero,
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -234,20 +249,27 @@ class _VidCallScreen extends State<VidCallScreen> {
 
                                         Text(
                                           "Congrats",
-                                          style: GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.w700, color: black),
+                                          style: GoogleFonts.inter(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w700,
+                                              color: black),
                                         ),
                                         SizedBox(height: 10.h),
                                         Text(
                                           "Videos have been saved\n successfully",
                                           textAlign: TextAlign.center,
-                                          style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w400, color: grey),
+                                          style: GoogleFonts.inter(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400,
+                                              color: grey),
                                         ),
                                         SizedBox(height: 20.h),
                                         Container(
                                           height: 180,
                                           width: 200,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                             image: DecorationImage(
                                                 image: AssetImage(
                                                   roadpics[1],
@@ -275,8 +297,11 @@ class _VidCallScreen extends State<VidCallScreen> {
                                                     height: 51.h,
                                                     decoration: BoxDecoration(
                                                       color: bprimary,
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomLeft: Radius.circular(5.0),
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(
+                                                                5.0),
                                                       ),
                                                     ),
                                                     child: Center(
@@ -284,7 +309,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                                                         'Go Back',
                                                         style: TextStyle(
                                                           fontSize: 18,
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                           color: white,
                                                         ),
                                                       ),
@@ -293,14 +319,17 @@ class _VidCallScreen extends State<VidCallScreen> {
                                             ),
                                             Expanded(
                                               child: GestureDetector(
-                                                onTap: () => Get.to(() => VideoEditorExample()),
+                                                //  onTap: () => Get.to(() => VideoEditorExample()),
                                                 child: Container(
                                                     width: 1.sw,
                                                     height: 51.h,
                                                     decoration: BoxDecoration(
                                                       color: kprimary,
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomRight: Radius.circular(5.0),
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                5.0),
                                                       ),
                                                     ),
                                                     child: Center(
@@ -308,7 +337,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                                                         'Edit Video',
                                                         style: TextStyle(
                                                           fontSize: 18,
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                           color: white,
                                                         ),
                                                       ),
@@ -359,7 +389,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                     ),
                   ],
                 ),
-                child: Center(child: Icon(Icons.check)), // x icon in center of container
+                child: Center(
+                    child: Icon(Icons.check)), // x icon in center of container
               ),
             ),
           ),
@@ -414,7 +445,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3), // changes position of shadow
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
                               ),
                             ],
                             color: white,
@@ -438,7 +470,8 @@ class _VidCallScreen extends State<VidCallScreen> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
                             ),
                           ],
                           shape: BoxShape.circle,

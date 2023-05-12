@@ -55,13 +55,19 @@ dependencies:
   table_calendar: ^3.0.8
   syncfusion_flutter_datepicker: ^20.4.41
   video_player: ^2.4.10
-  video_editor: ^2.2.0
+  # video_editor: ^2.2.0
   helpers: ^1.2.0
   fraction: ^4.1.4
   # card_swiper: ^2.0.4
   paged_vertical_calendar: ^1.1.5
   camera: ^0.10.1
   http: ^0.13.4
+  ars_dialog: ^1.0.8
+  shared_preferences: ^2.1.0
+  flutter_facebook_auth: ^5.0.7
+  firebase_auth: ^4.2.9
+  firebase_core: ^2.7.0
+  google_sign_in: ^5.4.3
   
 
 dev_dependencies:

@@ -1,4 +1,4 @@
-package com.example.panoptesan_alpha
+package com.anawakhati.app
 
 import io.flutter.embedding.android.FlutterActivity
 

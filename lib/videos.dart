@@ -38,12 +38,12 @@ class _VideoScreenState extends State<VideoScreen> {
     final XFile? file = await _picker.pickVideo(source: ImageSource.gallery);
 
     if (mounted && file != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => VideoEditor(file: File(file.path)),
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute<void>(
+      //     builder: (BuildContext context) => VideoEditor(file: File(file.path)),
+      //   ),
+      // );
     }
   }
 
@@ -64,7 +64,8 @@ class _VideoScreenState extends State<VideoScreen> {
               child: Container(
                 width: 55,
                 height: 50,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: white),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: SvgPicture.asset(
@@ -90,7 +91,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                 vertical: 300,
                                 horizontal: 50,
                               ),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                               contentPadding: EdgeInsets.zero,
                               content: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -107,7 +109,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                   ),
                                   10.verticalSpace,
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 30),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 30),
                                     child: Text(
                                       'Are you sure you want to delete',
                                       textAlign: TextAlign.center,
@@ -127,7 +130,9 @@ class _VideoScreenState extends State<VideoScreen> {
                                           child: Container(
                                             height: 51,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5)),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(5)),
                                               color: bprimary,
                                             ),
                                             child: Center(
@@ -145,11 +150,14 @@ class _VideoScreenState extends State<VideoScreen> {
                                       ),
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () => Get.to(() => MainScreen()),
+                                          onTap: () =>
+                                              Get.to(() => MainScreen()),
                                           child: Container(
                                             height: 51,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(5)),
                                               color: kprimary,
                                             ),
                                             child: Center(
@@ -223,7 +231,8 @@ class _VideoScreenState extends State<VideoScreen> {
                   Container(
                     height: 574.h,
                     width: 388.w,
-                    decoration: BoxDecoration(color: black, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: black, borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: _vdC.controller!.value.isInitialized
                           ? AspectRatio(
@@ -244,7 +253,9 @@ class _VideoScreenState extends State<VideoScreen> {
                       child: Container(
                         height: 56.h,
                         width: 212.w,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kprimary),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: kprimary),
                         child: Center(
                           child: Text(
                             'Fetch Car Details',
@@ -266,12 +277,15 @@ class _VideoScreenState extends State<VideoScreen> {
                     child: Slider.adaptive(
                       activeColor: kprimary,
                       inactiveColor: kprimary,
-                      value: _vdC.controller!.value.position.inMilliseconds.toDouble(),
+                      value: _vdC.controller!.value.position.inMilliseconds
+                          .toDouble(),
                       onChanged: (value) {
-                        value = _vdC.controller!.value.position.inMilliseconds.toDouble();
+                        value = _vdC.controller!.value.position.inMilliseconds
+                            .toDouble();
                       },
                       min: 0.0,
-                      max: _vdC.controller!.value.duration.inMilliseconds.toDouble(),
+                      max: _vdC.controller!.value.duration.inMilliseconds
+                          .toDouble(),
                       onChangeStart: (value) {
                         var duration = Duration(seconds: value.toInt());
                         _vdC.controller!.seekTo(duration);
@@ -329,9 +343,13 @@ class _VideoScreenState extends State<VideoScreen> {
                       ],
                     ),
                     child: IconButton(
-                      icon: _vdC.controller!.value.isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                      icon: _vdC.controller!.value.isPlaying
+                          ? Icon(Icons.pause)
+                          : Icon(Icons.play_arrow),
                       onPressed: () {
-                        _vdC.controller!.value.isPlaying ? _vdC.controller?.pause() : _vdC.controller?.play();
+                        _vdC.controller!.value.isPlaying
+                            ? _vdC.controller?.pause()
+                            : _vdC.controller?.play();
                       },
                     ),
                   ),
