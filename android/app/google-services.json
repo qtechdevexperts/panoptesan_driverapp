@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "215625149961",
-    "project_id": "pnpauth",
-    "storage_bucket": "pnpauth.appspot.com"
+    "project_number": "720936035879",
+    "project_id": "panoptesan-c6ef1",
+    "storage_bucket": "panoptesan-c6ef1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:215625149961:android:f1d001ef17863e476f92d8",
+        "mobilesdk_app_id": "1:720936035879:android:834a385d5c38e861791002",
         "android_client_info": {
-          "package_name": "com.anawakhati.app"
+          "package_name": "com.app.panoptesan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "215625149961-k5m2i4dba3u5hn656tkmale5jeb86a6s.apps.googleusercontent.com",
+          "client_id": "720936035879-2vge33l56mnkr34ra35gk6j2mf21k08q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.panoptesan",
+            "certificate_hash": "b1e054a60e3cfaa1f2d96387a26a2f4fb324bbe8"
+          }
+        },
+        {
+          "client_id": "720936035879-liahs9esbkutoncg048r504t2qqs77g4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCCU9ju94lFhAiUKXuBYzMjttZ3RPPPBLE"
+          "current_key": "AIzaSyBf15aDY3BRQ1PBQTRu1h7b3uyjg8YtSpY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "215625149961-f1eh52o7371li8uq9qb6s9rsn3n7qm2f.apps.googleusercontent.com",
+              "client_id": "720936035879-liahs9esbkutoncg048r504t2qqs77g4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

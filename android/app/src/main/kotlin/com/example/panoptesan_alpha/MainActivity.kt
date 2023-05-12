@@ -1,4 +1,4 @@
-package com.anawakhati.app
+package com.app.panoptesan
 
 import io.flutter.embedding.android.FlutterActivity
 
