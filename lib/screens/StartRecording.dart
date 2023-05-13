@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
 import 'package:panoptesan_alpha/screens/VidCall.dart';
@@ -99,7 +100,8 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
               child: Container(
                 width: 55,
                 height: 50,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: white),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
@@ -120,7 +122,11 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
           children: <Widget>[
             200.verticalSpace,
             GestureDetector(
-              onTap: () => Get.to(() => VidCallScreen()),
+              onTap: () async {
+                final ImagePicker _picker = ImagePicker();
+                final XFile? file =
+                    await _picker.pickVideo(source: ImageSource.camera);
+              },
               child: Container(
                 height: 100.h,
                 width: 100.w,

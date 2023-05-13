@@ -23,6 +23,9 @@ class ProfileController extends GetxController {
   TextEditingController dob = new TextEditingController();
   TextEditingController gender = new TextEditingController();
   TextEditingController address = new TextEditingController();
+  TextEditingController month = new TextEditingController();
+  TextEditingController day = new TextEditingController();
+  TextEditingController year = new TextEditingController();
   Profile? profile;
   Future<Profile> getprofile() async {
     var token = await LocalStorage.prefs?.getString("token");
@@ -45,6 +48,25 @@ class ProfileController extends GetxController {
     }
   }
 
+  setprofile() async {
+    try {
+      this.profile = await getprofile();
+      this.desc.text = profile?.description ?? "";
+      this.name.text = profile?.name ?? "";
+      this.address.text = profile?.address ?? "";
+      this.gender.text = profile?.gender ?? "";
+      var list = profile?.dob?.split("-");
+
+      try {
+        this.month.text = list![0].toString();
+        this.day.text = list[1].toString();
+        this.year.text = list[2].toString();
+      } catch (e) {}
+
+      update();
+    } catch (e) {}
+  }
+
   callgetprofile(context, callback) async {
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Please Wait....."), title: const Text("Loading"));
@@ -53,7 +75,15 @@ class ProfileController extends GetxController {
       this.profile = await getprofile();
       this.desc.text = profile?.description ?? "";
       this.name.text = profile?.name ?? "";
-      this.gender.text = profile?.address ?? "";
+      this.address.text = profile?.address ?? "";
+      this.gender.text = profile?.gender ?? "";
+      var list = profile?.dob?.split("-");
+
+      try {
+        this.month.text = list![0].toString();
+        this.day.text = list[1].toString();
+        this.year.text = list[2].toString();
+      } catch (e) {}
 
       progressDialog.dismiss();
       update();

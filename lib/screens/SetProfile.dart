@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Helper/Controller.dart';
+
 import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
 import 'package:panoptesan_alpha/Widgets/textfield.dart';
 import 'package:panoptesan_alpha/mainFolder/homemain.dart';
@@ -36,7 +36,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -101,19 +102,26 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 ),
               ),
               15.verticalSpace,
-              Text("Name", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("Name",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
                   hintText: 'Type your full name...',
-                  hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  hintStyle: GoogleFonts.inter(
+                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
               ),
               20.verticalSpace,
-              Text("About yourself", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("About yourself",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
                 maxLines: 2,
@@ -121,12 +129,17 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   filled: true,
                   fillColor: white,
                   hintText: 'Write something about yourself...',
-                  hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  hintStyle: GoogleFonts.inter(
+                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
               ),
               20.verticalSpace,
-              Text("DOB", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("DOB",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               Row(
                 children: [
@@ -137,8 +150,13 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         filled: true,
                         fillColor: white,
                         hintText: 'Month',
-                        hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                        hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none),
                       ),
                     ),
                   ),
@@ -150,8 +168,13 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         filled: true,
                         fillColor: white,
                         hintText: 'Day',
-                        hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                        hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none),
                       ),
                     ),
                   ),
@@ -163,18 +186,29 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         filled: true,
                         fillColor: white,
                         hintText: 'Year',
-                        hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                        hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none),
                       ),
                     ),
                   ),
                 ],
               ),
               20.verticalSpace,
-              Text("Car Make", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("Car Make",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               DropdownButtonFormField<String>(
-                hint: Text("Please select...", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+                hint: Text("Please select...",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
                 isDense: true,
                 icon: FaIcon(
                   Icons.keyboard_arrow_down_rounded,
@@ -188,13 +222,22 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
 
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black),
+                style: GoogleFonts.inter(
+                    fontSize: 14, fontWeight: FontWeight.w400, color: black),
 
                 onChanged: (newValue) {
                   setState(() {
@@ -202,53 +245,81 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   });
                 },
 
-                items: <String>['Ford', 'Honda', 'Toyota'] //drop down menu items list here
+                items: <String>[
+                  'Ford',
+                  'Honda',
+                  'Toyota'
+                ] //drop down menu items list here
 
                     .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value)); //drop down menu items list here with keyboard arrow down with white filled color
+                  return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                          value)); //drop down menu items list here with keyboard arrow down with white filled color
                 }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
               ),
               20.verticalSpace,
-              Text("City, State", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("City, State",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
                   hintText: 'Please type your address...',
-                  hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  hintStyle: GoogleFonts.inter(
+                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
               ),
               20.verticalSpace,
-              Text("What's your car's name", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("What's your car's name",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
                   hintText: 'Please type the name of your car...',
-                  hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  hintStyle: GoogleFonts.inter(
+                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
               ),
               20.verticalSpace,
-              Text("Model", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("Model",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
                   hintText: 'Please type the model of your car...',
-                  hintStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  hintStyle: GoogleFonts.inter(
+                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
               ),
               20.verticalSpace,
-              Text("Driving Habits", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+              Text("Driving Habits",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               DropdownButtonFormField<String>(
-                hint: Text("Please select...", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+                hint: Text("Please select...",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
                 isDense: true,
                 icon: FaIcon(
                   Icons.keyboard_arrow_down_rounded,
@@ -262,13 +333,22 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide.none),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none),
                 ),
 
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: black),
+                style: GoogleFonts.inter(
+                    fontSize: 14, fontWeight: FontWeight.w400, color: black),
 
                 onChanged: (newValue) {
                   setState(() {
@@ -276,10 +356,17 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   });
                 },
 
-                items: <String>['Pleasure Cruiser', 'Pleasure Cruiser1', 'Pleasure Cruiser2'] //drop down menu items list here
+                items: <String>[
+                  'Pleasure Cruiser',
+                  'Pleasure Cruiser1',
+                  'Pleasure Cruiser2'
+                ] //drop down menu items list here
 
                     .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value)); //drop down menu items list here with keyboard arrow down with white filled color
+                  return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                          value)); //drop down menu items list here with keyboard arrow down with white filled color
                 }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
               ),
               20.verticalSpace,

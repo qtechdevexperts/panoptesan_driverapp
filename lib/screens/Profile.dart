@@ -21,6 +21,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var controller = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +56,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           GestureDetector(
             onTap: () async {
-              var controller = Get.put(ProfileController());
-
               await controller.callgetprofile(context, () {
                 Get.to(() => EditProfileScreen());
               });
@@ -88,29 +87,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               60.verticalSpace,
-              Container(
-                height: 83,
-                width: 83,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(userimages[0]),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Text(
-                'Steve Rogers',
-                style: GoogleFonts.inter(
-                    fontSize: 22, fontWeight: FontWeight.w700, color: black),
-              ),
-              5.verticalSpace,
-              Text(
-                'Intermediate - City,ST',
-                style: GoogleFonts.inter(
-                    fontSize: 16, fontWeight: FontWeight.w300, color: grey),
-              ),
-              20.verticalSpace,
+              GetBuilder<ProfileController>(builder: (context) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 83,
+                      width: 83,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage(userimages[0]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      controller.profile == null
+                          ? 'N/A'
+                          : controller.profile!.name.toString(),
+                      style: GoogleFonts.inter(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: black),
+                    ),
+                    5.verticalSpace,
+                    Text(
+                      controller.profile == null
+                          ? 'N/A'
+                          : controller.profile!.address.toString(),
+                      style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                          color: grey),
+                    ),
+                    20.verticalSpace,
+                  ],
+                );
+              }),
               CustomButton(
                 tap: () => Get.to(() => SubscriptionScreen()),
                 ButtonText: "Buy Storage Pack",

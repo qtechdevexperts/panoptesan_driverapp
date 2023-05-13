@@ -7,7 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Helper/Controller.dart';
+import 'package:panoptesan_alpha/controller/BottomController.dart';
+
 import 'package:panoptesan_alpha/screens/Archive.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
 import 'package:panoptesan_alpha/videos.dart';
@@ -108,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 10,
                   ),
-                  itemCount: roadpics.length,
+                  itemCount: 1,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () => Get.to(() => VideoScreen()),

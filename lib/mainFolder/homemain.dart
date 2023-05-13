@@ -4,13 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
+import 'package:panoptesan_alpha/controller/BottomController.dart';
+import 'package:panoptesan_alpha/controller/profilecontroller.dart';
 import 'package:panoptesan_alpha/screens/Archive.dart';
 import 'package:panoptesan_alpha/screens/Notifications.dart';
 import 'package:panoptesan_alpha/screens/Profile.dart';
 import 'package:panoptesan_alpha/screens/StartRecording.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
 
-import '../Helper/Controller.dart';
 import '../Helper/golbal.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,6 +22,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final prof = Get.put(ProfileController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    prof.setprofile();
+  }
+
   final bt = Get.put(BottomController());
   var screens = [
     HomeScreen(),

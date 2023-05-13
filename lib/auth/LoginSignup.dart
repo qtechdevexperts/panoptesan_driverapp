@@ -94,6 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          this.nameController.clear();
+                          this.passwordController.clear();
+                          this.repeatPasswordController.clear();
+                          this.emailController.clear();
                           setState(() {
                             signUp = false;
                           });
@@ -127,6 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       30.horizontalSpace,
                       GestureDetector(
                         onTap: () {
+                          this.emailController.clear();
+                          this.passwordController.clear();
                           setState(() {
                             signUp = true;
                           });
