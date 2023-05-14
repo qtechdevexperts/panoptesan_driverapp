@@ -13,6 +13,7 @@ import 'package:panoptesan_alpha/Widgets/AuthTextField.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
 import 'package:panoptesan_alpha/auth/forgotpassword.dart';
+import 'package:panoptesan_alpha/auth/prelogin.dart';
 import 'package:panoptesan_alpha/mainFolder/homemain.dart';
 import 'package:panoptesan_alpha/screens/SetProfile.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             leading: GestureDetector(
-              onTap: () => Get.back(),
+              onTap: () => {Get.offAll(PreLoginScreen())},
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, bottom: 10),
                 child: Container(
@@ -479,7 +480,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   emailController.text,
                                   passwordController.text);
                               progressDialog.dismiss();
-                              await Get.offAll(MainScreen());
+                              //    await Get.offAll(MainScreen());
+                              this.nameController.clear();
+                              this.passwordController.clear();
+                              this.repeatPasswordController.clear();
+                              this.emailController.clear();
+
+                              SnackbarWidget()
+                                  .showsnackbar("Signup Successful", context);
+
+                              setState(() {
+                                signUp = false;
+                              });
                             } catch (ex) {
                               SnackbarWidget()
                                   .showsnackbar(ex.toString(), context);

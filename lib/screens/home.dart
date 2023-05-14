@@ -1,3 +1,4 @@
+import 'package:ars_dialog/ars_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,6 +13,8 @@ import 'package:panoptesan_alpha/controller/BottomController.dart';
 import 'package:panoptesan_alpha/screens/Archive.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
 import 'package:panoptesan_alpha/videos.dart';
+
+import '../controller/videoController.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -112,7 +115,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: 1,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () => Get.to(() => VideoScreen()),
+                      onTap: () async {
+                        ProgressDialog progressDialog = ProgressDialog(context,
+                            message: const Text("Please Wait....."),
+                            title: const Text("Loading"));
+
+                        progressDialog.show();
+                        try {
+                          var controller = Get.put(VideoController());
+                          await controller.getVideo();
+                          progressDialog.dismiss();
+                          Get.to(() => VideoScreen());
+                        } catch (e) {
+                          progressDialog.dismiss();
+                        }
+                      },
                       child: Container(
                         height: 190,
                         width: 190,
