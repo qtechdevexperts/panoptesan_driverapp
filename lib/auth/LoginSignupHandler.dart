@@ -75,7 +75,9 @@ class LoginSignupHandler {
 
     var json = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      var token = json['data']['token'];
       var user = UserModel.fromJson(json['data']['user']);
+      await LocalStorage.prefs?.setString('token', token);
     } else if (response.statusCode == 401) {
       throw (json['message']);
     } else {

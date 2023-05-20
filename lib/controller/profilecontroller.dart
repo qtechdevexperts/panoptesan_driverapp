@@ -26,6 +26,21 @@ class ProfileController extends GetxController {
   TextEditingController month = new TextEditingController();
   TextEditingController day = new TextEditingController();
   TextEditingController year = new TextEditingController();
+  TextEditingController carmake = new TextEditingController();
+  TextEditingController carname = new TextEditingController();
+  TextEditingController model = new TextEditingController();
+  TextEditingController drivinghabit = new TextEditingController();
+  TextEditingController medicalconditions = new TextEditingController();
+  TextEditingController medicalnotes = new TextEditingController();
+  TextEditingController allergies = new TextEditingController();
+  TextEditingController medications = new TextEditingController();
+  TextEditingController organdonor = new TextEditingController();
+  TextEditingController weight = new TextEditingController();
+  TextEditingController height = new TextEditingController();
+  TextEditingController emergencyname = new TextEditingController();
+  TextEditingController emergencyrelationship = new TextEditingController();
+  TextEditingController emergencycontactnumber = new TextEditingController();
+
   Profile? profile;
   Future<Profile> getprofile() async {
     var token = await LocalStorage.prefs?.getString("token");
@@ -108,20 +123,20 @@ class ProfileController extends GetxController {
       "gender": "$gender",
       "dob": "$dob",
       "description": "$description",
-      "vehicle_name": "",
-      "vehicle_model": "",
-      "vehicle_make": "",
-      "driving_habit": "",
-      "medical_condition": "",
-      "medical_notes": "",
-      "medications": "",
-      "allergies": "",
-      "organ_donor": "",
-      "weight": "",
-      "height": "",
+      "vehicle_name": this.carname.text,
+      "vehicle_model": this.model.text,
+      "vehicle_make": this.carmake.text,
+      "driving_habit": this.drivinghabit.text,
+      "medical_condition": this.medicalconditions.text,
+      "medical_notes": this.medicalnotes.text,
+      "medications": this.medications.text,
+      "allergies": this.allergies.text,
+      "organ_donor": this.organdonor.text,
+      "weight": this.weight.text,
+      "height": this.height.text,
       "address": "$address",
-      "relationship": "BRT",
-      "number": ""
+      "relationship": this.emergencyrelationship.text,
+      "number": this.emergencycontactnumber.text
     });
     request.headers.addAll(headers);
 

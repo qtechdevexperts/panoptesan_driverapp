@@ -489,9 +489,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SnackbarWidget()
                                   .showsnackbar("Signup Successful", context);
 
-                              setState(() {
-                                signUp = false;
-                              });
+                              await Get.off(SetProfileScreen());
                             } catch (ex) {
                               SnackbarWidget()
                                   .showsnackbar(ex.toString(), context);

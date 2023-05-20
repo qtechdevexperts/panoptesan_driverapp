@@ -8,7 +8,9 @@ import 'package:panoptesan_alpha/Helper/Colors.dart';
 
 import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
 import 'package:panoptesan_alpha/Widgets/textfield.dart';
+import 'package:panoptesan_alpha/controller/profilecontroller.dart';
 import 'package:panoptesan_alpha/mainFolder/homemain.dart';
+import 'package:panoptesan_alpha/screens/MedicalDetails.dart';
 
 class SetProfileScreen extends StatefulWidget {
   const SetProfileScreen({super.key});
@@ -20,6 +22,8 @@ class SetProfileScreen extends StatefulWidget {
 class _SetProfileScreenState extends State<SetProfileScreen> {
   String dropdownValue = 'Ford';
   String dropdownValue1 = 'Pleasure Cruiser';
+
+  var profilecontroller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +111,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                       fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
+                controller: profilecontroller.name,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: white,
@@ -124,6 +129,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                       fontSize: 14, fontWeight: FontWeight.w400, color: black)),
               10.verticalSpace,
               TextFormField(
+                controller: profilecontroller.desc,
                 maxLines: 2,
                 decoration: InputDecoration(
                   filled: true,
@@ -145,6 +151,9 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: profilecontroller.month,
+                      maxLength: 2,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 35),
                         filled: true,
@@ -163,6 +172,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   20.horizontalSpace,
                   Expanded(
                     child: TextFormField(
+                      controller: profilecontroller.day,
+                      maxLength: 2,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 47),
                         filled: true,
@@ -181,6 +192,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   20.horizontalSpace,
                   Expanded(
                     child: TextFormField(
+                      controller: profilecontroller.year,
+                      maxLength: 4,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 47),
                         filled: true,
@@ -380,7 +393,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 //     Get.back();
                 //   }
                 // },
-                tap: () => Get.to(() => MainScreen()),
+                tap: () => Get.to(() => MedicalDetailsScreen()),
                 ButtonText: "Continue ",
                 width: 1.sw,
                 textColor: white,

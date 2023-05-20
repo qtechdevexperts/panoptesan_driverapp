@@ -7,7 +7,7 @@ class UserModel {
   final String? nationalIdNumber;
   final int cityId;
   final String? drivingLicenseNumber;
-  final bool isActive;
+  final isActive;
 
   UserModel({
     required this.id,

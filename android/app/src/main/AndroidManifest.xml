@@ -1,5 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.panoptesan">
+    
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.app.panoptesan" xmlns:tools="http://schemas.android.com/tools" >
+  <uses-sdk tools:overrideLibrary="com.arthenica.ffmpegkit.flutter"/>
 
       <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />

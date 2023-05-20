@@ -68,6 +68,7 @@ dependencies:
   firebase_auth: ^4.2.9
   firebase_core: ^2.7.0
   google_sign_in: ^5.4.3
+  video_editor: ^2.4.0
   
 
 dev_dependencies:
@@ -122,3 +123,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+dependency_overrides:
+  ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS

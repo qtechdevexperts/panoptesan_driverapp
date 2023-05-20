@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
+import 'package:panoptesan_alpha/editVideo.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
 import 'package:panoptesan_alpha/screens/VidCall.dart';
 import 'package:panoptesan_alpha/videos.dart';
@@ -123,9 +124,11 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
             200.verticalSpace,
             GestureDetector(
               onTap: () async {
-                final ImagePicker _picker = ImagePicker();
-                final XFile? file =
-                    await _picker.pickVideo(source: ImageSource.camera);
+                // final ImagePicker _picker = ImagePicker();
+                // final XFile? file =
+                //     await _picker.pickVideo(source: ImageSource.camera);
+
+                Get.to(VideoEditorExample());
               },
               child: Container(
                 height: 100.h,
