@@ -11,6 +11,7 @@ import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/controller/BottomController.dart';
 
 import 'package:panoptesan_alpha/screens/Archive.dart';
+import 'package:panoptesan_alpha/screens/SOSMessageScreen.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
 import 'package:panoptesan_alpha/videos.dart';
 
@@ -29,13 +30,29 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: Container(
-      //   height: 56.h,
-      //   width: 150.w,
-      //   decoration: BoxDecoration(
-      //       borderRadius: BorderRadius.circular(5), color: reddishColor),
-      // ),
+      //  floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Align(
+        alignment: Alignment.bottomRight,
+        child: GestureDetector(
+          onTap: () {
+            Get.to(() => SOSMessageScreen());
+          },
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 70, right: 20),
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset('assets/panic.svg'),
+              ),
+              height: 56.h,
+              width: 150.w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: Colors.white),
+            ),
+          ),
+        ),
+      ),
       backgroundColor: Color(0xffF1F2F6),
       appBar: AppBar(
         automaticallyImplyLeading: false,

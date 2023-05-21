@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ars_dialog/ars_dialog.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class ProfileController extends GetxController {
     super.onInit();
   }
 
+  File? file;
   TextEditingController name = new TextEditingController();
   TextEditingController desc = new TextEditingController();
   TextEditingController dob = new TextEditingController();
@@ -147,6 +149,28 @@ class ProfileController extends GetxController {
     } else {
       print(response.reasonPhrase);
       throw ("Error");
+    }
+  }
+
+  setimage(File? file) async {
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            'http://panoptesan.thesuitchstaging.com:4000/user/upload?type=PROFILE'));
+    request.files.add(await http.MultipartFile.fromPath('photo', file!.path));
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 }

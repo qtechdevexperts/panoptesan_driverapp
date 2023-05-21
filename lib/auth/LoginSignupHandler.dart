@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:panoptesan_alpha/helper/localstorage.dart';
 import 'package:panoptesan_alpha/models/user-model.dart';
 import 'package:panoptesan_alpha/service/api-service.dart';
@@ -111,6 +113,52 @@ class LoginSignupHandler {
       successCallback();
     } else {
       //Show error
+    }
+  }
+
+  Future settoken() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    final deviceInfoPlugin = DeviceInfoPlugin();
+    final deviceInfo = await deviceInfoPlugin.deviceInfo;
+    var token = await LocalStorage.prefs?.getString("token");
+
+    String id = deviceInfo.data["id"];
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('POST',
+        Uri.parse('http://panoptesan.thesuitchstaging.com:4000/user/token'));
+    request.body = json.encode({"token": fcmToken, "device_id": id});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  sendsos(String? lat, String? lng, String? address) async {
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('POST',
+        Uri.parse('http://panoptesan.thesuitchstaging.com:4000/user/alert'));
+    request.body = json.encode({"lat": lat, "long": lng, "address": address});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 }

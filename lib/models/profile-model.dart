@@ -21,6 +21,7 @@ class Profile {
   int? cityId;
   String? createdAt;
   String? updatedAt;
+  String? profile_img;
 
   Profile.fromJson(Map<String, dynamic> json) {
     id = json['id'] as int?;
@@ -45,5 +46,6 @@ class Profile {
     cityId = json['city_id'] as int?;
     createdAt = json['created_at'] as String?;
     updatedAt = json['updated_at'] as String?;
+    profile_img = json['profile_img'] as String?;
   }
 }

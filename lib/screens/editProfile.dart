@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
 import 'package:panoptesan_alpha/Widgets/textfield.dart';
+import 'package:panoptesan_alpha/helper/api-constants.dart';
 import 'package:panoptesan_alpha/helper/snackbar.dart';
 import 'package:panoptesan_alpha/mainFolder/homemain.dart';
 
@@ -342,7 +343,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image: AssetImage(userimages[1]),
+                                      image: NetworkImage(ApiConstants.baseUrl +
+                                          "/" +
+                                          videoController
+                                              .profile!.profile_img!),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -584,6 +588,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           videoController.dob.text,
                           videoController.desc.text,
                           videoController.address.text);
+                      if (this.file != null) {
+                        await videoController.setimage(file);
+                      }
 
                       progressDialog.dismiss();
                       SnackbarWidget().showsnackbar("Success", context);

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:panoptesan_alpha/auth/LoginSignupHandler.dart';
 import 'package:panoptesan_alpha/auth/prelogin.dart';
 import 'package:panoptesan_alpha/editVideo.dart';
 import 'package:panoptesan_alpha/helper/localstorage.dart';
@@ -85,6 +88,7 @@ class _SplashState extends State<Splash> {
         // Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());
         //  Navigator.pushReplacement(context, route);
       } else {
+        await LoginSignupHandler().settoken();
         await Get.offAll(MainScreen());
 
         //  Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());

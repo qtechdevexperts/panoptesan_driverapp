@@ -288,6 +288,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         profilecontroller.dob.text,
                         profilecontroller.desc.text,
                         profilecontroller.address.text);
+                    if (profilecontroller.file != null) {
+                      await profilecontroller.setimage(profilecontroller.file);
+                    }
 
                     progressDialog.dismiss();
                     SnackbarWidget().showsnackbar("Success", context);
