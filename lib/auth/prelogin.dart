@@ -13,6 +13,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/Helper/golbal.dart';
 import 'package:panoptesan_alpha/auth/LoginSignup.dart';
+import 'package:panoptesan_alpha/auth/NewLoginScreen.dart';
+import 'package:panoptesan_alpha/auth/newSignup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helper/snackbar.dart';
@@ -65,10 +67,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                 15.verticalSpace,
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      signUp = true;
-                    });
-                    Get.to(() => LoginScreen());
+                    Get.to(() => NewSignupScreen());
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -101,7 +100,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     setState(() {
                       signUp = false;
                     });
-                    Get.to(() => LoginScreen());
+                    Get.to(() => NewLoginScreen());
                   },
                   child: Container(
                     height: 50.h,

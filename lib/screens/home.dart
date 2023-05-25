@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Get.to(() => SOSMessageScreen());
           },
           child: Padding(
-            padding: EdgeInsets.only(bottom: 70, right: 20),
+            padding: EdgeInsets.only(bottom: 120, right: 20),
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

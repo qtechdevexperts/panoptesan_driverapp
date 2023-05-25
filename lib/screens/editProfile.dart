@@ -345,8 +345,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     image: DecorationImage(
                                       image: NetworkImage(ApiConstants.baseUrl +
                                           "/" +
-                                          videoController
-                                              .profile!.profile_img!),
+                                          videoController.profile!.profile_img
+                                              .toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
