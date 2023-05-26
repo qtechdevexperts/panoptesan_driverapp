@@ -7,7 +7,12 @@ class VideoController extends GetxController {
   var position = Duration.zero;
 
   getVideo() async {
-    controller = await VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4', videoPlayerOptions: VideoPlayerOptions());
+    controller = await VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+        videoPlayerOptions: VideoPlayerOptions());
+
+    await controller?.initialize();
+
     controller?.initialize().then((val) {
       val;
       controller?.setLooping(true);

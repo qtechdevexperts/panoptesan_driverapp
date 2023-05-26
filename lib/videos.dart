@@ -234,13 +234,12 @@ class _VideoScreenState extends State<VideoScreen> {
                     decoration: BoxDecoration(
                         color: black, borderRadius: BorderRadius.circular(10)),
                     child: Center(
-                      child: _vdC.controller!.value.isInitialized
-                          ? AspectRatio(
-                              aspectRatio: _vdC.controller!.value.aspectRatio,
-                              child: VideoPlayer(_vdC.controller!),
-                            )
-                          : Text('Loading...'),
-                    ),
+                        child: _vdC.controller == null
+                            ? Text('Loading...')
+                            : AspectRatio(
+                                aspectRatio: _vdC.controller!.value.aspectRatio,
+                                child: VideoPlayer(_vdC.controller!),
+                              )),
                   ),
                   Positioned(
                     bottom: 20,
@@ -277,8 +276,10 @@ class _VideoScreenState extends State<VideoScreen> {
                     child: Slider.adaptive(
                       activeColor: kprimary,
                       inactiveColor: kprimary,
-                      value: _vdC.controller!.value.position.inMilliseconds
-                          .toDouble(),
+                      value: _vdC.controller == null
+                          ? 0
+                          : _vdC.controller!.value.position.inMilliseconds
+                              .toDouble(),
                       onChanged: (value) {
                         value = _vdC.controller!.value.position.inMilliseconds
                             .toDouble();

@@ -124,11 +124,11 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
             200.verticalSpace,
             GestureDetector(
               onTap: () async {
-                // final ImagePicker _picker = ImagePicker();
-                // final XFile? file =
-                //     await _picker.pickVideo(source: ImageSource.camera);
+                final ImagePicker _picker = ImagePicker();
+                final XFile? file =
+                    await _picker.pickVideo(source: ImageSource.camera);
 
-                Get.to(VideoEditorExample());
+                //    Get.to(VideoEditorExample());
               },
               child: Container(
                 height: 100.h,

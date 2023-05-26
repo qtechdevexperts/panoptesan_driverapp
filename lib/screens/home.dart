@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           var controller = Get.put(VideoController());
                           await controller.getVideo();
                           progressDialog.dismiss();
-                          Get.to(() => VideoScreen());
+                          await Get.to(() => VideoScreen());
                         } catch (e) {
                           progressDialog.dismiss();
                         }

@@ -343,10 +343,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image: NetworkImage(ApiConstants.baseUrl +
-                                          "/" +
-                                          videoController.profile!.profile_img
-                                              .toString()),
+                                      image: NetworkImage(videoController
+                                          .profile!.profile_img
+                                          .toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),

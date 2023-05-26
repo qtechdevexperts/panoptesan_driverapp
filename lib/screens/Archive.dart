@@ -1,3 +1,4 @@
+import 'package:ars_dialog/ars_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:panoptesan_alpha/Helper/Colors.dart';
 import 'package:panoptesan_alpha/Widgets/calendar.dart';
+import 'package:panoptesan_alpha/controller/videoController.dart';
 import 'package:panoptesan_alpha/videos.dart';
 import 'package:intl/intl.dart';
 
@@ -71,12 +73,16 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                           children: [
                             SvgPicture.asset(
                               'assets/reload.svg',
-                              color: isreload == true ? kprimary : Color(0xff667080).withOpacity(0.5),
+                              color: isreload == true
+                                  ? kprimary
+                                  : Color(0xff667080).withOpacity(0.5),
                             ),
                             20.verticalSpace,
                             Container(
                               height: 1,
-                              color: isreload == true ? kprimary : Color(0xff667080).withOpacity(0.5),
+                              color: isreload == true
+                                  ? kprimary
+                                  : Color(0xff667080).withOpacity(0.5),
                             )
                           ],
                         ),
@@ -95,12 +101,16 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                           children: [
                             Image.asset(
                               'assets/Icon awesome-calendar-day.png',
-                              color: isreload == false ? kprimary : Color(0xff667080).withOpacity(0.5),
+                              color: isreload == false
+                                  ? kprimary
+                                  : Color(0xff667080).withOpacity(0.5),
                             ),
                             19.verticalSpace,
                             Container(
                               height: 1,
-                              color: isreload == false ? kprimary : Color(0xff667080).withOpacity(0.5),
+                              color: isreload == false
+                                  ? kprimary
+                                  : Color(0xff667080).withOpacity(0.5),
                             )
                           ],
                         ),
@@ -116,16 +126,32 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           childAspectRatio: 0.95,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),
-                        itemCount: roadpics.length,
+                        itemCount: 1,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () => Get.to(() => VideoScreen()),
+                            onTap: () async {
+                              ProgressDialog progressDialog = ProgressDialog(
+                                  context,
+                                  message: const Text("Please Wait....."),
+                                  title: const Text("Loading"));
+
+                              progressDialog.show();
+                              try {
+                                var controller = Get.put(VideoController());
+                                await controller.getVideo();
+                                progressDialog.dismiss();
+                                await Get.to(() => VideoScreen());
+                              } catch (e) {
+                                progressDialog.dismiss();
+                              }
+                            },
                             child: Container(
                               height: 190,
                               width: 190,
@@ -162,7 +188,10 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                                     ),
                                     Text(
                                       '11/15/2022',
-                                      style: GoogleFonts.inter(fontWeight: FontWeight.w200, fontSize: 14, color: white),
+                                      style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          color: white),
                                     )
                                   ],
                                 ),
@@ -272,7 +301,8 @@ class Custom extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: Text(
         text,
-        style: TextStyle(color: kprimary, fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: kprimary, fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }

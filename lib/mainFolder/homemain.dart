@@ -38,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
     StartRecordingScreen(),
     NOtificationsScreen(),
     ProfileScreen(),
+    ProfileScreen(),
   ];
   void _onItemTaapped(int index) {
     bt.navBarChange(index);
@@ -107,9 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _onItemTaapped(2);
-                                  });
+                                  _onItemTaapped(2);
                                 },
                                 child: Container(
                                   child: Column(
@@ -133,9 +132,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _onItemTaapped(1);
-                                  });
+                                  _onItemTaapped(1);
                                 },
                                 child: Container(
                                   child: Column(
@@ -183,9 +180,7 @@ class _MainScreenState extends State<MainScreen> {
                               // ),
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _onItemTaapped(3);
-                                  });
+                                  _onItemTaapped(3);
                                 },
                                 child: Container(
                                   child: Column(
@@ -207,36 +202,36 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _onItemTaapped(4);
-                                  });
-                                },
-                                child: Container(
-                                  width: 45.w,
-                                  height: 45.h,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/Ellipse 91.png"))),
-                                  // child: Column(
-                                  //   children: [
-                                  //     SvgPicture.asset('assets/person.svg'),
-                                  //     SizedBox(height: 5.h),
-                                  //     Text(
-                                  //       "Profile",
-                                  //       style: GoogleFonts.inter(
-                                  //         color: Color(0xff0A0D26),
-                                  //         fontSize: 12,
-                                  //         fontWeight: FontWeight.w300,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ),
-                              ),
+                              prof.profile?.profile_img == null
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        _onItemTaapped(4);
+                                      },
+                                      child: Container(
+                                        width: 45.w,
+                                        height: 45.h,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/Ellipse 91.png"))),
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        _onItemTaapped(4);
+                                      },
+                                      child: Container(
+                                        width: 45.w,
+                                        height: 45.h,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(prof
+                                                    .profile!.profile_img!))),
+                                      ),
+                                    )
                             ],
                           ),
                         ),
@@ -270,9 +265,7 @@ class _MainScreenState extends State<MainScreen> {
                             child: InkWell(
                               splashColor: Colors.blueAccent,
                               onTap: () {
-                                setState(() {
-                                  _onItemTaapped(0);
-                                });
+                                _onItemTaapped(0);
                               },
                               child: Center(
                                 child: Transform(
