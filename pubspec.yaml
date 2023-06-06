@@ -77,6 +77,9 @@ dependencies:
   custom_map_markers: ^0.0.2+1
   location: ^4.4.0
   slide_to_confirm: ^1.1.0
+  share_plus: ^7.0.2
+  flutter_downloader: ^1.10.4
+  external_path: ^1.0.3
   
 
 dev_dependencies:

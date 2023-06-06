@@ -271,33 +271,85 @@ class _VideoScreenState extends State<VideoScreen> {
               ),
               Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Slider.adaptive(
-                      activeColor: kprimary,
-                      inactiveColor: kprimary,
-                      value: _vdC.controller == null
-                          ? 0
-                          : _vdC.controller.value.position.inMilliseconds
-                              .toDouble(),
-                      onChanged: (value) {
-                        value = _vdC.controller.value.position.inMilliseconds
-                            .toDouble();
-                      },
-                      min: 0.0,
-                      max: _vdC.controller.value.duration.inMilliseconds
-                          .toDouble(),
-                      onChangeStart: (value) {
-                        var duration = Duration(seconds: value.toInt());
-                        _vdC.controller.seekTo(duration);
-                        // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                      },
-                      onChangeEnd: (value) {
-                        var duration = Duration(seconds: value.toInt());
-                        _vdC.controller.seekTo(duration);
-                        //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                      },
-                    ),
-                  ),
+                  ValueListenableBuilder(
+                    valueListenable: _vdC.controller,
+                    builder: (context, VideoPlayerValue value, child) {
+                      //Do Something with the value.
+                      return Expanded(
+                        child: Slider.adaptive(
+                          min: 0,
+                          //  divisions: 100,
+                          label: value.position.inMilliseconds
+                              .toDouble()
+                              .toString(),
+                          activeColor: kprimary,
+                          inactiveColor: kprimary,
+                          value: value.position.inMilliseconds.toDouble(),
+                          onChanged: (value) async {
+                            if (_vdC.controller.value.isPlaying) {
+                              await _vdC.controller.pause();
+                              _vdC.update();
+                            }
+
+                            Duration duration =
+                                Duration(milliseconds: value.toInt());
+
+                            await _vdC.controller.seekTo(duration);
+                            _vdC.update();
+                          },
+                          //      min: 0.0,
+                          max: value.duration.inMilliseconds.toDouble(),
+                          onChangeStart: (value) {
+                            // _vdC.controller.
+                            //// var duration = Duration(seconds: value.toInt());
+                            // _vdC.controller.seekTo(duration);
+                            // _vdC.update();
+                            // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                          },
+                          onChangeEnd: (value) {
+                            // var duration = Duration(seconds: value.toInt());
+                            // _vdC.controller.seekTo(duration);
+                            //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                          },
+                        ),
+                      );
+                    },
+                  )
+                  // Expanded(
+                  //   child: Slider.adaptive(
+                  //     activeColor: kprimary,
+                  //     inactiveColor: kprimary,
+                  //     value: _vdC.sliderValue,
+                  //     onChanged: (value) async {
+                  //       if (_vdC.controller.value.isPlaying) {
+                  //         await _vdC.controller.pause();
+                  //         _vdC.update();
+                  //       }
+                  //       print(value);
+
+                  //       _vdC.sliderValue = value;
+                  //       final Duration duration =
+                  //           _vdC.controller.value.duration;
+                  //       final newPosition = duration * value;
+                  //       await _vdC.controller.seekTo(newPosition);
+                  //       _vdC.update();
+                  //     },
+                  //     //      min: 0.0,
+                  //     // max: _vdC.controller.value.,
+                  //     onChangeStart: (value) {
+                  //       // _vdC.controller.
+                  //       //// var duration = Duration(seconds: value.toInt());
+                  //       // _vdC.controller.seekTo(duration);
+                  //       // _vdC.update();
+                  //       // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                  //     },
+                  //     onChangeEnd: (value) {
+                  //       // var duration = Duration(seconds: value.toInt());
+                  //       // _vdC.controller.seekTo(duration);
+                  //       //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
               Row(

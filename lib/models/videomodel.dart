@@ -6,16 +6,18 @@ class VideoModel {
   String? extension;
   String? thumbnail;
   int? isActive;
-
-  VideoModel({
-    this.id,
-    this.title,
-    this.path,
-    this.userId,
-    this.extension,
-    this.thumbnail,
-    this.isActive,
-  });
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  VideoModel(
+      {this.id,
+      this.title,
+      this.path,
+      this.userId,
+      this.extension,
+      this.thumbnail,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt});
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
     return VideoModel(
@@ -26,6 +28,8 @@ class VideoModel {
       extension: json['extension'],
       thumbnail: json['thumbnail'],
       isActive: json['is_active'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
     );
   }
 }
