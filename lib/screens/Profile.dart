@@ -228,14 +228,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/controller/profilecontroller.dart';
-import 'package:panoptesan_alpha/screens/editProfile.dart';
+import 'package:panoptesan_alpha/helpers/Colors.dart';
 import 'package:panoptesan_alpha/screens/subscriotion.dart';
-import 'package:panoptesan_alpha/videos.dart';
 
-import '../mainFolder/homemain.dart';
+import '../controllers/profilecontroller.dart';
+import '../widgets/CustomButton.dart';
+import 'editProfile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -323,7 +321,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Text(
-                controller.profile == null ? '' : controller.profile!.name!,
+                controller.profile == null
+                    ? ''
+                    : controller.profile!.userDetail!.name!,
                 style: GoogleFonts.inter(
                     fontSize: 22, fontWeight: FontWeight.w700, color: black),
               ),

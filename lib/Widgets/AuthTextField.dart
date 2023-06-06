@@ -1,7 +1,8 @@
 // import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
+
+import '../helpers/Colors.dart';
 
 class AuthTextField extends StatelessWidget {
   final widthh;
@@ -48,7 +49,8 @@ class AuthTextField extends StatelessWidget {
           labelStyle: TextStyle(color: labelColor),
           hintStyle: TextStyle(color: hintColor),
           suffixIcon: suffixIcon,
-          prefixIcon: Padding(padding: const EdgeInsets.all(14.0), child: prefixIcon),
+          prefixIcon:
+              Padding(padding: const EdgeInsets.all(14.0), child: prefixIcon),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: underlineColor),
           ),

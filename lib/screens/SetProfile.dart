@@ -8,13 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
 
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/Widgets/textfield.dart';
-import 'package:panoptesan_alpha/controller/profilecontroller.dart';
-import 'package:panoptesan_alpha/mainFolder/homemain.dart';
-import 'package:panoptesan_alpha/screens/MedicalDetails.dart';
+import '../controllers/profilecontroller.dart';
+import '../helpers/Colors.dart';
+import '../widgets/CustomButton.dart';
+import 'MedicalDetails.dart';
 
 class SetProfileScreen extends StatefulWidget {
   const SetProfileScreen({super.key});
@@ -237,26 +235,26 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF1F2F6),
+      backgroundColor: Color(0xFFE8F1FE),
       appBar: AppBar(
         leadingWidth: 70,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () {},
+            splashColor: Colors.white, // Customize the ripple effect color
             child: Container(
-              width: 55,
-              height: 50,
+              width: 20,
+              height: 20,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: white),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SvgPicture.asset(
-                  'assets/leading.svg',
-                  color: Color(0xff005D99),
-                ),
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Icon(
+                Icons.arrow_back,
+                color: Color(0xFF0A7FB8),
               ),
             ),
           ),
@@ -267,20 +265,65 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
           style: appbarstyle,
         ),
       ),
-      body: Padding(
-        padding: horizontal20Padding,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              30.verticalSpace,
-              profilecontroller.file == null
-                  ? GestureDetector(
-                      onTap: () {
-                        showChoiceDialoglistimagemore(context);
-                      },
-                      child: Align(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Padding(
+          padding: horizontal20Padding,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                30.verticalSpace,
+                profilecontroller.file == null
+                    ? GestureDetector(
+                        onTap: () {
+                          showChoiceDialoglistimagemore(context);
+                        },
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  height: 115,
+                                  width: 115,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage(userimages[1]),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 10,
+                                  child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                        color: bprimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: FaIcon(
+                                          FontAwesomeIcons.plus,
+                                          color: white,
+                                          size: 15,
+                                        ),
+                                      )),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : Align(
                         alignment: Alignment.center,
                         child: Container(
                           child: Stack(
@@ -292,7 +335,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    image: AssetImage(userimages[1]),
+                                    image: FileImage(
+                                        File(profilecontroller.file!.path)),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -319,344 +363,457 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                           ),
                         ),
                       ),
-                    )
-                  : Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              height: 115,
-                              width: 115,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: FileImage(
-                                      File(profilecontroller.file!.path)),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 10,
-                              child: Container(
-                                  height: 20,
-                                  width: 20,
-                                  decoration: BoxDecoration(
-                                    color: bprimary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: FaIcon(
-                                      FontAwesomeIcons.plus,
-                                      color: white,
-                                      size: 15,
-                                    ),
-                                  )),
-                            )
-                          ],
+                15.verticalSpace,
+                Text("Name",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                TextFormField(
+                  controller: profilecontroller.name,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Type your full name...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+                20.verticalSpace,
+                Text("About yourself",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                TextFormField(
+                  controller: profilecontroller.desc,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Write something about yourself...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+                20.verticalSpace,
+                Text("Date of Birth",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        icon: FaIcon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: grey,
+                          size: 20,
+                        ),
+                        value: null,
+                        onChanged: (newValue) {
+                          profilecontroller.month.text = newValue!;
+                        },
+                        items: <String>[
+                          '1',
+                          '2',
+                          '3',
+                          '4',
+                          '5',
+                          '6',
+                          '7',
+                          '8',
+                          '9',
+                          '10',
+                          '11',
+                          '12',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 20, right: 20),
+                          filled: true,
+                          fillColor: white,
+                          hintText: 'Month',
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
-              15.verticalSpace,
-              Text("Name",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              TextFormField(
-                controller: profilecontroller.name,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  hintText: 'Type your full name...',
-                  hintStyle: GoogleFonts.inter(
-                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
+                    20.horizontalSpace,
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        icon: FaIcon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: grey,
+                          size: 20,
+                        ),
+
+                        //isExpanded: true,
+                        value: null,
+                        onChanged: (newValue) {
+                          profilecontroller.day.text = newValue!;
+                        },
+                        items: <String>[
+                          '1',
+                          '2',
+                          '3',
+                          '4',
+                          '5',
+                          '6',
+                          '7',
+                          '8',
+                          '9',
+                          '10',
+                          '11',
+                          '12',
+                          '13',
+                          '14',
+                          '15',
+                          '16',
+                          '17',
+                          '18',
+                          '19',
+                          '20',
+                          '21',
+                          '22',
+                          '23',
+                          '24',
+                          '25',
+                          '26',
+                          '27',
+                          '28',
+                          '29',
+                          '30',
+                          '31',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 30, right: 20),
+                          filled: true,
+                          fillColor: white,
+                          hintText: 'Day',
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    20.horizontalSpace,
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        value: null,
+                        icon: FaIcon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: grey,
+                          size: 20,
+                        ),
+                        onChanged: (newValue) {
+                          profilecontroller.year.text = newValue!;
+                        },
+                        items: <String>['1998', '1997']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 30, right: 20),
+                          filled: true,
+                          fillColor: white,
+                          hintText: 'Year',
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Expanded(
+                    //   child: TextFormField(
+                    //     controller: profilecontroller.day,
+                    //     maxLength: 2,
+                    //     decoration: InputDecoration(
+                    //       contentPadding: EdgeInsets.only(left: 47),
+                    //       filled: true,
+                    //       fillColor: white,
+                    //       hintText: 'Day',
+                    //       hintStyle: GoogleFonts.inter(
+                    //           fontSize: 12,
+                    //           fontWeight: FontWeight.w300,
+                    //           color: grey),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(5),
+                    //           borderSide: BorderSide.none),
+                    //     ),
+                    //   ),
+                    // ),
+                    // 20.horizontalSpace,
+                    // Expanded(
+                    //   child: TextFormField(
+                    //     controller: profilecontroller.year,
+                    //     maxLength: 4,
+                    //     decoration: InputDecoration(
+                    //       contentPadding: EdgeInsets.only(left: 47),
+                    //       filled: true,
+                    //       fillColor: white,
+                    //       hintText: 'Year',
+                    //       hintStyle: GoogleFonts.inter(
+                    //           fontSize: 12,
+                    //           fontWeight: FontWeight.w300,
+                    //           color: grey),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(5),
+                    //           borderSide: BorderSide.none),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
                 ),
-              ),
-              20.verticalSpace,
-              Text("About yourself",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              TextFormField(
-                controller: profilecontroller.desc,
-                maxLines: 2,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  hintText: 'Write something about yourself...',
-                  hintStyle: GoogleFonts.inter(
-                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                ),
-              ),
-              20.verticalSpace,
-              Text("DOB",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: profilecontroller.month,
-                      maxLength: 2,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 35),
-                        filled: true,
-                        fillColor: white,
-                        hintText: 'Month',
-                        hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
-                  ),
-                  20.horizontalSpace,
-                  Expanded(
-                    child: TextFormField(
-                      controller: profilecontroller.day,
-                      maxLength: 2,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 47),
-                        filled: true,
-                        fillColor: white,
-                        hintText: 'Day',
-                        hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
-                  ),
-                  20.horizontalSpace,
-                  Expanded(
-                    child: TextFormField(
-                      controller: profilecontroller.year,
-                      maxLength: 4,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 47),
-                        filled: true,
-                        fillColor: white,
-                        hintText: 'Year',
-                        hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              20.verticalSpace,
-              Text("Car Make",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              DropdownButtonFormField<String>(
-                hint: Text("Please select...",
+                20.verticalSpace,
+                Text("Car Make",
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: black)),
-                isDense: true,
-                icon: FaIcon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: grey,
-                  size: 25,
-                ),
-                value: dropdownValue,
-                iconSize: 24,
+                10.verticalSpace,
+                DropdownButtonFormField<String>(
+                  hint: Text("Please select...",
+                      style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: black)),
+                  isDense: true,
+                  icon: FaIcon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: grey,
+                    size: 25,
+                  ),
+                  value: dropdownValue,
+                  iconSize: 24,
 
-                elevation: 16,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                ),
+                  elevation: 16,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
 
-                style: GoogleFonts.inter(
-                    fontSize: 14, fontWeight: FontWeight.w400, color: black),
-
-                onChanged: (newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-
-                items: <String>[
-                  'Ford',
-                  'Honda',
-                  'Toyota'
-                ] //drop down menu items list here
-
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                          value)); //drop down menu items list here with keyboard arrow down with white filled color
-                }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-              ),
-              20.verticalSpace,
-              Text("City, State",
                   style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  hintText: 'Please type your address...',
-                  hintStyle: GoogleFonts.inter(
-                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black),
+
+                  onChanged: (newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+
+                  items: <String>[
+                    'Ford',
+                    'Honda',
+                    'Toyota'
+                  ] //drop down menu items list here
+
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                            value)); //drop down menu items list here with keyboard arrow down with white filled color
+                  }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
                 ),
-              ),
-              20.verticalSpace,
-              Text("What's your car's name",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  hintText: 'Please type the name of your car...',
-                  hintStyle: GoogleFonts.inter(
-                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                ),
-              ),
-              20.verticalSpace,
-              Text("Model",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  hintText: 'Please type the model of your car...',
-                  hintStyle: GoogleFonts.inter(
-                      fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                ),
-              ),
-              20.verticalSpace,
-              Text("Driving Habits",
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black)),
-              10.verticalSpace,
-              DropdownButtonFormField<String>(
-                hint: Text("Please select...",
+                20.verticalSpace,
+                Text("City, State",
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: black)),
-                isDense: true,
-                icon: FaIcon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: grey,
-                  size: 25,
+                10.verticalSpace,
+                TextFormField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please type your address...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
                 ),
-                value: dropdownValue1,
-                iconSize: 24,
-
-                elevation: 16,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none),
+                20.verticalSpace,
+                Text("What's your car's name",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                TextFormField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please type the name of your car...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
                 ),
+                20.verticalSpace,
+                Text("Model",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                TextFormField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please type the model of your car...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+                20.verticalSpace,
+                Text("Driving Habits",
+                    style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: black)),
+                10.verticalSpace,
+                DropdownButtonFormField<String>(
+                  hint: Text("Please select...",
+                      style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: black)),
+                  isDense: true,
+                  icon: FaIcon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: grey,
+                    size: 25,
+                  ),
+                  value: dropdownValue1,
+                  iconSize: 24,
 
-                style: GoogleFonts.inter(
-                    fontSize: 14, fontWeight: FontWeight.w400, color: black),
+                  elevation: 16,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
 
-                onChanged: (newValue) {
-                  setState(() {
-                    dropdownValue1 = newValue!;
-                  });
-                },
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: black),
 
-                items: <String>[
-                  'Pleasure Cruiser',
-                  'Pleasure Cruiser1',
-                  'Pleasure Cruiser2'
-                ] //drop down menu items list here
+                  onChanged: (newValue) {
+                    setState(() {
+                      dropdownValue1 = newValue!;
+                    });
+                  },
 
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                          value)); //drop down menu items list here with keyboard arrow down with white filled color
-                }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-              ),
-              20.verticalSpace,
-              CustomButton(
-                // tap: () {
-                //   final bottomctrl = Get.put(BottomController());
+                  items: <String>[
+                    'Pleasure Cruiser',
+                    'Pleasure Cruiser1',
+                    'Pleasure Cruiser2'
+                  ] //drop down menu items list here
 
-                //   if (bottomctrl.navigationBarIndexValue != 2) {
-                //     bottomctrl.navBarChange(2);
-                //   } else {
-                //     Get.back();
-                //   }
-                // },
-                tap: () => Get.to(() => MedicalDetailsScreen()),
-                ButtonText: "Continue ",
-                width: 1.sw,
-                textColor: white,
-                colors: kprimary,
-                height: 60.h,
-              ),
-              30.verticalSpace,
-            ],
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                            value)); //drop down menu items list here with keyboard arrow down with white filled color
+                  }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
+                ),
+                20.verticalSpace,
+                CustomButton(
+                  // tap: () {
+                  //   final bottomctrl = Get.put(BottomController());
+
+                  //   if (bottomctrl.navigationBarIndexValue != 2) {
+                  //     bottomctrl.navBarChange(2);
+                  //   } else {
+                  //     Get.back();
+                  //   }
+                  // },
+                  tap: () {
+                    FocusScope.of(context).unfocus();
+                    FocusScope.of(context).requestFocus(new FocusNode());
+
+                    Get.to(() => MedicalDetailsScreen());
+                  },
+                  ButtonText: "Continue ",
+                  width: 1.sw,
+                  textColor: white,
+                  colors: Color(0xFF007AB6),
+                  height: 60.h,
+                ),
+                30.verticalSpace,
+              ],
+            ),
           ),
         ),
       ),

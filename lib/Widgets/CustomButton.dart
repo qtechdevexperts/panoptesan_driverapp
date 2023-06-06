@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
 
 class CustomButton extends StatefulWidget {
   String ButtonText;
@@ -39,13 +38,16 @@ class _CustomButtonState extends State<CustomButton> {
         width: widget.width,
         decoration: BoxDecoration(
           color: widget.colors,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(30),
           gradient: widget.gradients,
         ),
         child: Center(
           child: Text(
             widget.ButtonText,
-            style: GoogleFonts.inter(fontSize: 18, color: widget.textColor, fontWeight: FontWeight.w700),
+            style: GoogleFonts.inter(
+                fontSize: 18,
+                color: widget.textColor,
+                fontWeight: FontWeight.w700),
           ),
         ),
       ),

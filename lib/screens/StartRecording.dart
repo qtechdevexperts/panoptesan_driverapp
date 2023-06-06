@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,11 +9,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/editVideo.dart';
+import 'package:panoptesan_alpha/helpers/Colors.dart';
+import 'package:panoptesan_alpha/helpers/snackbar.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
-import 'package:panoptesan_alpha/screens/VidCall.dart';
-import 'package:panoptesan_alpha/videos.dart';
+import 'package:ars_dialog/ars_dialog.dart';
+import '../controllers/videoController.dart';
 
 class StartRecordingScreen extends StatefulWidget {
   const StartRecordingScreen({super.key});
@@ -128,6 +130,27 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                 final XFile? file =
                     await _picker.pickVideo(source: ImageSource.camera);
 
+                if (file != null) {
+                  ProgressDialog progressDialog = ProgressDialog(context,
+                      message: const Text("Please Wait....."),
+                      title: const Text("Loading"));
+
+                  progressDialog.show();
+
+                  try {
+                    var controller = Get.put(VideoController());
+
+                    await controller.uploadvideo(File(file.path));
+                    progressDialog.dismiss();
+                    await controller.setvideo();
+                    SnackbarWidget()
+                        .showsnackbar("Video Uploaded Successf", context);
+                  } catch (e) {
+                    progressDialog.dismiss();
+                  }
+                }
+
+                ///
                 //    Get.to(VideoEditorExample());
               },
               child: Container(

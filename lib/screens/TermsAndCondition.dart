@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
+
+import '../helpers/Colors.dart';
 
 class TermsAndConditionScreen extends StatefulWidget {
   const TermsAndConditionScreen({super.key});
 
   @override
-  State<TermsAndConditionScreen> createState() => _TermsAndConditionScreenState();
+  State<TermsAndConditionScreen> createState() =>
+      _TermsAndConditionScreenState();
 }
 
 class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
@@ -25,7 +27,8 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(

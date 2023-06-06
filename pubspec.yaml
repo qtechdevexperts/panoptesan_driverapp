@@ -76,6 +76,7 @@ dependencies:
   share: ^2.0.4
   custom_map_markers: ^0.0.2+1
   location: ^4.4.0
+  slide_to_confirm: ^1.1.0
   
 
 dev_dependencies:

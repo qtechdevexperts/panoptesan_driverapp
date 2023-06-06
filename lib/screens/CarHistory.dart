@@ -5,13 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/screens/AboutApp.dart';
-import 'package:panoptesan_alpha/screens/Discailmer.dart';
-import 'package:panoptesan_alpha/screens/PrivacyPolicy.dart';
-import 'package:panoptesan_alpha/screens/TermsAndCondition.dart';
-import 'package:panoptesan_alpha/screens/carDetail.dart';
+
+import '../helpers/Colors.dart';
+import 'carDetail.dart';
 
 class CarHistoryScreen extends StatefulWidget {
   const CarHistoryScreen({super.key});
@@ -36,7 +32,8 @@ class _CarHistoryScreenState extends State<CarHistoryScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(

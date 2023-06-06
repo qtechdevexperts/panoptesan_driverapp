@@ -4,11 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/Widgets/textfield.dart';
-import 'package:panoptesan_alpha/mainFolder/homemain.dart';
-import 'package:panoptesan_alpha/screens/SelectPaymentMethod.dart';
+
+import '../Widgets/CustomButton.dart';
+import '../helpers/Colors.dart';
+import 'SelectPaymentMethod.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -39,7 +38,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -77,8 +77,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       return Container(
                         // height: 400.h,
                         // width: 346.w,
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kprimary),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: kprimary),
                         child: Column(
                           children: [
                             SizedBox(height: 53.h),
@@ -98,7 +101,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         '\$',
@@ -144,7 +148,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.check, color: white, size: 15),
+                                  FaIcon(FontAwesomeIcons.check,
+                                      color: white, size: 15),
                                   5.horizontalSpace,
                                   Text(
                                     'Lorem ipsum dolor sit amet consectetur',
@@ -170,7 +175,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.check, color: white, size: 15),
+                                  FaIcon(FontAwesomeIcons.check,
+                                      color: white, size: 15),
                                   5.horizontalSpace,
                                   Text(
                                     'Lorem ipsum dolor sit amet consectetur',
@@ -196,7 +202,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.check, color: white, size: 15),
+                                  FaIcon(FontAwesomeIcons.check,
+                                      color: white, size: 15),
                                   5.horizontalSpace,
                                   Text(
                                     'Lorem ipsum dolor sit amet consectetur',
@@ -221,7 +228,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.check, color: white, size: 15),
+                                  FaIcon(FontAwesomeIcons.check,
+                                      color: white, size: 15),
                                   5.horizontalSpace,
                                   Text(
                                     'Lorem ipsum dolor sit amet consectetur',
@@ -269,7 +277,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           });
                         },
                         child: Container(
-                          decoration: BoxDecoration(color: white, shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                              color: white, shape: BoxShape.circle),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Center(
@@ -290,7 +299,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           });
                         },
                         child: Container(
-                          decoration: BoxDecoration(color: white, shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                              color: white, shape: BoxShape.circle),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Center(

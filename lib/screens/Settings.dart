@@ -5,16 +5,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Helper/golbal.dart';
-import 'package:panoptesan_alpha/auth/LoginSignup.dart';
-import 'package:panoptesan_alpha/helper/localstorage.dart';
-import 'package:panoptesan_alpha/screens/AboutApp.dart';
-import 'package:panoptesan_alpha/screens/CarHistory.dart';
-import 'package:panoptesan_alpha/screens/Discailmer.dart';
-import 'package:panoptesan_alpha/screens/HelpSupport.dart';
-import 'package:panoptesan_alpha/screens/PrivacyPolicy.dart';
-import 'package:panoptesan_alpha/screens/TermsAndCondition.dart';
+import 'package:panoptesan_alpha/screens/NewLoginScreen.dart';
+
+import '../helpers/Colors.dart';
+import '../helpers/localstorage.dart';
+import 'AboutApp.dart';
+import 'CarHistory.dart';
+import 'Discailmer.dart';
+import 'HelpSupport.dart';
+import 'PrivacyPolicy.dart';
+import 'TermsAndCondition.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -41,7 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               width: 55,
               height: 50,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: white),
+                  borderRadius: BorderRadius.circular(30), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -66,11 +66,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             20.verticalSpace,
             Container(
-              height: 50.h,
+              height: 70.h,
               width: 1.sw,
               decoration: BoxDecoration(
                 color: white,
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
                 padding: EdgeInsets.only(left: 25, right: 10),
@@ -114,11 +114,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             15.verticalSpace,
             Container(
-              height: 50.h,
+              height: 70.h,
               width: 1.sw,
               decoration: BoxDecoration(
                 color: white,
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
                 padding: EdgeInsets.only(left: 25, right: 10),
@@ -166,11 +166,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => AboutScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -195,11 +195,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => PrivacyPolicyScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -224,11 +224,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => TermsAndConditionScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -253,11 +253,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => DisclaimerScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -282,11 +282,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => CarHistoryScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -311,11 +311,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Get.to(() => HelpSupportScreen());
               },
               child: Container(
-                height: 50.h,
+                height: 70.h,
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 25.w),
@@ -399,11 +399,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () async {
-                                    setState(() {
-                                      signUp = false;
-                                    });
+                                    // setState(() {
+                                    //   signUp = false;
+                                    // });
                                     await LocalStorage.prefs?.clear();
-                                    await Get.offAll(LoginScreen());
+                                    await Get.offAll(NewLoginScreen());
 
                                     // Get.to(() => LoginScreen());
                                   },
@@ -450,11 +450,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: kprimaryColor,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    15.horizontalSpace,
+                    FaIcon(Icons.exit_to_app, color: white, size: 25),
+                    5.horizontalSpace,
                     Text(
                       "Logout",
                       style: GoogleFonts.inter(
@@ -463,9 +466,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    5.horizontalSpace,
-                    FaIcon(FontAwesomeIcons.arrowRightLong,
-                        color: white, size: 15)
                   ],
                 ),
               ),

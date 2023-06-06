@@ -7,12 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/mainFolder/homemain.dart';
-import 'package:panoptesan_alpha/screens/AddCard.dart';
 
 import '../Widgets/Button.dart';
+import '../Widgets/CustomButton.dart';
+import '../helpers/Colors.dart';
+import 'AddCard.dart';
+import 'homemain.dart';
 
 class CardScreen extends StatefulWidget {
   CardScreen({Key? key}) : super(key: key);
@@ -37,7 +37,8 @@ class _CardScreenState extends State<CardScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -61,7 +62,8 @@ class _CardScreenState extends State<CardScreen> {
               child: Container(
                 width: 55,
                 height: 50,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: white),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
@@ -278,9 +280,11 @@ class _CardScreenState extends State<CardScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                             insetPadding: horizontal40Padding,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0.w, vertical: 0.h),
                             actionsPadding: EdgeInsets.zero,
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -295,13 +299,19 @@ class _CardScreenState extends State<CardScreen> {
                                 36.verticalSpace,
                                 Text(
                                   "Congratulations",
-                                  style: GoogleFonts.inter(fontSize: 33, fontWeight: FontWeight.w700, color: kprimary),
+                                  style: GoogleFonts.inter(
+                                      fontSize: 33,
+                                      fontWeight: FontWeight.w700,
+                                      color: kprimary),
                                 ),
                                 SizedBox(height: 10.h),
                                 Text(
                                   "Payment done successfully",
                                   textAlign: TextAlign.left,
-                                  style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w400, color: grey),
+                                  style: GoogleFonts.inter(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w400,
+                                      color: grey),
                                 ),
                                 SizedBox(height: 30.h),
 

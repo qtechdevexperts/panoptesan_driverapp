@@ -9,7 +9,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
-import 'package:panoptesan_alpha/auth/LoginSignupHandler.dart';
+
+import '../handlers/LoginSignupHandler.dart';
 
 class SOSMessageScreen extends StatefulWidget {
   const SOSMessageScreen({super.key});

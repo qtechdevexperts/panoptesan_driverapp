@@ -5,11 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/calendar.dart';
-import 'package:panoptesan_alpha/controller/videoController.dart';
-import 'package:panoptesan_alpha/videos.dart';
 import 'package:intl/intl.dart';
+import 'package:panoptesan_alpha/screens/videos.dart';
+
+import '../controllers/videoController.dart';
+import '../helpers/Colors.dart';
+import '../widgets/calendar.dart';
 
 class ArchiveScreen extends StatefulWidget {
   const ArchiveScreen({super.key});
@@ -136,22 +137,7 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                         itemCount: 1,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () async {
-                              ProgressDialog progressDialog = ProgressDialog(
-                                  context,
-                                  message: const Text("Please Wait....."),
-                                  title: const Text("Loading"));
-
-                              progressDialog.show();
-                              try {
-                                var controller = Get.put(VideoController());
-                                await controller.getVideo();
-                                progressDialog.dismiss();
-                                await Get.to(() => VideoScreen());
-                              } catch (e) {
-                                progressDialog.dismiss();
-                              }
-                            },
+                            onTap: () async {},
                             child: Container(
                               height: 190,
                               width: 190,

@@ -3,7 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:paged_vertical_calendar/utils/date_models.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
+
+import '../helpers/Colors.dart';
 
 /// enum indicating the pagination enpoint direction
 enum PaginationDirection {
@@ -117,7 +118,8 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
   void initState() {
     super.initState();
 
-    if (widget.minDate != null && widget.initialDate.isBefore(widget.minDate!)) {
+    if (widget.minDate != null &&
+        widget.initialDate.isBefore(widget.minDate!)) {
       throw ArgumentError("initialDate cannot be before minDate");
     }
 
@@ -125,7 +127,8 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
       throw ArgumentError("initialDate cannot be after maxDate");
     }
 
-    hideUp = !(widget.minDate == null || !widget.minDate!.isSameMonth(widget.initialDate));
+    hideUp = !(widget.minDate == null ||
+        !widget.minDate!.isSameMonth(widget.initialDate));
 
     _pagingReplyUpController = PagingController<int, Month>(
       firstPageKey: 0,
@@ -149,16 +152,19 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
     if (widget.minDate != oldWidget.minDate) {
       _pagingReplyUpController.refresh();
 
-      hideUp = !(widget.minDate == null || !widget.minDate!.isSameMonth(widget.initialDate));
+      hideUp = !(widget.minDate == null ||
+          !widget.minDate!.isSameMonth(widget.initialDate));
     }
   }
 
   void paginationStatusUp(PagingStatus state) {
-    if (state == PagingStatus.completed) return widget.onPaginationCompleted?.call(PaginationDirection.up);
+    if (state == PagingStatus.completed)
+      return widget.onPaginationCompleted?.call(PaginationDirection.up);
   }
 
   void paginationStatusDown(PagingStatus state) {
-    if (state == PagingStatus.completed) return widget.onPaginationCompleted?.call(PaginationDirection.down);
+    if (state == PagingStatus.completed)
+      return widget.onPaginationCompleted?.call(PaginationDirection.down);
   }
 
   /// fetch a new [Month] object based on the [pageKey] which is the Nth month
@@ -178,7 +184,8 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
       );
 
       final newItems = [month];
-      final isLastPage = widget.minDate != null && widget.minDate!.isSameDayOrAfter(month.weeks.first.firstDay);
+      final isLastPage = widget.minDate != null &&
+          widget.minDate!.isSameDayOrAfter(month.weeks.first.firstDay);
 
       if (isLastPage) {
         return _pagingReplyUpController.appendLastPage(newItems);
@@ -206,7 +213,8 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
       );
 
       final newItems = [month];
-      final isLastPage = widget.maxDate != null && widget.maxDate!.isSameDayOrBefore(month.weeks.last.lastDay);
+      final isLastPage = widget.maxDate != null &&
+          widget.maxDate!.isSameDayOrBefore(month.weeks.last.lastDay);
 
       if (isLastPage) {
         return _pagingReplyDownController.appendLastPage(newItems);
@@ -294,7 +302,8 @@ class _MonthView extends StatelessWidget {
       children: <Widget>[
         /// display the default month header if none is provided
         Container(
-          decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+              color: white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               monthBuilder?.call(context, month.month, month.year) ??
@@ -317,7 +326,8 @@ class _MonthView extends StatelessWidget {
     );
   }
 
-  TableRow _generateWeekRow(BuildContext context, Week week, bool startWeekWithSunday) {
+  TableRow _generateWeekRow(
+      BuildContext context, Week week, bool startWeekWithSunday) {
     DateTime firstDay = week.firstDay;
 
     return TableRow(
@@ -327,17 +337,23 @@ class _MonthView extends StatelessWidget {
           DateTime day = DateTime(
             week.firstDay.year,
             week.firstDay.month,
-            firstDay.day + (position - (DateUtils.getWeekDay(firstDay, startWeekWithSunday) - 1)),
+            firstDay.day +
+                (position -
+                    (DateUtils.getWeekDay(firstDay, startWeekWithSunday) - 1)),
           );
 
-          if ((position + 1) < DateUtils.getWeekDay(week.firstDay, startWeekWithSunday) || (position + 1) > DateUtils.getWeekDay(week.lastDay, startWeekWithSunday)) {
+          if ((position + 1) <
+                  DateUtils.getWeekDay(week.firstDay, startWeekWithSunday) ||
+              (position + 1) >
+                  DateUtils.getWeekDay(week.lastDay, startWeekWithSunday)) {
             return const SizedBox();
           } else {
             return AspectRatio(
               aspectRatio: 1.0,
               child: InkWell(
                 onTap: onDayPressed == null ? null : () => onDayPressed!(day),
-                child: dayBuilder?.call(context, day) ?? _DefaultDayView(date: day),
+                child: dayBuilder?.call(context, day) ??
+                    _DefaultDayView(date: day),
               ),
             );
           }
@@ -396,7 +412,8 @@ class _DefaultDayView extends StatelessWidget {
   }
 }
 
-typedef MonthBuilder = Widget Function(BuildContext context, int month, int year);
+typedef MonthBuilder = Widget Function(
+    BuildContext context, int month, int year);
 typedef DayBuilder = Widget Function(BuildContext context, DateTime date);
 
 typedef OnMonthLoaded = void Function(int year, int month);

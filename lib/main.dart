@@ -8,17 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:panoptesan_alpha/auth/LoginSignupHandler.dart';
-import 'package:panoptesan_alpha/auth/prelogin.dart';
-import 'package:panoptesan_alpha/editVideo.dart';
-import 'package:panoptesan_alpha/helper/localstorage.dart';
-import 'package:panoptesan_alpha/mainFolder/homemain.dart';
-import 'package:panoptesan_alpha/screens/Notifications.dart';
-import 'package:panoptesan_alpha/screens/Profile.dart';
-import 'package:panoptesan_alpha/screens/StartRecording.dart';
-import 'package:panoptesan_alpha/screens/editProfile.dart';
-import 'package:panoptesan_alpha/screens/subscriotion.dart';
-import 'package:panoptesan_alpha/videos.dart';
+import 'package:panoptesan_alpha/screens/NewLoginScreen.dart';
+import 'package:panoptesan_alpha/screens/get_started.dart';
+import 'package:panoptesan_alpha/screens/homemain.dart';
+
+import 'handlers/LoginSignupHandler.dart';
+import 'helpers/localstorage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,7 +79,7 @@ class _SplashState extends State<Splash> {
     try {
       if (token == null || token.isEmpty) {
         //    Get.to(() => PreLoginScreen());
-        await Get.offAll(PreLoginScreen());
+        await Get.offAll(Getstarted());
         // Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());
         //  Navigator.pushReplacement(context, route);
       } else {

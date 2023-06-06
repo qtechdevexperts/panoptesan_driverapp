@@ -7,13 +7,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:panoptesan_alpha/Helper/Colors.dart';
-import 'package:panoptesan_alpha/Widgets/CustomButton.dart';
-import 'package:panoptesan_alpha/Widgets/textfield.dart';
-import 'package:panoptesan_alpha/screens/SelectPaymentMethod.dart';
 
 import '../Widgets/AuthTextField.dart';
 import '../Widgets/Button.dart';
+import '../Widgets/CustomButton.dart';
+import '../helpers/Colors.dart';
+import '../widgets/textfield.dart';
+import 'SelectPaymentMethod.dart';
 
 class AddCardScreen extends StatefulWidget {
   AddCardScreen({Key? key}) : super(key: key);
@@ -38,7 +38,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
             child: Container(
               width: 55,
               height: 50,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: white),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SvgPicture.asset(
@@ -228,7 +229,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
     return Container(
       height: 110.h,
       width: 118.w,
-      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(4.5)),
+      decoration:
+          BoxDecoration(color: white, borderRadius: BorderRadius.circular(4.5)),
       child: Center(
         child: Container(
           width: 60,
