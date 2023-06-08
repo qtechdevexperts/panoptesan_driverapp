@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,7 @@ class VideoController extends GetxController {
     update();
   }
 
+  var sliderValue = 0.0;
   var position = Duration.zero;
 
   uploadvideo(File file) async {

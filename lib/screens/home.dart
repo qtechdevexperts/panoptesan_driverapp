@@ -1,7 +1,13 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:ars_dialog/ars_dialog.dart';
+import 'package:external_path/external_path.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+//import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,11 +17,25 @@ import 'package:panoptesan_alpha/helpers/Colors.dart';
 import 'package:panoptesan_alpha/helpers/snackbar.dart';
 import 'package:panoptesan_alpha/screens/SOSMessageScreen.dart';
 import 'package:panoptesan_alpha/screens/videos.dart';
+import 'package:share/share.dart';
 
 import '../controllers/BottomController.dart';
 import '../controllers/videoController.dart';
 import '../widgets/HomeVideoCard.dart';
 import 'Settings.dart';
+
+// class DownloadClass {
+//   static void downloadCallback(
+//       String id, DownloadTaskStatus status, int progress) {
+//     if (kDebugMode) {
+//       print(
+//           'Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
+//     }
+//     final SendPort send =
+//         IsolateNameServer.lookupPortByName('downloader_send_port')!;
+//     send.send([id, status, progress]);
+//   }
+// }
 
 class CircleIconButton extends StatelessWidget {
   final IconData icon;
@@ -204,7 +224,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: HomeVideoCard(
-                      videodate: '',
+                      download: () async {
+//                         var path = await ExternalPath
+//                             .getExternalStoragePublicDirectory(
+//                                 ExternalPath.DIRECTORY_DOWNLOADS);
+//                         final taskId = await FlutterDownloader.enqueue(
+//                           saveInPublicStorage: true,
+//                           url: _.videos![index].path.toString(),
+//                           headers: {}, // optional: header send with url (auth token etc)
+//                           savedDir: path,
+//                           showNotification:
+//                               true, // show download progress in status bar (for Android)
+//                           openFileFromNotification:
+//                               true, // click on notification to open downloaded file (for Android)
+
+//                         );
+
+// FlutterDownloader.registerCallback(DownloadClass.downloadCallback(taskId, status, progress));
+                      },
+                      share: () async {
+                        await Share.share(_.videos![index].path.toString());
+                      },
+                      videodate:
+                          '${_.videos![index].createdAt!.month}/${_.videos![index].createdAt!.day}/${_.videos![index].createdAt!.year}',
                       thumpnail: _.videos![index].thumbnail.toString(),
                       videolink: _.videos![index].path.toString()),
                 ),

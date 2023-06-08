@@ -8,11 +8,16 @@ class HomeVideoCard extends StatelessWidget {
   String thumpnail;
   String videolink;
   String videodate;
+  final share;
+  final download;
 
-  HomeVideoCard(
-      {required this.thumpnail,
-      required this.videolink,
-      required this.videodate});
+  HomeVideoCard({
+    required this.thumpnail,
+    required this.videolink,
+    required this.videodate,
+    this.share,
+    this.download,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +40,15 @@ class HomeVideoCard extends StatelessWidget {
                   ),
                 ),
                 CircleVideoButton(
+                  height: constraint.maxHeight * 0.25,
+                  width: constraint.maxWidth * 0.5,
                   onPressed: () {},
                 ),
                 Positioned(
                   top: 0,
                   left: 0,
                   child: SquareIconButton(
+                    squareSize: constraint.maxWidth * 0.2,
                     onPressed: () {},
                     icon: Icons.folder,
                   ),
@@ -49,28 +57,31 @@ class HomeVideoCard extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: SquareIconButton(
-                    onPressed: () {},
+                    squareSize: constraint.maxWidth * 0.2,
+                    onPressed: share,
                     icon: Icons.share,
                   ),
                 )
               ],
             ),
             SizedBox(
-              height: 13,
+              height: constraint.maxHeight * 0.08,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  "11/15/12",
+                  videodate,
                   style: TextStyle(
                       color: Color(0xFF238BBF),
                       fontWeight: FontWeight.bold,
-                      fontSize: 14),
+                      fontSize: constraint.maxWidth * 0.07),
                 ),
                 RoundedBlueButton(
+                  buttonheight: constraint.maxHeight * 0.125,
+                  fontsize: constraint.maxWidth * 0.07,
                   buttonText: 'Download',
-                  onPressed: () {},
+                  onPressed: download,
                 )
               ],
             )
@@ -84,46 +95,54 @@ class HomeVideoCard extends StatelessWidget {
 class RoundedBlueButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
+  final double buttonheight;
+  final double fontsize;
 
-  const RoundedBlueButton({
-    required this.buttonText,
-    required this.onPressed,
-  });
+  const RoundedBlueButton(
+      {required this.buttonText,
+      required this.onPressed,
+      required this.buttonheight,
+      required this.fontsize});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 26,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.blue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+    return LayoutBuilder(builder: (context, constraint) {
+      return SizedBox(
+        height: buttonheight,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+          ),
+          child: Text(
+            buttonText,
+            style: TextStyle(color: Colors.white, fontSize: fontsize),
           ),
         ),
-        child: Text(
-          buttonText,
-          style: TextStyle(color: Colors.white, fontSize: 12),
-        ),
-      ),
-    );
+      );
+    });
   }
 }
 
 class CircleVideoButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final double height;
+  final double width;
 
-  const CircleVideoButton({required this.onPressed});
+  const CircleVideoButton(
+      {required this.onPressed, required this.width, required this.height});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        width: 50.0,
-        height: 50.0,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           color: Colors.blue,
           shape: BoxShape.circle,
@@ -144,10 +163,12 @@ class CircleVideoButton extends StatelessWidget {
 class SquareIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
+  final double squareSize;
 
   const SquareIconButton({
     required this.icon,
     required this.onPressed,
+    required this.squareSize,
   });
 
   @override
@@ -160,7 +181,7 @@ class SquareIconButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        minimumSize: Size.square(40.0),
+        minimumSize: Size.square(squareSize),
         padding: EdgeInsets.zero,
       ),
       child: Icon(
