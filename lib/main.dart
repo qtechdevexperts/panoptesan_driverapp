@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,21 +19,14 @@ import 'package:panoptesan_alpha/screens/homemain.dart';
 import 'handlers/LoginSignupHandler.dart';
 import 'helpers/localstorage.dart';
 
-class DownloadClass {
-  static void callback(String id, DownloadTaskStatus status, int progress) {
-    print(status);
-    print(progress);
-  }
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(
-      debug:
-          true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-          true // option: set to false to disable working with http links (default: false)
-      );
+  // await FlutterDownloader.initialize(
+  //     debug:
+  //         true, // optional: set to false to disable printing logs to console (default: true)
+  //     ignoreSsl:
+  //         true // option: set to false to disable working with http links (default: false)
+  //     );
 
   await Firebase.initializeApp();
   await LocalStorage.init();

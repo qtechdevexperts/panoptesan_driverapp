@@ -10,6 +10,7 @@ import 'dart:math' as math;
 
 import '../controllers/profilecontroller.dart';
 import 'Archive.dart';
+import 'NewArchive.dart';
 import 'Profile.dart';
 import 'StartRecording.dart';
 import 'home.dart';
@@ -34,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   final bt = Get.put(BottomController());
   var screens = [
     StartRecordingScreen(),
-    ArchiveScreen(),
+    NewArchive(),
     HomeScreen(),
     NOtificationsScreen(),
     NewProfile(),
