@@ -19,6 +19,27 @@ import '../screens/homemain.dart';
 import 'HomeVideoCard.dart';
 import 'crop.dart';
 
+class TransparentPlayButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const TransparentPlayButton({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        Icons.play_arrow,
+        size: 32,
+        color: Color(0xFF007AB6),
+      ),
+      color: Colors.transparent,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+    );
+  }
+}
+
 //-------------------//
 //VIDEO EDITOR SCREEN//
 //-------------------//
@@ -213,7 +234,9 @@ class _VideoEditorState extends State<VideoEditor> {
                   icon: Icons.arrow_back,
                   backgroundColor: Color(0XFF007AB6),
                   iconColor: Colors.white,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Get.back();
+                  }),
             ),
             centerTitle: true,
             title: Text(
@@ -255,157 +278,294 @@ class _VideoEditorState extends State<VideoEditor> {
           ),
           backgroundColor: Color(0xffF1F2F6),
           body: _controller.initialized
-              ? SafeArea(
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Column(
-                        children: [
-                          Column(
-                            children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                      height: 50,
-                                      width: 50,
-                                      child: CropGridViewer.preview(
-                                          controller: _controller)),
-                                  AnimatedBuilder(
-                                    animation: _controller.video,
-                                    builder: (_, __) => OpacityTransition(
-                                      visible: !_controller.isPlaying,
-                                      child: GestureDetector(
-                                        onTap: _controller.video.play,
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: const Icon(
-                                            Icons.play_arrow,
-                                            color: Colors.black,
-                                          ),
+              ? SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                                height: constraint.maxHeight / 2,
+                                width: constraint.maxWidth * 0.8,
+                                child: CropGridViewer.preview(
+                                    controller: _controller)),
+                            AnimatedBuilder(
+                              animation: _controller.video,
+                              builder: (_, __) => OpacityTransition(
+                                visible: !_controller.isPlaying,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (_controller.isPlaying) {
+                                      await _controller.video.pause();
+                                    } else {
+                                      await _controller.video.play();
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SafeArea(
+                          child: SizedBox(
+                            height: height,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Expanded(
+                                //   child: IconButton(
+                                //     color: white,
+                                //     onPressed: () => Navigator.of(context).pop(),
+                                //     icon: const Icon(
+                                //       Icons.exit_to_app,
+                                //       color: kprimary,
+                                //     ),
+                                //     tooltip: 'Leave editor',
+                                //   ),
+                                // ),
+                                // const VerticalDivider(
+                                //   endIndent: 22,
+                                //   indent: 22,
+                                //   color: kprimary,
+                                // ),
+                                AnimatedBuilder(
+                                  animation: Listenable.merge([
+                                    _controller,
+                                    _controller.video,
+                                  ]),
+                                  builder: (_, __) {
+                                    final duration =
+                                        _controller.videoDuration.inSeconds;
+                                    final pos =
+                                        _controller.trimPosition * duration;
+
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: height / 4),
+                                      child: Row(children: [
+                                        Text(formatter(
+                                            Duration(seconds: pos.toInt()))),
+                                        //const Expanded(child: SizedBox()),
+                                        OpacityTransition(
+                                          visible: _controller.isTrimming,
+                                          child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(formatter(
+                                                    _controller.startTrim)),
+                                                const SizedBox(width: 10),
+                                                Text(formatter(
+                                                    _controller.endTrim)),
+                                              ]),
                                         ),
+                                      ]),
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  color: white,
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (context) =>
+                                          CropScreen(controller: _controller),
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.crop,
+                                    color: kprimary,
+                                  ),
+                                  tooltip: 'Open crop screen',
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    if (_controller.isPlaying) {
+                                      await _controller.video.pause();
+                                    } else {
+                                      await _controller.video.play();
+                                    }
+                                    setState(() {});
+                                  },
+                                  icon: _controller.isPlaying
+                                      ? Icon(
+                                          Icons.pause,
+                                          size: 32,
+                                          color: Color(0xFF007AB6),
+                                        )
+                                      : Icon(
+                                          Icons.play_arrow,
+                                          size: 32,
+                                          color: Color(0xFF007AB6),
+                                        ),
+                                  color: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                ),
+                                // const VerticalDivider(
+                                //     endIndent: 22, indent: 22),
+                                // Expanded(
+                                //   child: PopupMenuButton(
+                                //     tooltip: 'Open export menu',
+                                //     icon: Icon(
+                                //       Icons.save,
+                                //       color: kprimary,
+                                //     ),
+                                //     itemBuilder: (context) => [
+                                //       PopupMenuItem(
+                                //         onTap: _exportCover,
+                                //         child: Text('Export cover',
+                                //             style: TextStyle(
+                                //               color: black,
+                                //             )),
+                                //       ),
+                                //       PopupMenuItem(
+                                //         onTap: _exportVideo,
+                                //         child: Text(
+                                //           'Export video',
+                                //           style: TextStyle(
+                                //             color: black,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+
+                                IconButton(
+                                  color: white,
+                                  onPressed: () => _controller
+                                      .rotate90Degrees(RotateDirection.left),
+                                  icon: SvgPicture.asset(
+                                    'assets/arrowCurveleft.svg',
+                                    color: kprimary,
+                                  ),
+                                  tooltip: 'Rotate unclockwise',
+                                ),
+                                IconButton(
+                                  color: white,
+                                  onPressed: () => _controller
+                                      .rotate90Degrees(RotateDirection.right),
+                                  icon: SvgPicture.asset(
+                                    'assets/arrowCurveRight.svg',
+                                    color: kprimary,
+                                  ),
+                                  tooltip: 'Rotate clockwise',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: constraint.maxWidth * 0.08),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Mute clip audio",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraint.maxWidth * 0.04),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          //  height: 200,
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SquareIconButton(
+                                    squareSize: constraint.maxWidth * 0.12,
+                                    onPressed: () {},
+                                    icon: Icons.volume_down,
+                                  ),
+                                  SizedBox(
+                                    width: constraint.maxWidth * 0.05,
+                                  ),
+                                  Container(
+                                    color: bprimary,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.5,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 2),
+                                    child: TrimSlider(
+                                      hasHaptic: true,
+                                      controller: _controller,
+                                      height: height,
+                                      //   horizontalMargin: height / 4,
+                                      child: TrimTimeline(
+                                        controller: _controller,
+                                        padding: const EdgeInsets.only(top: 10),
                                       ),
                                     ),
                                   ),
                                 ],
-                              ),
-                              _topNavBar(),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: constraint.maxWidth * 0.08),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
-                                    "Mute clip audio",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: constraint.maxWidth * 0.04),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                //  height: 200,
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AnimatedBuilder(
-                                      animation: Listenable.merge([
-                                        _controller,
-                                        _controller.video,
-                                      ]),
-                                      builder: (_, __) {
-                                        final duration =
-                                            _controller.videoDuration.inSeconds;
-                                        final pos =
-                                            _controller.trimPosition * duration;
-
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: height / 4),
-                                          child: Row(children: [
-                                            Text(formatter(Duration(
-                                                seconds: pos.toInt()))),
-                                            const Expanded(child: SizedBox()),
-                                            OpacityTransition(
-                                              visible: _controller.isTrimming,
-                                              child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Text(formatter(
-                                                        _controller.startTrim)),
-                                                    const SizedBox(width: 10),
-                                                    Text(formatter(
-                                                        _controller.endTrim)),
-                                                  ]),
-                                            ),
-                                          ]),
-                                        );
-                                      },
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SquareIconButton(
-                                          squareSize:
-                                              constraint.maxWidth * 0.12,
-                                          onPressed: () {},
-                                          icon: Icons.volume_down,
-                                        ),
-                                        SizedBox(
-                                          width: constraint.maxWidth * 0.05,
-                                        ),
-                                        Container(
-                                          color: bprimary,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 2),
-                                          child: TrimSlider(
-                                            hasHaptic: true,
-                                            controller: _controller,
-                                            height: height,
-                                            //   horizontalMargin: height / 4,
-                                            child: TrimTimeline(
-                                              controller: _controller,
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              ValueListenableBuilder(
-                                valueListenable: _isExporting,
-                                builder: (_, bool export, __) =>
-                                    OpacityTransition(
-                                  visible: export,
-                                  child: AlertDialog(
-                                    title: ValueListenableBuilder(
-                                      valueListenable: _exportingProgress,
-                                      builder: (_, double value, __) => Text(
-                                        "Exporting video ${(value * 100).ceil()}%",
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               )
                             ],
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: constraint.maxWidth * 0.08, top: 20),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Mute clip audio",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraint.maxWidth * 0.04),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: constraint.maxWidth * 0.08, top: 20),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: SquareIconButton(
+                              squareSize: constraint.maxWidth * 0.12,
+                              onPressed: () {
+                                Get.to(CropScreen(controller: _controller));
+                              },
+                              icon: Icons.crop_free_outlined,
+                            ),
+                          ),
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: _isExporting,
+                          builder: (_, bool export, __) => OpacityTransition(
+                            visible: export,
+                            child: AlertDialog(
+                              title: ValueListenableBuilder(
+                                valueListenable: _exportingProgress,
+                                builder: (_, double value, __) => Text(
+                                  "Exporting video ${(value * 100).ceil()}%",
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : const Center(child: CircularProgressIndicator()),
@@ -431,12 +591,22 @@ class _VideoEditorState extends State<VideoEditor> {
             //     tooltip: 'Leave editor',
             //   ),
             // ),
-            const VerticalDivider(
-              endIndent: 22,
-              indent: 22,
-              color: kprimary,
+            // const VerticalDivider(
+            //   endIndent: 22,
+            //   indent: 22,
+            //   color: kprimary,
+            // ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.play_arrow,
+                size: 32,
+                color: Color(0xFF007AB6),
+              ),
+              color: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
             ),
-
             IconButton(
               color: white,
               onPressed: () => Navigator.push(
@@ -451,7 +621,7 @@ class _VideoEditorState extends State<VideoEditor> {
               ),
               tooltip: 'Open crop screen',
             ),
-            const VerticalDivider(endIndent: 22, indent: 22),
+            //  const VerticalDivider(endIndent: 22, indent: 22),
             // Expanded(
             //   child: PopupMenuButton(
             //     tooltip: 'Open export menu',

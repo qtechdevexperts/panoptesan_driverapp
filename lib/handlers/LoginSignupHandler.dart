@@ -29,6 +29,22 @@ class LoginSignupHandler {
   //     }
   // }
 
+  forgotpassword(String email) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST', Uri.parse(ApiConstants.baseUrl + '/forget-password'));
+    request.body = json.encode({"email": email});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      throw (response.reasonPhrase.toString());
+    }
+  }
+
   Future<void> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
 

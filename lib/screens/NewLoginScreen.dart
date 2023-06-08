@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
 import 'package:panoptesan_alpha/screens/newSignup.dart';
+import 'package:panoptesan_alpha/screens/newforgotpassword.dart';
 
 import '../helpers/Colors.dart';
 import '../helpers/snackbar.dart';
@@ -180,7 +181,7 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                           20.verticalSpace,
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => ForgotPassScreen());
+                              Get.to(() => NewForgotPassword());
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
