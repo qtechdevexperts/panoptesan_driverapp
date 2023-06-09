@@ -45,6 +45,22 @@ class LoginSignupHandler {
     }
   }
 
+  verifypincode(String email, String pincode) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/verify-otp'));
+    request.body = json.encode({"email": email, "otp": pincode});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      throw (response.reasonPhrase.toString());
+    }
+  }
+
   Future<void> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
 
@@ -111,8 +127,8 @@ class LoginSignupHandler {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-    var request = http.Request('POST',
-        Uri.parse('http://panoptesan.thesuitchstaging.com:4000/user/token'));
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/token'));
     request.body = json.encode({"token": fcmToken, "device_id": id});
     request.headers.addAll(headers);
 
@@ -121,7 +137,7 @@ class LoginSignupHandler {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      throw (response.reasonPhrase.toString());
     }
   }
 
@@ -131,8 +147,8 @@ class LoginSignupHandler {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-    var request = http.Request('POST',
-        Uri.parse('http://panoptesan.thesuitchstaging.com:4000/user/alert'));
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/alert'));
     request.body = json.encode({"lat": lat, "long": lng, "address": address});
     request.headers.addAll(headers);
 
@@ -141,7 +157,24 @@ class LoginSignupHandler {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      throw (response.reasonPhrase.toString());
+    }
+  }
+
+  setpassword(String email, String password, String otp) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/set-password'));
+    request.body =
+        json.encode({"email": email, "password": password, "otp": otp});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      throw (response.reasonPhrase.toString());
     }
   }
 }

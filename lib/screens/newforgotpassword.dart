@@ -167,7 +167,9 @@ class _NewForgotPasswordState extends State<NewForgotPassword> {
                                   SnackbarWidget().showsnackbar(
                                       "Pincode has been sent to your email please check",
                                       context);
-                                  Get.to(NewPinCodeScreen());
+                                  Get.to(NewPinCodeScreen(
+                                    email: emailController.text,
+                                  ));
                                 } catch (ex) {
                                   SnackbarWidget()
                                       .showsnackbar(ex.toString(), context);

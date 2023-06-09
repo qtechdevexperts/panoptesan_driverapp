@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
 import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
+import 'package:panoptesan_alpha/screens/NewLoginScreen.dart';
 import 'package:panoptesan_alpha/screens/newSignup.dart';
-import 'package:panoptesan_alpha/screens/setnewpassword.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:panoptesan_alpha/screens/newpincodescreen.dart';
 
 import '../helpers/Colors.dart';
 import '../helpers/snackbar.dart';
@@ -16,16 +17,29 @@ import '../screens/SetProfile.dart';
 import 'forgotpassword.dart';
 import 'homemain.dart';
 
-class NewPinCodeScreen extends StatefulWidget {
+class SetNewPassword extends StatefulWidget {
+  String pincode;
   String email;
 
-  NewPinCodeScreen({required this.email});
+  SetNewPassword({required this.pincode, required this.email});
   @override
-  State<NewPinCodeScreen> createState() => _NewPinCodeScreenState();
+  State<SetNewPassword> createState() => _SetNewPasswordState();
 }
 
-class _NewPinCodeScreenState extends State<NewPinCodeScreen> {
-  TextEditingController pincode = new TextEditingController();
+class _SetNewPasswordState extends State<SetNewPassword> {
+  int groupValue = 0;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  final nameController = TextEditingController();
+  final repeatPasswordController = TextEditingController();
+  var isvisble = true;
+  var isvisblerepeat = true;
+
+  bool _obscureText = true;
+  var _obscureText2 = true;
+
+  var profilecontroller = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -93,7 +107,7 @@ class _NewPinCodeScreenState extends State<NewPinCodeScreen> {
                         topLeft: Radius.circular(35.r),
                         topRight: Radius.circular(35.r),
                       ),
-                      color: Color(0xffE8F1FE),
+                      color: Color(0xffe8f2fe),
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25.r),
@@ -103,89 +117,100 @@ class _NewPinCodeScreenState extends State<NewPinCodeScreen> {
                           children: [
                             25.verticalSpace,
                             Text(
-                              "One Time Password",
+                              "Password",
                               style: GoogleFonts.inter(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: black),
                             ),
                             10.verticalSpace,
-                            PinCodeTextField(
-                              appContext: context,
-                              pastedTextStyle: TextStyle(
-                                color: Colors.green.shade600,
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              width: 1.sw,
+                              child: TextFormField(
+                                controller: this.passwordController,
+                                obscureText: _obscureText,
+                                decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _obscureText = !_obscureText;
+                                      });
+                                    },
+                                    child: Icon(
+                                      _obscureText
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Color(0xff8b8b8b),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: white,
+                                  hintText: '............',
+                                  hintStyle: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff8b8b8b)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(35),
+                                      borderSide: BorderSide.none),
+                                ),
                               ),
-                              hintStyle: TextStyle(color: Colors.white),
-                              textStyle: TextStyle(color: Colors.black),
-                              length: 6,
-                              obscureText: false,
-                              obscuringCharacter: '*',
-//
-                              blinkWhenObscuring: true,
-                              animationType: AnimationType.fade,
-                              validator: (v) {
-                                // if (v!.length < 6) {
-                                //   return "Enter Full Code";
-                                // } else {
-                                //   return null;
-                                // }
-                              },
-                              pinTheme: PinTheme(
-                                fieldOuterPadding:
-                                    EdgeInsets.symmetric(horizontal: 0),
-                                selectedFillColor: Colors.white,
-                                selectedColor: Colors.white,
-                                disabledColor: Colors.white,
-                                inactiveColor: Colors.white,
-                                inactiveFillColor: Colors.white,
-                                activeColor: Colors.white,
-                                shape: PinCodeFieldShape.circle,
-                                borderRadius: BorderRadius.circular(5),
-                                fieldHeight: constraints.maxHeight * 0.1,
-                                fieldWidth: constraints.maxWidth * 0.1,
-                                activeFillColor: Colors.transparent,
+                            ),
+                            20.verticalSpace,
+                            Text(
+                              "Confirm NewPassword",
+                              style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: black),
+                            ),
+                            10.verticalSpace,
+                            Container(
+                              width: 1.sw,
+                              child: TextFormField(
+                                controller: this.repeatPasswordController,
+                                obscureText: _obscureText2,
+                                decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _obscureText2 = !_obscureText2;
+                                      });
+                                    },
+                                    child: Icon(
+                                      _obscureText2
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Color(0xff8b8b8b),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: white,
+                                  hintText: '............',
+                                  hintStyle: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff8b8b8b)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(35),
+                                      borderSide: BorderSide.none),
+                                ),
                               ),
-                              cursorColor: Colors.black,
-                              animationDuration:
-                                  const Duration(milliseconds: 300),
-                              enableActiveFill: true,
-// errorAnimationController: errorController,
-                              controller: pincode,
-                              keyboardType: TextInputType.number,
-// boxShadows: const [
-// BoxShadow(
-// offset: Offset(0, 1),
-// color: Colors.black12,
-// blurRadius: 10,
-// )
-// ],
-                              onCompleted: (v) {
-                                debugPrint("Completed");
-                              },
-// onTap: () {
-// print("Pressed");
-// },
-                              onChanged: (value) {
-                                debugPrint(value);
-                                // setState(() {
-                                //   currentText = value;
-                                // });
-                              },
-                              beforeTextPaste: (text) {
-                                debugPrint("Allowing to paste $text");
-//if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-//but you can show anything you want here, like your pop up saying wrong paste format or etc
-                                return true;
-                              },
                             ),
                             20.verticalSpace,
                             GestureDetector(
                               onTap: () async {
-                                if (pincode.text.length < 6) {
+                                FocusScope.of(context).unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                                if (passwordController.text !=
+                                        repeatPasswordController.text ||
+                                    passwordController.text.isEmpty ||
+                                    repeatPasswordController.text.isEmpty) {
                                   return SnackbarWidget().showsnackbar(
-                                      "Invalid Pincode, Please enter correct Pincode",
-                                      context);
+                                      "Password does not match", context);
                                 }
                                 ProgressDialog progressDialog = ProgressDialog(
                                     context,
@@ -193,18 +218,18 @@ class _NewPinCodeScreenState extends State<NewPinCodeScreen> {
                                     title: const Text("Loading"));
                                 progressDialog.show();
                                 try {
-                                  await LoginSignupHandler().verifypincode(
-                                      widget.email, pincode.text);
+                                  await LoginSignupHandler().setpassword(
+                                      widget.email,
+                                      passwordController.text,
+                                      widget.pincode);
                                   progressDialog.dismiss();
-
-                                  Get.to(SetNewPassword(
-                                    pincode: pincode.text,
-                                    email: widget.email,
-                                  ));
+                                  SnackbarWidget().showsnackbar(
+                                      "Password Set Successfully", context);
+                                  await Get.offAll(NewLoginScreen());
                                 } catch (ex) {
-                                  progressDialog.dismiss();
                                   SnackbarWidget()
                                       .showsnackbar(ex.toString(), context);
+                                  progressDialog.dismiss();
                                 }
                               },
                               child: Container(
