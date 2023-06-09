@@ -149,33 +149,33 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
 
                     // await ctr.initialize(aspectRatio: 9 / 16);
 
-                    final videoInfo = FlutterVideoInfo();
+                    // final videoInfo = FlutterVideoInfo();
 
-                    String videoFilePath = file.path;
-                    var info = await videoInfo.getVideoInfo(videoFilePath);
+                    // String videoFilePath = file.path;
+                    // var info = await videoInfo.getVideoInfo(videoFilePath);
 
-                    Get.to(VideoEditor(
-                      file: File(file.path),
-                      max: info!.duration!.toInt(),
-                      min: 1,
-                    ));
-                    // ProgressDialog progressDialog = ProgressDialog(context,
-                    //     message: const Text("Please Wait....."),
-                    //     title: const Text("Loading"));
+                    // Get.to(VideoEditor(
+                    //   file: File(file.path),
+                    //   max: info!.duration!.toInt(),
+                    //   min: 1,
+                    // ));
+                    ProgressDialog progressDialog = ProgressDialog(context,
+                        message: const Text("Please Wait....."),
+                        title: const Text("Loading"));
 
-                    // progressDialog.show();
+                    progressDialog.show();
 
-                    // try {
-                    //   var controller = Get.put(VideoController());
+                    try {
+                      var controller = Get.put(VideoController());
 
-                    //   await controller.uploadvideo(File(file.path));
-                    //   progressDialog.dismiss();
-                    //   await controller.setvideo();
-                    //   SnackbarWidget()
-                    //       .showsnackbar("Video Uploaded succesfully", context);
-                    // } catch (e) {
-                    //   progressDialog.dismiss();
-                    // }
+                      await controller.uploadvideo(File(file.path));
+                      progressDialog.dismiss();
+                      await controller.setvideo();
+                      SnackbarWidget()
+                          .showsnackbar("Video Uploaded succesfully", context);
+                    } catch (e) {
+                      progressDialog.dismiss();
+                    }
                   }
                 },
                 redheight: constraints.maxHeight * 0.14,
