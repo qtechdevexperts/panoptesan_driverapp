@@ -15,6 +15,7 @@ import 'Discailmer.dart';
 import 'HelpSupport.dart';
 import 'PrivacyPolicy.dart';
 import 'TermsAndCondition.dart';
+import 'home.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -33,23 +34,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: Color(0xffF1F2F6),
       appBar: AppBar(
         leadingWidth: 70,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Container(
-              width: 55,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: white),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SvgPicture.asset(
-                  'assets/leading.svg',
-                  color: Color(0xff005D99),
-                ),
-              ),
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -276,35 +269,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            15.verticalSpace,
-            GestureDetector(
-              onTap: () {
-                Get.to(() => CarHistoryScreen());
-              },
-              child: Container(
-                height: 70.h,
-                width: Get.width * 0.9,
-                decoration: BoxDecoration(
-                  color: white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 25.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Verified History",
-                        style: TextStyle(
-                          color: black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            //  15.verticalSpace,
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.to(() => CarHistoryScreen());
+            //   },
+            //   child: Container(
+            //     height: 70.h,
+            //     width: Get.width * 0.9,
+            //     decoration: BoxDecoration(
+            //       color: white,
+            //       borderRadius: BorderRadius.circular(30),
+            //     ),
+            //     child: Padding(
+            //       padding: EdgeInsets.only(left: 25.w),
+            //       child: Row(
+            //         children: [
+            //           Text(
+            //             "Verified History",
+            //             style: TextStyle(
+            //               color: black,
+            //               fontSize: 15,
+            //               fontWeight: FontWeight.w400,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             15.verticalSpace,
             GestureDetector(
               onTap: () {

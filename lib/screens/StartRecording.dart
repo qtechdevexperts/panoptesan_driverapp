@@ -79,6 +79,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
         leadingWidth: 70,
         elevation: 0,
         backgroundColor: Colors.transparent,
+
         // leading: GestureDetector(
         //   onTap: () => Get.back(),
         //   child: Padding(

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../helpers/Colors.dart';
+import 'home.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
@@ -19,23 +20,15 @@ class _AboutScreenState extends State<AboutScreen> {
       backgroundColor: Color(0xffF1F2F6),
       appBar: AppBar(
         leadingWidth: 70,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Container(
-              width: 55,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: white),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SvgPicture.asset(
-                  'assets/leading.svg',
-                  color: Color(0xff005D99),
-                ),
-              ),
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,

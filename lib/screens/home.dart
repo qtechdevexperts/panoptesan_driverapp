@@ -42,21 +42,24 @@ class CircleIconButton extends StatelessWidget {
   final Color backgroundColor;
   final Color iconColor;
   final VoidCallback onPressed;
+  final double? width;
+  final double? height;
 
-  const CircleIconButton({
-    required this.icon,
-    required this.backgroundColor,
-    required this.iconColor,
-    required this.onPressed,
-  });
+  const CircleIconButton(
+      {required this.icon,
+      required this.backgroundColor,
+      required this.iconColor,
+      required this.onPressed,
+      this.width,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        width: 35.0,
-        height: 35.0,
+        width: width == null ? 35 : width,
+        height: height == null ? 35 : height,
         decoration: BoxDecoration(
           color: this.backgroundColor,
           shape: BoxShape.circle,
