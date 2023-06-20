@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ars_dialog/ars_dialog.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:panoptesan_alpha/helpers/snackbar.dart';
 import '../Widgets/CustomButton.dart';
 import '../controllers/supportcontroller.dart';

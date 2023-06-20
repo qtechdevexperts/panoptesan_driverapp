@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeVideoCard extends StatelessWidget {
-  String thumpnail;
-  String videolink;
-  String videodate;
+  String? thumpnail;
+  String? videolink;
+  String? videodate;
   final share;
   final download;
 
@@ -33,7 +33,7 @@ class HomeVideoCard extends StatelessWidget {
               children: [
                 Container(
                   child: Image.network(
-                    thumpnail,
+                    thumpnail ?? "",
                     fit: BoxFit.cover,
                     height: constraint.maxHeight / 1.5,
                     width: constraint.maxWidth,
@@ -71,7 +71,7 @@ class HomeVideoCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  videodate,
+                  videodate!,
                   style: TextStyle(
                       color: Color(0xFF238BBF),
                       fontWeight: FontWeight.bold,

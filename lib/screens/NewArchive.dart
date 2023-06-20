@@ -1,4 +1,4 @@
-import 'package:ars_dialog/ars_dialog.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -120,10 +120,15 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                         share: () async {
                           await Share.share(_.videos![index].path.toString());
                         },
-                        videodate:
-                            '${_.videos![index].createdAt!.month}/${_.videos![index].createdAt!.day}/${_.videos![index].createdAt!.year}',
-                        thumpnail: _.videos![index].thumbnail.toString(),
-                        videolink: _.videos![index].path.toString()),
+                        videodate: _.videos == null
+                            ? ""
+                            : '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
+                        thumpnail: _.videos == null
+                            ? ''
+                            : _.videos?[index].thumbnail.toString(),
+                        videolink: _.videos == null
+                            ? ''
+                            : _.videos?[index].path.toString()),
                   ),
                 );
               });

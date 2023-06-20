@@ -1,7 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:ars_dialog/ars_dialog.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -249,9 +249,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         await Share.share(_.videos![index].path.toString());
                       },
                       videodate:
-                          '${_.videos![index].createdAt!.month}/${_.videos![index].createdAt!.day}/${_.videos![index].createdAt!.year}',
-                      thumpnail: _.videos![index].thumbnail.toString(),
-                      videolink: _.videos![index].path.toString()),
+                          '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
+                      thumpnail: _.videos == null
+                          ? ""
+                          : _.videos?[index].thumbnail.toString() ?? "",
+                      videolink: _.videos == null
+                          ? ""
+                          : _.videos?[index].path.toString()),
                 ),
               );
             });

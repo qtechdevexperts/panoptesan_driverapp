@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:panoptesan_alpha/helpers/Colors.dart';
 import 'package:panoptesan_alpha/helpers/snackbar.dart';
 import 'package:panoptesan_alpha/screens/Settings.dart';
-import 'package:ars_dialog/ars_dialog.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:video_editor/video_editor.dart';
 import 'package:video_player/video_player.dart';
 import '../Widgets/crop.dart';
@@ -31,7 +31,7 @@ class StartRecordingScreen extends StatefulWidget {
 
 class _StartRecordingScreenState extends State<StartRecordingScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext b) {
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
       // floatingActionButton: Padding(
@@ -173,9 +173,10 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                       progressDialog.dismiss();
                       await controller.setvideo();
                       SnackbarWidget()
-                          .showsnackbar("Video Uploaded succesfully", context);
+                          .showsnackbar("Video Uploaded successfully", context);
                     } catch (e) {
                       progressDialog.dismiss();
+                      SnackbarWidget().showsnackbar(e.toString(), context);
                     }
                   }
                 },

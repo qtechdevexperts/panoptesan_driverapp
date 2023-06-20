@@ -47,7 +47,11 @@ class VideoController extends GetxController {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      throw (response.reasonPhrase.toString());
+      var result = await response.stream.bytesToString();
+
+      print(result);
+      print(response.reasonPhrase.toString());
+      throw (result);
     }
   }
 
