@@ -227,6 +227,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: HomeVideoCard(
+                      archive: () async {
+                        ProgressDialog progressDialog = ProgressDialog(context,
+                            message: const Text("Please Wait....."),
+                            title: const Text("Loading"));
+                        progressDialog.show();
+                        try {
+                          await _
+                              .setarchivevideo(_.videos?[index].id.toString());
+                          progressDialog.dismiss();
+
+                          SnackbarWidget()
+                              .showsnackbar("Video Archived", context);
+                        } catch (ex) {
+                          progressDialog.dismiss();
+                          SnackbarWidget().showsnackbar(ex.toString(), context);
+                        }
+                      },
                       download: () async {
 //                         var path = await ExternalPath
 //                             .getExternalStoragePublicDirectory(

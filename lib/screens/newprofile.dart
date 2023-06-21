@@ -128,67 +128,67 @@ class _NewProfileState extends State<NewProfile> {
               const SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Fleet Manager',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/p5.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                    shape: BoxShape.circle,
-                    color: Colors.black,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
-                  )),
-              const SizedBox(
-                height: 15,
-              ),
-              const Text(
-                'Will Smith',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Will Smith',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: constraint.maxWidth / 1.2,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Button action goes here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    primary: Colors.blue,
-                  ),
-                  child: const Text(
-                    'Leave Fleet',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
+              // const Text(
+              //   'Fleet Manager',
+              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              // ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // Container(
+              //     width: 120,
+              //     height: 120,
+              //     decoration: BoxDecoration(
+              //       image: const DecorationImage(
+              //         image: AssetImage('assets/p5.jpg'),
+              //         fit: BoxFit.cover,
+              //       ),
+              //       shape: BoxShape.circle,
+              //       color: Colors.black,
+              //       border: Border.all(
+              //         color: Colors.white,
+              //         width: 2,
+              //       ),
+              //     )),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // const Text(
+              //   'Will Smith',
+              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              // ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // Text(
+              //   'Will Smith',
+              //   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+              // ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // Container(
+              //   width: constraint.maxWidth / 1.2,
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //       // Button action goes here
+              //     },
+              //     style: ElevatedButton.styleFrom(
+              //       padding: const EdgeInsets.symmetric(horizontal: 20),
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(25),
+              //       ),
+              //       primary: Colors.blue,
+              //     ),
+              //     child: const Text(
+              //       'Leave Fleet',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 16,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 15,
               ),

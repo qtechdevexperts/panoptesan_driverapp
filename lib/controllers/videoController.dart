@@ -13,11 +13,14 @@ import '../models/videomodel.dart';
 class VideoController extends GetxController {
   List<VideoModel>? videos = [];
 
+  List<VideoModel> archives = [];
+
   @override
   void onInit() {
     // TODO: implement onInit
 
     setvideo();
+    getarchivevideos();
     super.onInit();
   }
 
@@ -29,6 +32,28 @@ class VideoController extends GetxController {
 
   var sliderValue = 0.0;
   var position = Duration.zero;
+
+  setarchivevideo(String? id) async {
+    var token = LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var request = http.Request(
+        'PUT', Uri.parse(ApiConstants.baseUrl + '/$id/video/archive'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      await getarchivevideos();
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 
   uploadvideo(File file) async {
     var token = LocalStorage.prefs?.getString("token");
@@ -80,6 +105,36 @@ class VideoController extends GetxController {
     } else {
       print(response.reasonPhrase);
     }
+  }
+
+  getarchivevideos() async {
+    try {
+      var token = LocalStorage.prefs?.getString("token");
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'GET', Uri.parse(ApiConstants.baseUrl + '/archive/videos'));
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var result = await response.stream.bytesToString();
+        Map<String, dynamic> jsonData = jsonDecode(result);
+        List<dynamic> data = jsonData['data'];
+
+        List<VideoModel> videos =
+            data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();
+
+        this.archives = videos;
+        update();
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {}
   }
 
   late VideoPlayerController controller;

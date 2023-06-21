@@ -1,3 +1,5 @@
+import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
+
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -309,7 +311,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         await profilecontroller
                             .setimage(profilecontroller.file);
                       }
-
+                      await LoginSignupHandler().settoken();
                       progressDialog.dismiss();
                       SnackbarWidget().showsnackbar("Success", context);
                       profilecontroller.update();

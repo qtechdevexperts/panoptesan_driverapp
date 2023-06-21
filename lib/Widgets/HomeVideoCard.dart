@@ -10,14 +10,15 @@ class HomeVideoCard extends StatelessWidget {
   String? videodate;
   final share;
   final download;
+  final archive;
 
-  HomeVideoCard({
-    required this.thumpnail,
-    required this.videolink,
-    required this.videodate,
-    this.share,
-    this.download,
-  });
+  HomeVideoCard(
+      {required this.thumpnail,
+      required this.videolink,
+      required this.videodate,
+      this.share,
+      this.download,
+      this.archive});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,9 @@ class HomeVideoCard extends StatelessWidget {
                   left: 0,
                   child: SquareIconButton(
                     squareSize: constraint.maxWidth * 0.2,
-                    onPressed: () {},
+                    onPressed: () {
+                      archive();
+                    },
                     icon: Icons.folder,
                   ),
                 ),

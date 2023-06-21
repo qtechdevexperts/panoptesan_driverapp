@@ -10,12 +10,15 @@ import 'package:panoptesan_alpha/helpers/api-constants.dart';
 import 'package:panoptesan_alpha/helpers/localstorage.dart';
 
 import '../helpers/snackbar.dart';
+import '../models/notificationmodel.dart';
 import '../models/profile-model.dart';
 
 class ProfileController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+
+    fetchnotifications();
     super.onInit();
   }
 
@@ -44,6 +47,8 @@ class ProfileController extends GetxController {
   TextEditingController emergencycontactnumber = new TextEditingController();
 
   Profile? profile;
+
+  List<NotificationModel> notificationList = [];
   Future<Profile> getprofile() async {
     var token = await LocalStorage.prefs?.getString("token");
     var headers = {'Authorization': 'Bearer $token'};
@@ -118,6 +123,39 @@ class ProfileController extends GetxController {
     }
   }
 
+  fetchnotifications() async {
+    try {
+      var token = await LocalStorage.prefs?.getString("token");
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'GET', Uri.parse(ApiConstants.baseUrl + '/notification'));
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var jsonData = await response.stream.bytesToString();
+
+        final decodedData = jsonDecode(jsonData);
+        final data = decodedData['data'] as List<dynamic>;
+
+        final List<NotificationModel> notificationList =
+            data.map<NotificationModel>((item) {
+          return NotificationModel.fromJson(item);
+        }).toList();
+
+        this.notificationList = notificationList;
+        update();
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {}
+  }
+
   Future<void> UpdateProfile(String name, String gender, String dob,
       String description, String address) async {
     var token = await LocalStorage.prefs?.getString("token");
@@ -166,9 +204,7 @@ class ProfileController extends GetxController {
       'Authorization': 'Bearer $token'
     };
     var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            'http://panoptesan.thesuitchstaging.com:4000/user/upload?type=PROFILE'));
+        'POST', Uri.parse(ApiConstants.baseUrl + '/upload?type=PROFILE'));
     request.files.add(await http.MultipartFile.fromPath('photo', file!.path));
     request.headers.addAll(headers);
 

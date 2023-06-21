@@ -103,7 +103,6 @@ class _SplashState extends State<Splash> {
         // Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());
         //  Navigator.pushReplacement(context, route);
       } else {
-        await LoginSignupHandler().settoken();
         await Get.offAll(MainScreen());
 
         //  Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());

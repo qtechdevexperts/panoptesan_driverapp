@@ -77,7 +77,7 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
               ),
               padding: EdgeInsets.zero,
               //  reverse: true,
-              itemCount: _.videos?.length,
+              itemCount: _.archives.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () async {
@@ -120,15 +120,15 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                         share: () async {
                           await Share.share(_.videos![index].path.toString());
                         },
-                        videodate: _.videos == null
+                        videodate: _.archives == null
                             ? ""
-                            : '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
-                        thumpnail: _.videos == null
+                            : '${_.archives?[index].createdAt?.month}/${_.archives?[index].createdAt?.day}/${_.archives?[index].createdAt?.year}',
+                        thumpnail: _.archives == null
                             ? ''
-                            : _.videos?[index].thumbnail.toString(),
-                        videolink: _.videos == null
+                            : _.archives?[index].thumbnail.toString(),
+                        videolink: _.archives == null
                             ? ''
-                            : _.videos?[index].path.toString()),
+                            : _.archives?[index].path.toString()),
                   ),
                 );
               });
