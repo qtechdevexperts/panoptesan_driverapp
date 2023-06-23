@@ -119,6 +119,10 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
           children: <Widget>[
             RoundedElevatedButton(
                 onPressed: () async {
+                  ProgressDialog progressDialog = ProgressDialog(context,
+                      message: const Text("Please Wait....."),
+                      title: const Text("Loading"));
+
                   final ImagePicker _picker = ImagePicker();
                   final XFile? file =
                       await _picker.pickVideo(source: ImageSource.camera);
@@ -137,6 +141,349 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                   //               // ));
 
                   if (file != null) {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          insetPadding: horizontal40Padding,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 0.w, vertical: 0.h),
+                          actionsPadding: EdgeInsets.zero,
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              30.verticalSpace,
+                              Text(
+                                "Alert!",
+                                style: GoogleFonts.inter(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w700,
+                                    color: black),
+                              ),
+                              SizedBox(height: 10.h),
+                              Text(
+                                "How would you like to continue?",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: grey),
+                              ),
+                              SizedBox(height: 30.h),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        progressDialog.show();
+                                        final VideoEditorController ctr =
+                                            VideoEditorController.file(
+                                                File(file.path),
+                                                minDuration: 0.milliseconds,
+                                                maxDuration: 10.milliseconds);
+
+                                        await ctr.initialize(
+                                            aspectRatio: 9 / 16);
+
+                                        final videoInfo = FlutterVideoInfo();
+
+                                        String videoFilePath = file.path;
+                                        var info = await videoInfo
+                                            .getVideoInfo(videoFilePath);
+
+                                        await Get.to(VideoEditor(
+                                          file: File(file.path),
+                                          max: info!.duration!.toInt(),
+                                          min: 1,
+                                        ));
+
+                                        try {
+                                          var controller =
+                                              Get.put(VideoController());
+
+                                          await controller.uploadvideo(
+                                              File(controller.file!.path));
+                                          progressDialog.dismiss();
+                                          await controller.setvideo();
+                                          SnackbarWidget().showsnackbar(
+                                              "Video Uploaded successfully",
+                                              context);
+                                          Get.back();
+                                        } catch (e) {
+                                          progressDialog.dismiss();
+                                          SnackbarWidget().showsnackbar(
+                                              e.toString(), context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                insetPadding:
+                                                    horizontal40Padding,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 0.w,
+                                                        vertical: 0.h),
+                                                actionsPadding: EdgeInsets.zero,
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    30.verticalSpace,
+
+                                                    Text(
+                                                      "Alert!",
+                                                      style: GoogleFonts.inter(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: black),
+                                                    ),
+                                                    SizedBox(height: 10.h),
+                                                    Text(
+                                                      "You cannot upload video right now, \n please buy storage package",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: GoogleFonts.inter(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: grey),
+                                                    ),
+                                                    SizedBox(height: 30.h),
+
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () =>
+                                                                Get.back(),
+                                                            child: Container(
+                                                                width: 1.sw,
+                                                                height: 51.h,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      bprimary,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    'Close',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          white,
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    // CustomButton(
+                                                    //   tap: () {
+                                                    //     Get.to(() => MainScreen());
+                                                    //   },
+                                                    //   width: 1.sw,
+                                                    //   height: 60.h,
+                                                    //   ButtonText: 'Back to Home',
+                                                    //   gradients: bprimaryColor,
+                                                    // ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                          width: 1.sw,
+                                          height: 51.h,
+                                          decoration: BoxDecoration(
+                                            color: bprimary,
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(5.0),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'Edit',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: white,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        progressDialog.show();
+
+                                        try {
+                                          var controller =
+                                              Get.put(VideoController());
+
+                                          await controller
+                                              .uploadvideo(File(file.path));
+                                          progressDialog.dismiss();
+                                          await controller.setvideo();
+                                          SnackbarWidget().showsnackbar(
+                                              "Video Uploaded successfully",
+                                              context);
+                                          Get.back();
+                                        } catch (e) {
+                                          progressDialog.dismiss();
+                                          SnackbarWidget().showsnackbar(
+                                              e.toString(), context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                insetPadding:
+                                                    horizontal40Padding,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 0.w,
+                                                        vertical: 0.h),
+                                                actionsPadding: EdgeInsets.zero,
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    30.verticalSpace,
+
+                                                    Text(
+                                                      "Alert!",
+                                                      style: GoogleFonts.inter(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: black),
+                                                    ),
+                                                    SizedBox(height: 10.h),
+                                                    Text(
+                                                      "You cannot upload video right now, \n please buy storage package",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: GoogleFonts.inter(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: grey),
+                                                    ),
+                                                    SizedBox(height: 30.h),
+
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () =>
+                                                                Get.back(),
+                                                            child: Container(
+                                                                width: 1.sw,
+                                                                height: 51.h,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      bprimary,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    'Close',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          white,
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    // CustomButton(
+                                                    //   tap: () {
+                                                    //     Get.to(() => MainScreen());
+                                                    //   },
+                                                    //   width: 1.sw,
+                                                    //   height: 60.h,
+                                                    //   ButtonText: 'Back to Home',
+                                                    //   gradients: bprimaryColor,
+                                                    // ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                          width: 1.sw,
+                                          height: 51.h,
+                                          decoration: BoxDecoration(
+                                            color: kprimary,
+                                            borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(5.0),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'Upload Online',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: white,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+
                     // VideoPlayerController controller =
                     //     await VideoPlayerController.file(File(file.path))
                     //       ..initialize();
@@ -160,100 +507,6 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                     //   max: info!.duration!.toInt(),
                     //   min: 1,
                     // ));
-                    ProgressDialog progressDialog = ProgressDialog(context,
-                        message: const Text("Please Wait....."),
-                        title: const Text("Loading"));
-
-                    progressDialog.show();
-
-                    try {
-                      var controller = Get.put(VideoController());
-
-                      await controller.uploadvideo(File(file.path));
-                      progressDialog.dismiss();
-                      await controller.setvideo();
-                      SnackbarWidget()
-                          .showsnackbar("Video Uploaded successfully", context);
-                    } catch (e) {
-                      progressDialog.dismiss();
-                      SnackbarWidget().showsnackbar(e.toString(), context);
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            insetPadding: horizontal40Padding,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0.w, vertical: 0.h),
-                            actionsPadding: EdgeInsets.zero,
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                30.verticalSpace,
-
-                                Text(
-                                  "Alert!",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w700,
-                                      color: black),
-                                ),
-                                SizedBox(height: 10.h),
-                                Text(
-                                  "You cannot upload video right now, \n please buy storage package",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.inter(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w400,
-                                      color: grey),
-                                ),
-                                SizedBox(height: 30.h),
-
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () => Get.back(),
-                                        child: Container(
-                                            width: 1.sw,
-                                            height: 51.h,
-                                            decoration: BoxDecoration(
-                                              color: bprimary,
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(5.0),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'Close',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: white,
-                                                ),
-                                              ),
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // CustomButton(
-                                //   tap: () {
-                                //     Get.to(() => MainScreen());
-                                //   },
-                                //   width: 1.sw,
-                                //   height: 60.h,
-                                //   ButtonText: 'Back to Home',
-                                //   gradients: bprimaryColor,
-                                // ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }
                   }
                 },
                 redheight: constraints.maxHeight * 0.14,

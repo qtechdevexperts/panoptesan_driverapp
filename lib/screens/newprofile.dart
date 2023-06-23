@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
 import 'package:panoptesan_alpha/screens/editProfile.dart';
 import 'package:get/get.dart';
+import 'package:panoptesan_alpha/screens/subscriotion.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import '../widgets/HomeVideoCard.dart';
 
 class NewProfile extends StatefulWidget {
@@ -106,7 +108,22 @@ class _NewProfileState extends State<NewProfile> {
               Container(
                 width: constraint.maxWidth / 1.2,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    ProgressDialog progressDialog = ProgressDialog(context,
+                        message: const Text("Please Wait....."),
+                        title: const Text("Loading"));
+                    progressDialog.show();
+
+                    try {
+                      if (controller.packages.isEmpty) {
+                        await controller.getpackages();
+                      }
+                      progressDialog.dismiss();
+                      await Get.to(() => SubscriptionScreen());
+                    } catch (e) {
+                      progressDialog.dismiss();
+                    }
+
                     // Button action goes here
                   },
                   style: ElevatedButton.styleFrom(

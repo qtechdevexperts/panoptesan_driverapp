@@ -13,6 +13,7 @@ import 'AboutApp.dart';
 import 'CarHistory.dart';
 import 'Discailmer.dart';
 import 'HelpSupport.dart';
+import 'InviteScreen.dart';
 import 'PrivacyPolicy.dart';
 import 'TermsAndCondition.dart';
 import 'home.dart';
@@ -150,6 +151,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     )
                   ],
+                ),
+              ),
+            ),
+            15.verticalSpace,
+            GestureDetector(
+              onTap: () {
+                Get.to(() => InviteScreen());
+              },
+              child: Container(
+                height: 70.h,
+                width: Get.width * 0.9,
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 25.w),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Invite",
+                        style: TextStyle(
+                          color: black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

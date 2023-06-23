@@ -15,6 +15,8 @@ class VideoController extends GetxController {
 
   List<VideoModel> archives = [];
 
+  File? file;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -96,7 +98,7 @@ class VideoController extends GetxController {
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       Map<String, dynamic> jsonData = jsonDecode(result);
-      List<dynamic> data = jsonData['data'];
+      List<dynamic> data = jsonData['data'] ?? [];
 
       List<VideoModel> videos =
           data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();
@@ -124,7 +126,7 @@ class VideoController extends GetxController {
       if (response.statusCode == 200) {
         var result = await response.stream.bytesToString();
         Map<String, dynamic> jsonData = jsonDecode(result);
-        List<dynamic> data = jsonData['data'];
+        List<dynamic> data = jsonData['data'] ?? [];
 
         List<VideoModel> videos =
             data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();

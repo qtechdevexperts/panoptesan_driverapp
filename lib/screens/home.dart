@@ -193,89 +193,100 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       body: GetBuilder<VideoController>(builder: (_) {
-        return GridView.builder(
-
-            // shrinkWrap: true,
-            //physics: ScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: .91,
-              crossAxisSpacing: 2,
-              //   mainAxisSpacing: 8,
-            ),
-            padding: EdgeInsets.zero,
-            //  reverse: true,
-            itemCount: _.videos?.length,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () async {
-                  print('tapped');
-                  ProgressDialog progressDialog = ProgressDialog(context,
-                      message: const Text("Please Wait....."),
-                      title: const Text("Loading"));
-
-                  progressDialog.show();
-                  try {
-                    _.getVideo(_.videos![index].path.toString());
-                    progressDialog.dismiss();
-                    await Get.to(() => VideoScreen());
-                  } catch (e) {
-                    SnackbarWidget().showsnackbar(e.toString(), context);
-                    progressDialog.dismiss();
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: HomeVideoCard(
-                      archive: () async {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              GridView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: .91,
+                    crossAxisSpacing: 2,
+                    //   mainAxisSpacing: 8,
+                  ),
+                  padding: EdgeInsets.zero,
+                  //  reverse: true,
+                  itemCount: _.videos?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        print('tapped');
                         ProgressDialog progressDialog = ProgressDialog(context,
                             message: const Text("Please Wait....."),
                             title: const Text("Loading"));
+
                         progressDialog.show();
                         try {
-                          await _
-                              .setarchivevideo(_.videos?[index].id.toString());
+                          _.getVideo(_.videos![index].path.toString());
                           progressDialog.dismiss();
-
-                          SnackbarWidget()
-                              .showsnackbar("Video Archived", context);
-                        } catch (ex) {
+                          await Get.to(() => VideoScreen());
+                        } catch (e) {
+                          SnackbarWidget().showsnackbar(e.toString(), context);
                           progressDialog.dismiss();
-                          SnackbarWidget().showsnackbar(ex.toString(), context);
                         }
                       },
-                      download: () async {
-//                         var path = await ExternalPath
-//                             .getExternalStoragePublicDirectory(
-//                                 ExternalPath.DIRECTORY_DOWNLOADS);
-//                         final taskId = await FlutterDownloader.enqueue(
-//                           saveInPublicStorage: true,
-//                           url: _.videos![index].path.toString(),
-//                           headers: {}, // optional: header send with url (auth token etc)
-//                           savedDir: path,
-//                           showNotification:
-//                               true, // show download progress in status bar (for Android)
-//                           openFileFromNotification:
-//                               true, // click on notification to open downloaded file (for Android)
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: HomeVideoCard(
+                            archive: () async {
+                              ProgressDialog progressDialog = ProgressDialog(
+                                  context,
+                                  message: const Text("Please Wait....."),
+                                  title: const Text("Loading"));
+                              progressDialog.show();
+                              try {
+                                await _.setarchivevideo(
+                                    _.videos?[index].id.toString());
+                                progressDialog.dismiss();
 
-//                         );
+                                SnackbarWidget()
+                                    .showsnackbar("Video Archived", context);
+                              } catch (ex) {
+                                progressDialog.dismiss();
+                                SnackbarWidget()
+                                    .showsnackbar(ex.toString(), context);
+                              }
+                            },
+                            download: () async {
+                              //                         var path = await ExternalPath
+                              //                             .getExternalStoragePublicDirectory(
+                              //                                 ExternalPath.DIRECTORY_DOWNLOADS);
+                              //                         final taskId = await FlutterDownloader.enqueue(
+                              //                           saveInPublicStorage: true,
+                              //                           url: _.videos![index].path.toString(),
+                              //                           headers: {}, // optional: header send with url (auth token etc)
+                              //                           savedDir: path,
+                              //                           showNotification:
+                              //                               true, // show download progress in status bar (for Android)
+                              //                           openFileFromNotification:
+                              //                               true, // click on notification to open downloaded file (for Android)
 
-// FlutterDownloader.registerCallback(DownloadClass.downloadCallback(taskId, status, progress));
-                      },
-                      share: () async {
-                        await Share.share(_.videos![index].path.toString());
-                      },
-                      videodate:
-                          '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
-                      thumpnail: _.videos == null
-                          ? ""
-                          : _.videos?[index].thumbnail.toString() ?? "",
-                      videolink: _.videos == null
-                          ? ""
-                          : _.videos?[index].path.toString()),
-                ),
-              );
-            });
+                              //                         );
+
+                              // FlutterDownloader.registerCallback(DownloadClass.downloadCallback(taskId, status, progress));
+                            },
+                            share: () async {
+                              await Share.share(
+                                  _.videos![index].path.toString());
+                            },
+                            videodate:
+                                '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
+                            thumpnail: _.videos == null
+                                ? ""
+                                : _.videos?[index].thumbnail.toString() ?? "",
+                            videolink: _.videos == null
+                                ? ""
+                                : _.videos?[index].path.toString()),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 200,
+              ),
+            ],
+          ),
+        );
       }),
       // body: Padding(
       //   padding: horizontal20Padding,

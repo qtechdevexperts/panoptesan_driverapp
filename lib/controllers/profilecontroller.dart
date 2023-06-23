@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:panoptesan_alpha/models/packagemodel.dart';
+
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -22,6 +24,7 @@ class ProfileController extends GetxController {
     super.onInit();
   }
 
+  List<Item> packages = [];
   File? file;
   TextEditingController name = new TextEditingController();
   TextEditingController desc = new TextEditingController();
@@ -213,7 +216,36 @@ class ProfileController extends GetxController {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      throw ("Error");
+    }
+  }
+
+  getpackages() async {
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request =
+        http.Request('GET', Uri.parse(ApiConstants.baseUrl + '/package'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var jsonData = await response.stream.bytesToString();
+
+      final decodedData = jsonDecode(jsonData);
+      final data = decodedData['data'] as List<dynamic>;
+
+      List<Item> videos =
+          data.map((videoJson) => Item.fromJson(videoJson)).toList();
+
+      this.packages = videos;
+      update();
+    } else {
+      throw ("Error");
     }
   }
 }

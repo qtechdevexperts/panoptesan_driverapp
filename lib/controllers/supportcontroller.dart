@@ -42,4 +42,26 @@ class SupportController extends GetxController {
       print(response.reasonPhrase);
     }
   }
+
+  verifycode(String code) async {
+    var token = LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request(
+        'POST', Uri.parse(ApiConstants.baseUrl + '/invite/verify'));
+    request.body = json.encode({"code": code});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      var dat = await response.stream.bytesToString();
+      print(dat);
+      throw (response.reasonPhrase.toString());
+    }
+  }
 }

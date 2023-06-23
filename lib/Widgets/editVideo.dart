@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:panoptesan_alpha/Widgets/videoeditwidet.dart';
+import 'package:panoptesan_alpha/controllers/videoController.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
 
 import 'package:video_editor/video_editor.dart';
@@ -104,102 +105,104 @@ class _VideoEditorState extends State<VideoEditor> {
       onCompleted: (file) {
         _isExporting.value = false;
         if (!mounted) return;
+        final bottomcontroller = Get.put(VideoController());
+        //   bottomcontroller.navBarChange(0);
+        //    Get.to(() => MainScreen());
 
+        bottomcontroller.file = File(file.path);
+        Get.back();
         // showDialog(context: context, builder: (_) => VideoResultPopup(video: file));
 
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              insetPadding: horizontal40Padding,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
-              actionsPadding: EdgeInsets.zero,
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  30.verticalSpace,
+        //   showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(10)),
+        //         insetPadding: horizontal40Padding,
+        //         contentPadding:
+        //             EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+        //         actionsPadding: EdgeInsets.zero,
+        //         content: Column(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: [
+        //             30.verticalSpace,
 
-                  Text(
-                    "Congrats",
-                    style: GoogleFonts.inter(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                        color: black),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "Videos have been saved\n successfully",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                        fontSize: 17, fontWeight: FontWeight.w400, color: grey),
-                  ),
-                  SizedBox(height: 20.h),
-                  Container(
-                    width: 200.w,
-                    height: 180.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      image: DecorationImage(
-                          image: AssetImage(
-                            roadpics[1],
-                          ),
-                          fit: BoxFit.cover),
-                    ),
-                    child: Center(
-                      child: FaIcon(
-                        FontAwesomeIcons.solidCircleCheck,
-                        color: Color(0xff44B241),
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                  30.verticalSpace,
-                  GestureDetector(
-                    onTap: () {
-                      //    final bottomcontroller = Get.put(BottomController());
-                      //   bottomcontroller.navBarChange(0);
-                      //    Get.to(() => MainScreen());
+        //             Text(
+        //               "Congrats",
+        //               style: GoogleFonts.inter(
+        //                   fontSize: 30,
+        //                   fontWeight: FontWeight.w700,
+        //                   color: black),
+        //             ),
+        //             SizedBox(height: 10.h),
+        //             Text(
+        //               "Videos have been saved\n successfully",
+        //               textAlign: TextAlign.center,
+        //               style: GoogleFonts.inter(
+        //                   fontSize: 17, fontWeight: FontWeight.w400, color: grey),
+        //             ),
+        //             SizedBox(height: 20.h),
+        //             Container(
+        //               width: 200.w,
+        //               height: 180.h,
+        //               decoration: BoxDecoration(
+        //                 borderRadius: BorderRadius.circular(5),
+        //                 image: DecorationImage(
+        //                     image: AssetImage(
+        //                       roadpics[1],
+        //                     ),
+        //                     fit: BoxFit.cover),
+        //               ),
+        //               child: Center(
+        //                 child: FaIcon(
+        //                   FontAwesomeIcons.solidCircleCheck,
+        //                   color: Color(0xff44B241),
+        //                   size: 50,
+        //                 ),
+        //               ),
+        //             ),
+        //             30.verticalSpace,
+        //             GestureDetector(
+        //               onTap: () {
 
-                      Get.back();
-                    },
-                    child: Container(
-                        width: 1.sw,
-                        height: 51.h,
-                        decoration: BoxDecoration(
-                          color: kprimary,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(5.0),
-                            bottomRight: Radius.circular(5.0),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Go Back',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: white,
-                            ),
-                          ),
-                        )),
-                  ),
-                  // CustomButton(
-                  //   tap: () {
-                  //     Get.to(() => MainScreen());
-                  //   },
-                  //   width: 1.sw,
-                  //   height: 60.h,
-                  //   ButtonText: 'Back to Home',
-                  //   gradients: bprimaryColor,
-                  // ),
-                ],
-              ),
-            );
-          },
-        );
+        //                 Get.back();
+        //               },
+        //               child: Container(
+        //                   width: 1.sw,
+        //                   height: 51.h,
+        //                   decoration: BoxDecoration(
+        //                     color: kprimary,
+        //                     borderRadius: BorderRadius.only(
+        //                       bottomLeft: Radius.circular(5.0),
+        //                       bottomRight: Radius.circular(5.0),
+        //                     ),
+        //                   ),
+        //                   child: Center(
+        //                     child: Text(
+        //                       'Go Back',
+        //                       style: TextStyle(
+        //                         fontSize: 18,
+        //                         fontWeight: FontWeight.bold,
+        //                         color: white,
+        //                       ),
+        //                     ),
+        //                   )),
+        //             ),
+        //             // CustomButton(
+        //             //   tap: () {
+        //             //     Get.to(() => MainScreen());
+        //             //   },
+        //             //   width: 1.sw,
+        //             //   height: 60.h,
+        //             //   ButtonText: 'Back to Home',
+        //             //   gradients: bprimaryColor,
+        //             // ),
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //   );
       },
     );
   }
