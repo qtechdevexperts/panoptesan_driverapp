@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "720936035879-liahs9esbkutoncg048r504t2qqs77g4.apps.googleusercontent.com",
+          "client_id": "720936035879-o59nha8thjelja8ric60cpqlr4jlm7ta.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -37,6 +37,14 @@
             {
               "client_id": "720936035879-liahs9esbkutoncg048r504t2qqs77g4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "720936035879-mb7578mjmoal1k90tl1lt1egbvl908tr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thesuitch.panoptesan",
+                "app_store_id": "1667931513"
+              }
             }
           ]
         }
