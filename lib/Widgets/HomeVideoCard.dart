@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
+import 'CircleVideoButton.dart';
+import 'RoundedBlueButton.dart';
+import 'SquareIconButton.dart';
+
 class HomeVideoCard extends StatelessWidget {
   String? thumpnail;
   String? videolink;
@@ -11,6 +15,7 @@ class HomeVideoCard extends StatelessWidget {
   final share;
   final download;
   final archive;
+  final archivevisible;
 
   HomeVideoCard(
       {required this.thumpnail,
@@ -18,7 +23,10 @@ class HomeVideoCard extends StatelessWidget {
       required this.videodate,
       this.share,
       this.download,
-      this.archive});
+      this.archive,
+      this.archivevisible
+      
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +56,15 @@ class HomeVideoCard extends StatelessWidget {
                 Positioned(
                   top: 0,
                   left: 0,
-                  child: SquareIconButton(
-                    squareSize: constraint.maxWidth * 0.2,
-                    onPressed: () {
-                      archive();
-                    },
-                    icon: Icons.folder,
+                  child: Visibility(
+                    visible: this.archivevisible ==null? true :archivevisible,
+                    child: SquareIconButton(
+                      squareSize: constraint.maxWidth * 0.2,
+                      onPressed: () {
+                        archive();
+                      },
+                      icon: Icons.folder,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -95,102 +106,6 @@ class HomeVideoCard extends StatelessWidget {
   }
 }
 
-class RoundedBlueButton extends StatelessWidget {
-  final String buttonText;
-  final VoidCallback onPressed;
-  final double buttonheight;
-  final double fontsize;
 
-  const RoundedBlueButton(
-      {required this.buttonText,
-      required this.onPressed,
-      required this.buttonheight,
-      required this.fontsize});
 
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraint) {
-      return SizedBox(
-        height: buttonheight,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
-          child: Text(
-            buttonText,
-            style: TextStyle(color: Colors.white, fontSize: fontsize),
-          ),
-        ),
-      );
-    });
-  }
-}
 
-class CircleVideoButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final double height;
-  final double width;
-
-  const CircleVideoButton(
-      {required this.onPressed, required this.width, required this.height});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: Colors.white,
-            width: 2.0,
-          ),
-        ),
-        child: Icon(
-          Icons.video_library,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-}
-
-class SquareIconButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-  final double squareSize;
-
-  const SquareIconButton({
-    required this.icon,
-    required this.onPressed,
-    required this.squareSize,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: Colors.white,
-        onPrimary: Colors.blue,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        minimumSize: Size.square(squareSize),
-        padding: EdgeInsets.zero,
-      ),
-      child: Icon(
-        icon,
-        color: Colors.blue,
-      ),
-    );
-  }
-}

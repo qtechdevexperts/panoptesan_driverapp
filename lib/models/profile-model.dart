@@ -1,3 +1,5 @@
+import 'package:panoptesan_alpha/models/videomodel.dart';
+
 class UserResponse {
   bool? status;
   int? code;
@@ -32,7 +34,9 @@ class Profile {
   bool? isFleet;
   String? updatedAt;
   UserDetail? userDetail;
+  FleetUser? fleetUser;
   List<UserContact>? userContacts;
+  List<VideoModel>? videosclips;
 
   Profile({
     this.id,
@@ -51,17 +55,25 @@ class Profile {
     this.updatedAt,
     this.userDetail,
     this.userContacts,
+    this.fleetUser,
+    this.videosclips
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     List<UserContact>? userContactsList;
+      List<VideoModel>? videosclips;
     if (json['user_contacts'] != null) {
       userContactsList = [];
       json['user_contacts'].forEach((contact) {
         userContactsList!.add(UserContact.fromJson(contact));
       });
     }
-
+ if (json['video_clips'] != null) {
+      videosclips = [];
+      json['video_clips'].forEach((contact) {
+        videosclips!.add(VideoModel.fromJson(contact));
+      });
+    }
     return Profile(
       id: json['id'],
       username: json['username'],
@@ -78,7 +90,12 @@ class Profile {
       isFleet: json['is_fleet'],
       updatedAt: json['updated_at'],
       userDetail: UserDetail.fromJson(json['user_detail']),
+      fleetUser:  json['fleet_user']==null? null: FleetUser.fromJson(json['fleet_user']),
+  
+
+
       userContacts: userContactsList,
+          videosclips:videosclips
     );
   }
 }
@@ -196,4 +213,60 @@ class UserContact {
       updatedAt: json['updated_at'],
     );
   }
+}
+class FleetUser {
+  FleetUser({
+    required this.id,
+    required this.username,
+    required this.email,
+     this.contactNumber,
+     this.address,
+     this.nationalIdNumber,
+    required this.cityId,
+     this.drivingLicenseNumber,
+    required this.isActive,
+    required this.createdAt,
+     this.invitedBy,
+    required this.isFleet,
+    required this.updatedAt,
+    required this.userDetail,
+
+    required this.videoClips,
+  });
+  late final int id;
+  late final String username;
+  late final String email;
+  late final Null contactNumber;
+  late final Null address;
+  late final Null nationalIdNumber;
+  late final int cityId;
+  late final Null drivingLicenseNumber;
+  late final bool isActive;
+  late final String createdAt;
+  late final Null invitedBy;
+  late final bool isFleet;
+  late final String updatedAt;
+  late final UserDetail userDetail;
+
+  late final List<dynamic> videoClips;
+  
+  FleetUser.fromJson(Map<String, dynamic> json){
+    id = json['id'];
+    username = json['username'];
+    email = json['email'];
+    contactNumber = null;
+    address = null;
+    nationalIdNumber = null;
+    cityId = json['city_id'];
+    drivingLicenseNumber = null;
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    invitedBy = null;
+    isFleet = json['is_fleet'];
+    updatedAt = json['updated_at'];
+    userDetail = UserDetail.fromJson(json['user_detail']);
+   
+    videoClips = List.castFrom<dynamic, dynamic>(json['video_clips']);
+  }
+
 }

@@ -5,7 +5,7 @@ class VideoModel {
   int? userId;
   String? extension;
   String? thumbnail;
-  int? isActive;
+  dynamic isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
   VideoModel(

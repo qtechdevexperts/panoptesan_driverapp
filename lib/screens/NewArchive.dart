@@ -99,6 +99,7 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: HomeVideoCard(
+                      archivevisible: false,
                         download: () async {
 //                         var path = await ExternalPath
 //                             .getExternalStoragePublicDirectory(

@@ -278,9 +278,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           GestureDetector(
             onTap: () async {
-              await controller.callgetprofile(context, () {
-                Get.to(() => EditProfileScreen());
-              });
+              await controller.callgetprofile(context);
+           await         Get.to(() => EditProfileScreen());
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),

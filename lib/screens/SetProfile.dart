@@ -411,202 +411,235 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         fontWeight: FontWeight.w400,
                         color: black)),
                 10.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        icon: FaIcon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: grey,
-                          size: 20,
-                        ),
-                        value: null,
-                        onChanged: (newValue) {
-                          profilecontroller.month.text = newValue!;
-                        },
-                        items: <String>[
-                          '1',
-                          '2',
-                          '3',
-                          '4',
-                          '5',
-                          '6',
-                          '7',
-                          '8',
-                          '9',
-                          '10',
-                          '11',
-                          '12',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 20, right: 20),
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Month',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    20.horizontalSpace,
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        icon: FaIcon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: grey,
-                          size: 20,
-                        ),
-
-                        //isExpanded: true,
-                        value: null,
-                        onChanged: (newValue) {
-                          profilecontroller.day.text = newValue!;
-                        },
-                        items: <String>[
-                          '1',
-                          '2',
-                          '3',
-                          '4',
-                          '5',
-                          '6',
-                          '7',
-                          '8',
-                          '9',
-                          '10',
-                          '11',
-                          '12',
-                          '13',
-                          '14',
-                          '15',
-                          '16',
-                          '17',
-                          '18',
-                          '19',
-                          '20',
-                          '21',
-                          '22',
-                          '23',
-                          '24',
-                          '25',
-                          '26',
-                          '27',
-                          '28',
-                          '29',
-                          '30',
-                          '31',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 30, right: 20),
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Day',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    20.horizontalSpace,
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        value: null,
-                        icon: FaIcon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: grey,
-                          size: 20,
-                        ),
-                        onChanged: (newValue) {
-                          profilecontroller.year.text = newValue!;
-                        },
-                        items: <String>['1998', '1997']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 30, right: 20),
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Year',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Expanded(
-                    //   child: TextFormField(
-                    //     controller: profilecontroller.day,
-                    //     maxLength: 2,
-                    //     decoration: InputDecoration(
-                    //       contentPadding: EdgeInsets.only(left: 47),
-                    //       filled: true,
-                    //       fillColor: white,
-                    //       hintText: 'Day',
-                    //       hintStyle: GoogleFonts.inter(
-                    //           fontSize: 12,
-                    //           fontWeight: FontWeight.w300,
-                    //           color: grey),
-                    //       border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(5),
-                    //           borderSide: BorderSide.none),
-                    //     ),
-                    //   ),
-                    // ),
-                    // 20.horizontalSpace,
-                    // Expanded(
-                    //   child: TextFormField(
-                    //     controller: profilecontroller.year,
-                    //     maxLength: 4,
-                    //     decoration: InputDecoration(
-                    //       contentPadding: EdgeInsets.only(left: 47),
-                    //       filled: true,
-                    //       fillColor: white,
-                    //       hintText: 'Year',
-                    //       hintStyle: GoogleFonts.inter(
-                    //           fontSize: 12,
-                    //           fontWeight: FontWeight.w300,
-                    //           color: grey),
-                    //       border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(5),
-                    //           borderSide: BorderSide.none),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                TextFormField(
+                  onTap: () async {
+                    var date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1940),
+                      lastDate: DateTime(2030),
+                    );
+                    if (date != null) {
+                      profilecontroller.month.text = date.month.toString();
+                      profilecontroller.day.text = date.day.toString();
+                      profilecontroller.year.text = date.year.toString();
+                      profilecontroller.dob.text =
+                          profilecontroller.month.text +
+                              "-" +
+                              profilecontroller.day.text +
+                              "-" +
+                              profilecontroller.year.text;
+                    }
+                  },
+                  readOnly: true,
+                  controller: profilecontroller.dob,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please date of birth',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
                 ),
+                // Row(
+                //   children: [
+                //     // Expanded(
+                //     //   child: DropdownButtonFormField<String>(
+                //     //     icon: FaIcon(
+                //     //       Icons.keyboard_arrow_down_rounded,
+                //     //       color: grey,
+                //     //       size: 20,
+                //     //     ),
+                //     //     value: null,
+                //     //     onChanged: (newValue) {
+                //     //       profilecontroller.month.text = newValue!;
+                //     //     },
+                //     //     items: <String>[
+                //     //       '1',
+                //     //       '2',
+                //     //       '3',
+                //     //       '4',
+                //     //       '5',
+                //     //       '6',
+                //     //       '7',
+                //     //       '8',
+                //     //       '9',
+                //     //       '10',
+                //     //       '11',
+                //     //       '12',
+                //     //     ].map<DropdownMenuItem<String>>((String value) {
+                //     //       return DropdownMenuItem<String>(
+                //     //         value: value,
+                //     //         child: Text(value),
+                //     //       );
+                //     //     }).toList(),
+                //     //     decoration: InputDecoration(
+                //     //       contentPadding: EdgeInsets.only(left: 20, right: 20),
+                //     //       filled: true,
+                //     //       fillColor: white,
+                //     //       hintText: 'Month',
+                //     //       hintStyle: GoogleFonts.inter(
+                //     //         fontSize: 12,
+                //     //         fontWeight: FontWeight.w300,
+                //     //         color: grey,
+                //     //       ),
+                //     //       border: OutlineInputBorder(
+                //     //         borderRadius: BorderRadius.circular(30),
+                //     //         borderSide: BorderSide.none,
+                //     //       ),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //     // 20.horizontalSpace,
+                //     // Expanded(
+                //     //   child: DropdownButtonFormField<String>(
+                //     //     icon: FaIcon(
+                //     //       Icons.keyboard_arrow_down_rounded,
+                //     //       color: grey,
+                //     //       size: 20,
+                //     //     ),
+
+                //     //     //isExpanded: true,
+                //     //     value: null,
+                //     //     onChanged: (newValue) {
+                //     //       profilecontroller.day.text = newValue!;
+                //     //     },
+                //     //     items: <String>[
+                //     //       '1',
+                //     //       '2',
+                //     //       '3',
+                //     //       '4',
+                //     //       '5',
+                //     //       '6',
+                //     //       '7',
+                //     //       '8',
+                //     //       '9',
+                //     //       '10',
+                //     //       '11',
+                //     //       '12',
+                //     //       '13',
+                //     //       '14',
+                //     //       '15',
+                //     //       '16',
+                //     //       '17',
+                //     //       '18',
+                //     //       '19',
+                //     //       '20',
+                //     //       '21',
+                //     //       '22',
+                //     //       '23',
+                //     //       '24',
+                //     //       '25',
+                //     //       '26',
+                //     //       '27',
+                //     //       '28',
+                //     //       '29',
+                //     //       '30',
+                //     //       '31',
+                //     //     ].map<DropdownMenuItem<String>>((String value) {
+                //     //       return DropdownMenuItem<String>(
+                //     //         value: value,
+                //     //         child: Text(value),
+                //     //       );
+                //     //     }).toList(),
+                //     //     decoration: InputDecoration(
+                //     //       contentPadding: EdgeInsets.only(left: 30, right: 20),
+                //     //       filled: true,
+                //     //       fillColor: white,
+                //     //       hintText: 'Day',
+                //     //       hintStyle: GoogleFonts.inter(
+                //     //         fontSize: 12,
+                //     //         fontWeight: FontWeight.w300,
+                //     //         color: grey,
+                //     //       ),
+                //     //       border: OutlineInputBorder(
+                //     //         borderRadius: BorderRadius.circular(30),
+                //     //         borderSide: BorderSide.none,
+                //     //       ),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //     // 20.horizontalSpace,
+                //     // Expanded(
+                //     //   child: DropdownButtonFormField<String>(
+                //     //     value: null,
+                //     //     icon: FaIcon(
+                //     //       Icons.keyboard_arrow_down_rounded,
+                //     //       color: grey,
+                //     //       size: 20,
+                //     //     ),
+                //     //     onChanged: (newValue) {
+                //     //       profilecontroller.year.text = newValue!;
+                //     //     },
+                //     //     items: <String>['1998', '1997']
+                //     //         .map<DropdownMenuItem<String>>((String value) {
+                //     //       return DropdownMenuItem<String>(
+                //     //         value: value,
+                //     //         child: Text(value),
+                //     //       );
+                //     //     }).toList(),
+                //     //     decoration: InputDecoration(
+                //     //       contentPadding: EdgeInsets.only(left: 30, right: 20),
+                //     //       filled: true,
+                //     //       fillColor: white,
+                //     //       hintText: 'Year',
+                //     //       hintStyle: GoogleFonts.inter(
+                //     //         fontSize: 12,
+                //     //         fontWeight: FontWeight.w300,
+                //     //         color: grey,
+                //     //       ),
+                //     //       border: OutlineInputBorder(
+                //     //         borderRadius: BorderRadius.circular(30),
+                //     //         borderSide: BorderSide.none,
+                //     //       ),
+                //     //     ),
+                //     //   ),
+                //     // ),
+
+                //     // Expanded(
+                //     //   child: TextFormField(
+                //     //     controller: profilecontroller.day,
+                //     //     maxLength: 2,
+                //     //     decoration: InputDecoration(
+                //     //       contentPadding: EdgeInsets.only(left: 47),
+                //     //       filled: true,
+                //     //       fillColor: white,
+                //     //       hintText: 'Day',
+                //     //       hintStyle: GoogleFonts.inter(
+                //     //           fontSize: 12,
+                //     //           fontWeight: FontWeight.w300,
+                //     //           color: grey),
+                //     //       border: OutlineInputBorder(
+                //     //           borderRadius: BorderRadius.circular(5),
+                //     //           borderSide: BorderSide.none),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //     // 20.horizontalSpace,
+                //     // Expanded(
+                //     //   child: TextFormField(
+                //     //     controller: profilecontroller.year,
+                //     //     maxLength: 4,
+                //     //     decoration: InputDecoration(
+                //     //       contentPadding: EdgeInsets.only(left: 47),
+                //     //       filled: true,
+                //     //       fillColor: white,
+                //     //       hintText: 'Year',
+                //     //       hintStyle: GoogleFonts.inter(
+                //     //           fontSize: 12,
+                //     //           fontWeight: FontWeight.w300,
+                //     //           color: grey),
+                //     //       border: OutlineInputBorder(
+                //     //           borderRadius: BorderRadius.circular(5),
+                //     //           borderSide: BorderSide.none),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
                 20.verticalSpace,
                 Text("Car Make",
                     style: GoogleFonts.inter(
@@ -651,6 +684,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                       fontSize: 14, fontWeight: FontWeight.w400, color: black),
 
                   onChanged: (newValue) {
+                    profilecontroller.carmake.text = newValue.toString();
                     setState(() {
                       dropdownValue = newValue!;
                     });
@@ -677,6 +711,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller: profilecontroller.address,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -696,6 +731,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller: profilecontroller.carname,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -715,6 +751,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller: profilecontroller.model,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -770,6 +807,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                       fontSize: 14, fontWeight: FontWeight.w400, color: black),
 
                   onChanged: (newValue) {
+                    profilecontroller.drivinghabit.text = newValue.toString();
                     setState(() {
                       dropdownValue1 = newValue!;
                     });

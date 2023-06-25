@@ -97,7 +97,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  callgetprofile(context, callback) async {
+  callgetprofile(context) async {
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Please Wait....."), title: const Text("Loading"));
     progressDialog.show();
@@ -112,6 +112,8 @@ class ProfileController extends GetxController {
       var list = profile?.userDetail?.dob?.split("-");
 
       try {
+        var dobtxt = profile?.userDetail?.dob;
+        this.dob.text = dobtxt!;
         this.month.text = list![0].toString();
         this.day.text = list[1].toString();
         this.year.text = list[2].toString();
@@ -119,7 +121,6 @@ class ProfileController extends GetxController {
 
       progressDialog.dismiss();
       update();
-      callback();
     } catch (e) {
       progressDialog.dismiss();
       SnackbarWidget().showsnackbar(e.toString(), context);
@@ -217,6 +218,28 @@ class ProfileController extends GetxController {
       print(await response.stream.bytesToString());
     } else {
       throw ("Error");
+    }
+  }
+
+  leavefleet(String userid) async {
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request(
+        'DELETE',
+        Uri.parse(
+             ApiConstants.baseUrl +'/remove/$userid'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 

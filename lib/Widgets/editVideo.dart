@@ -18,6 +18,7 @@ import '../controllers/BottomController.dart';
 import '../helpers/Colors.dart';
 import '../screens/homemain.dart';
 import 'HomeVideoCard.dart';
+import 'SquareIconButton.dart';
 import 'crop.dart';
 
 class TransparentPlayButton extends StatelessWidget {

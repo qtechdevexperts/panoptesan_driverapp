@@ -553,73 +553,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: FontWeight.w400,
                               color: black)),
                       10.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: videoController.month,
-                              keyboardType: TextInputType.number,
-                              maxLength: 2,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(left: 35),
-                                filled: true,
-                                fillColor: white,
-                                hintText: 'Month',
-                                hintStyle: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none),
-                              ),
-                            ),
-                          ),
-                          20.horizontalSpace,
-                          Expanded(
-                            child: TextFormField(
-                              controller: videoController.day,
-                              keyboardType: TextInputType.number,
-                              maxLength: 2,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(left: 47),
-                                filled: true,
-                                fillColor: white,
-                                hintText: 'Day',
-                                hintStyle: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none),
-                              ),
-                            ),
-                          ),
-                          20.horizontalSpace,
-                          Expanded(
-                            child: TextFormField(
-                              controller: videoController.year,
-                              keyboardType: TextInputType.number,
-                              maxLength: 4,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(left: 47),
-                                filled: true,
-                                fillColor: white,
-                                hintText: 'Year',
-                                hintStyle: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      20.verticalSpace,
+               TextFormField(
+                  onTap: () async {
+                    var date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1940),
+                      lastDate: DateTime(2030),
+                    );
+                    if (date != null) {
+                      videoController.month.text = date.month.toString();
+                      videoController.day.text = date.day.toString();
+                      videoController.year.text = date.year.toString();
+                      videoController.dob.text =
+                          videoController.month.text +
+                              "-" +
+                              videoController.day.text +
+                              "-" +
+                              videoController.year.text;
+                    }
+                  },
+                  readOnly: true,
+                  controller: videoController.dob,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please date of birth',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
+                  ),
+                ),               20.verticalSpace,
                       Text("Car Make",
                           style: GoogleFonts.inter(
                               fontSize: 14,
