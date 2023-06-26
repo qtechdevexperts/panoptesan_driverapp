@@ -76,7 +76,8 @@ class _NewProfileState extends State<NewProfile> {
                         ),
                       ),
                     ),
-                    Positioned(
+                          GetBuilder<ProfileController>(
+                builder: (_) { return Positioned(
                       top: 130,
                       child: Container(
                           width: constraint.maxWidth * 0.5,
@@ -84,7 +85,7 @@ class _NewProfileState extends State<NewProfile> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                  controller.profile?.userDetail?.profileImg ??
+                                  _.profile?.userDetail?.profileImg ??
                                       ''),
                               fit: BoxFit.cover,
                             ),
@@ -95,8 +96,9 @@ class _NewProfileState extends State<NewProfile> {
                               width: 2,
                             ),
                           )),
-                    )
-                  ],
+                    );
+                },
+                )],
                 ),
               ),
               Text(

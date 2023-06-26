@@ -30,48 +30,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   cameraimage(BuildContext context) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? file = await _picker.pickImage(source: ImageSource.camera);
+    this.file = File(file!.path);
+    this.setState(() {});
 
-    setState(() {
-      this.file = File(file!.path);
-    });
-    // if (images.length < 10) {
-    //   CroppedFile? croppedFile = await ImageCropper().cropImage(
-    //     sourcePath: file!.path,
-    //     aspectRatioPresets: [
-    //       CropAspectRatioPreset.square,
-    //       CropAspectRatioPreset.ratio4x3,
-    //       CropAspectRatioPreset.original,
-    //       CropAspectRatioPreset.ratio5x4,
-    //       CropAspectRatioPreset.ratio16x9,
-    //     ],
-
-    //     compressQuality: 100,
-    //     compressFormat: ImageCompressFormat.jpg,
-
-    //     // aspectRatio: CropAspectRatio(
-
-    //     //     ratioX: 900, ratioY: 1600),
-
-    //     uiSettings: [
-    //       IOSUiSettings(aspectRatioLockEnabled: true, title: 'CropImage'),
-    //       AndroidUiSettings(
-    //           toolbarTitle: 'CropImage',
-    //           toolbarColor: Colors.white,
-    //           toolbarWidgetColor: Colors.black,
-    //           initAspectRatio: CropAspectRatioPreset.original,
-    //           lockAspectRatio: true),
-    //     ],
-    //   );
-
-    //   if (croppedFile != null) {
-    //     var file1 = XFile(croppedFile.path);
-
-    //     images.add(file1);
-    //     imagepicked = true;
-
-    //     notifyListeners();
-    //   } else {}
-    // }
     Navigator.pop(context);
   }
 
@@ -81,46 +42,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       this.file = File(file!.path);
     });
-    // if (images.length < 10) {
-    //   CroppedFile? croppedFile = await ImageCropper().cropImage(
-    //     sourcePath: file!.path,
-    //     aspectRatioPresets: [
-    //       CropAspectRatioPreset.square,
-    //       CropAspectRatioPreset.ratio4x3,
-    //       CropAspectRatioPreset.original,
-    //       CropAspectRatioPreset.ratio5x4,
-    //       CropAspectRatioPreset.ratio16x9,
-    //     ],
-
-    //     compressQuality: 100,
-    //     compressFormat: ImageCompressFormat.jpg,
-
-    //     // aspectRatio: CropAspectRatio(
-
-    //     //     ratioX: 900, ratioY: 1600),
-
-    //     uiSettings: [
-    //       IOSUiSettings(aspectRatioLockEnabled: true, title: 'CropImage'),
-    //       AndroidUiSettings(
-    //           toolbarTitle: 'CropImage',
-    //           toolbarColor: Colors.white,
-    //           toolbarWidgetColor: Colors.black,
-    //           initAspectRatio: CropAspectRatioPreset.original,
-    //           lockAspectRatio: true),
-    //     ],
-    //   );
-
-    //   if (croppedFile != null) {
-    //     var file1 = XFile(croppedFile.path);
-
-    //     images.add(file1);
-    //     imagepicked = true;
-
-    //     notifyListeners();
-    //   } else {}
-    // }
-
-    Navigator.pop(context);
   }
 
   Future<void> showChoiceDialoglistimagemore(BuildContext context) {
@@ -188,8 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          cameraimage(context);
-                          Navigator.of(context).pop();
+                          await cameraimage(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
@@ -367,24 +287,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               top: 130,
                               child: Stack(
                                 children: [
-                                  Container(
-                                      width: 120,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(videoController
-                                              .profile!
-                                              .userDetail!
-                                              .profileImg!),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        shape: BoxShape.circle,
-                                        color: Colors.black,
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2,
-                                        ),
-                                      )),
+                                  this.file != null
+                                      ? Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: FileImage(this.file!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.black,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 2,
+                                            ),
+                                          ))
+                                      : Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(this
+                                                  .videoController
+                                                  .profile!
+                                                  .userDetail!
+                                                  .profileImg!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.black,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 2,
+                                            ),
+                                          )),
                                   Positioned(
                                     bottom: 0,
                                     right: 0,
@@ -553,46 +490,49 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: FontWeight.w400,
                               color: black)),
                       10.verticalSpace,
-               TextFormField(
-                  onTap: () async {
-                    var date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1940),
-                      lastDate: DateTime(2030),
-                    );
-                    if (date != null) {
-                      videoController.month.text = date.month.toString();
-                      videoController.day.text = date.day.toString();
-                      videoController.year.text = date.year.toString();
-                      videoController.dob.text =
-                          videoController.month.text +
-                              "-" +
-                              videoController.day.text +
-                              "-" +
-                              videoController.year.text;
-                    }
-                  },
-                  readOnly: true,
-                  controller: videoController.dob,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: white,
-                    hintText: 'Please date of birth',
-                    hintStyle: GoogleFonts.inter(
-                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
-                  ),
-                ),               20.verticalSpace,
+                      TextFormField(
+                        onTap: () async {
+                          var date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1940),
+                            lastDate: DateTime(2030),
+                          );
+                          if (date != null) {
+                            videoController.month.text = date.month.toString();
+                            videoController.day.text = date.day.toString();
+                            videoController.year.text = date.year.toString();
+                            videoController.dob.text =
+                                videoController.month.text +
+                                    "-" +
+                                    videoController.day.text +
+                                    "-" +
+                                    videoController.year.text;
+                          }
+                        },
+                        readOnly: true,
+                        controller: videoController.dob,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: white,
+                          hintText: 'Please date of birth',
+                          hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none),
+                        ),
+                      ),
+                      20.verticalSpace,
                       Text("Car Make",
                           style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: black)),
                       10.verticalSpace,
-                   TextFormField(
+                      TextFormField(
                         controller: this.videoController.carmake,
                         decoration: InputDecoration(
                           filled: true,
@@ -606,7 +546,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none),
                         ),
-                      ),        20.verticalSpace,
+                      ),
+                      20.verticalSpace,
                       // Text("Gender",
                       //     style: GoogleFonts.inter(
                       //         fontSize: 14,
@@ -756,7 +697,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none),
                         ),
-                      ),     20.verticalSpace,
+                      ),
+                      20.verticalSpace,
                       CustomButton(
                         tap: () async {
                           FocusScope.of(context).unfocus();
@@ -783,10 +725,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             if (this.file != null) {
                               await videoController.setimage(file);
                             }
-
+                            await videoController.setprofile();
                             progressDialog.dismiss();
                             SnackbarWidget().showsnackbar("Success", context);
-                            videoController.update();
                           } catch (e) {
                             SnackbarWidget()
                                 .showsnackbar(e.toString(), context);

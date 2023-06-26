@@ -213,24 +213,28 @@ class _MainScreenState extends State<MainScreen> {
                                                     "assets/Ellipse 91.png"))),
                                       ),
                                     )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        _onItemTaapped(4);
-                                      },
-                                      child: Container(
-                                        width: 45.w,
-                                        height: 45.h,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(prof
-                                                        .profile
-                                                        ?.userDetail
-                                                        ?.profileImg ??
-                                                    ''))),
-                                      ),
-                                    )
+                                  : GetBuilder<ProfileController>(
+                                    builder: (_) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            _onItemTaapped(4);
+                                          },
+                                          child: Container(
+                                            width: 45.w,
+                                            height: 45.h,
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: NetworkImage(_
+                                                            .profile
+                                                            ?.userDetail
+                                                            ?.profileImg ??
+                                                        ''))),
+                                          ),
+                                        );
+                                    }
+                                  )
                             ],
                           ),
                         ),
