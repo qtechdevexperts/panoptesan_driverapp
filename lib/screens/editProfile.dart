@@ -289,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         width: double.infinity,
                       )),
                       const Positioned(
-                        top: 20,
+                        top: 50,
                         child: Text(
                           "Edit Profile",
                           style: TextStyle(
@@ -299,7 +299,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       Positioned(
-                        top: 20,
+                        top: 50,
                         left: 20,
                         child: CircleIconButton(
                           backgroundColor: Colors.white,
@@ -592,62 +592,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: FontWeight.w400,
                               color: black)),
                       10.verticalSpace,
-                      DropdownButtonFormField<String>(
-                        hint: Text("Please select...",
-                            style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: black)),
-                        isDense: true,
-                        icon: FaIcon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: grey,
-                          size: 25,
-                        ),
-                        value: null,
-                        iconSize: 24,
-
-                        elevation: 16,
+                   TextFormField(
+                        controller: this.videoController.carmake,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: white,
+                          hintText: 'Please type your car make...',
+                          hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                          disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
                         ),
-
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: black),
-
-                        onChanged: (newValue) {
-                          videoController.carmake.text = newValue ?? '';
-                        },
-
-                        items: <String>[
-                          'Ford',
-                          'Honda',
-                          'Toyota'
-                        ] //drop down menu items list here
-
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                  value)); //drop down menu items list here with keyboard arrow down with white filled color
-                        }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-                      ),
-                      20.verticalSpace,
+                      ),        20.verticalSpace,
                       // Text("Gender",
                       //     style: GoogleFonts.inter(
                       //         fontSize: 14,
@@ -783,62 +742,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: FontWeight.w400,
                               color: black)),
                       10.verticalSpace,
-                      DropdownButtonFormField<String>(
-                        hint: Text("Please select...",
-                            style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: black)),
-                        isDense: true,
-                        icon: FaIcon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: grey,
-                          size: 25,
-                        ),
-                        value: null,
-                        iconSize: 24,
-
-                        elevation: 16,
+                      TextFormField(
+                        controller: videoController.drivinghabit,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: white,
+                          hintText: 'Please enter your driving habits ',
+                          hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                          disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
                         ),
-
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: black),
-
-                        onChanged: (newValue) {
-                          videoController.drivinghabit.text = newValue ?? '';
-                        },
-
-                        items: <String>[
-                          'Pleasure Cruiser',
-                          'Pleasure Cruiser1',
-                          'Pleasure Cruiser2'
-                        ] //drop down menu items list here
-
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                  value)); //drop down menu items list here with keyboard arrow down with white filled color
-                        }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-                      ),
-                      20.verticalSpace,
+                      ),     20.verticalSpace,
                       CustomButton(
                         tap: () async {
                           FocusScope.of(context).unfocus();

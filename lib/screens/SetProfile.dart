@@ -647,63 +647,19 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         fontWeight: FontWeight.w400,
                         color: black)),
                 10.verticalSpace,
-                DropdownButtonFormField<String>(
-                  hint: Text("Please select...",
-                      style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: black)),
-                  isDense: true,
-                  icon: FaIcon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: grey,
-                    size: 25,
-                  ),
-                  value: dropdownValue,
-                  iconSize: 24,
-
-                  elevation: 16,
+              TextFormField(
+                  controller: profilecontroller.carmake,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
+                    hintText: 'Please type your carmake...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
-                    disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
                   ),
-
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black),
-
-                  onChanged: (newValue) {
-                    profilecontroller.carmake.text = newValue.toString();
-                    setState(() {
-                      dropdownValue = newValue!;
-                    });
-                  },
-
-                  items: <String>[
-                    'Ford',
-                    'Honda',
-                    'Toyota'
-                  ] //drop down menu items list here
-
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                            value)); //drop down menu items list here with keyboard arrow down with white filled color
-                  }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-                ),
-                20.verticalSpace,
+                ),       20.verticalSpace,
                 Text("City, State",
                     style: GoogleFonts.inter(
                         fontSize: 14,
@@ -770,63 +726,19 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         fontWeight: FontWeight.w400,
                         color: black)),
                 10.verticalSpace,
-                DropdownButtonFormField<String>(
-                  hint: Text("Please select...",
-                      style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: black)),
-                  isDense: true,
-                  icon: FaIcon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: grey,
-                    size: 25,
-                  ),
-                  value: dropdownValue1,
-                  iconSize: 24,
-
-                  elevation: 16,
+              TextFormField(
+                  controller: profilecontroller.drivinghabit,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
+                    hintText: 'Please type your carmake...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
-                    disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
                   ),
-
-                  style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: black),
-
-                  onChanged: (newValue) {
-                    profilecontroller.drivinghabit.text = newValue.toString();
-                    setState(() {
-                      dropdownValue1 = newValue!;
-                    });
-                  },
-
-                  items: <String>[
-                    'Pleasure Cruiser',
-                    'Pleasure Cruiser1',
-                    'Pleasure Cruiser2'
-                  ] //drop down menu items list here
-
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                            value)); //drop down menu items list here with keyboard arrow down with white filled color
-                  }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-                ),
-                20.verticalSpace,
+                ),       20.verticalSpace,
                 CustomButton(
                   // tap: () {
                   //   final bottomctrl = Get.put(BottomController());

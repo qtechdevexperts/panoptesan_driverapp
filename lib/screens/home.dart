@@ -86,43 +86,64 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       //  floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Align(
-        alignment: Alignment.bottomRight,
-        child: GestureDetector(
-          onTap: () {
-            Get.to(() => SOSMessageScreen());
-          },
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 120, right: 20),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset('assets/panic.svg'),
-              ),
-              height: 56.h,
-              width: 150.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: Colors.white),
-            ),
-          ),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Align(
+      //   alignment: Alignment.bottomRight,
+      //   child: GestureDetector(
+      //     onTap: () {
+      //       Get.to(() => SOSMessageScreen());
+      //     },
+      //     child: Padding(
+      //       padding: EdgeInsets.only(bottom: 120, right: 20),
+      //       child: Container(
+      //         child: Padding(
+      //           padding: const EdgeInsets.all(8.0),
+      //           child: SvgPicture.asset('assets/panic.svg'),
+      //         ),
+      //         height: 56.h,
+      //         width: 150.w,
+      //         decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(5), color: Colors.white),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       backgroundColor: const Color(0xffF1F2F6),
       appBar: AppBar(
         bottom: PreferredSize(
             child: Container(
                 //color: Colors.white,
-                child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, bottom: 20),
-                      child: const Text(
-                        "Recent Videos",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, bottom: 20),
+                  child: const Text(
+                    "Recent Videos",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+         Get.to(() => SOSMessageScreen());
+                  },
+                  child: Padding(
+                        padding: const EdgeInsets.only(left: 20, bottom: 20,right: 20),
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset('assets/Group 780.svg'),
                       ),
-                    ))),
+                      height: 70.h,
+                      width: 80.w,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: const Color(0xffF1F2F6)),
+                    ),
+                  ),
+                ),
+              ],
+            )),
             preferredSize: Size.fromHeight(kToolbarHeight)),
 
         automaticallyImplyLeading: false,
@@ -229,24 +250,45 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: HomeVideoCard(
-                            archive: () async {
+                            midbutton: () async {
+                              print('tapped');
                               ProgressDialog progressDialog = ProgressDialog(
                                   context,
                                   message: const Text("Please Wait....."),
                                   title: const Text("Loading"));
+
                               progressDialog.show();
                               try {
-                                await _.setarchivevideo(
-                                    _.videos?[index].id.toString());
+                                _.getVideo(_.videos![index].path.toString());
                                 progressDialog.dismiss();
-
+                                await Get.to(() => VideoScreen());
+                              } catch (e) {
                                 SnackbarWidget()
-                                    .showsnackbar("Video Archived", context);
-                              } catch (ex) {
+                                    .showsnackbar(e.toString(), context);
                                 progressDialog.dismiss();
-                                SnackbarWidget()
-                                    .showsnackbar(ex.toString(), context);
                               }
+                            },
+                            archive: () async {
+                              var controller = Get.put(BottomController());
+
+                              controller.navBarChange(1);
+                              // ProgressDialog progressDialog = ProgressDialog(
+                              //     context,
+                              //     message: const Text("Please Wait....."),
+                              //     title: const Text("Loading"));
+                              // progressDialog.show();
+                              // try {
+                              //   await _.setarchivevideo(
+                              //       _.videos?[index].id.toString());
+                              //   progressDialog.dismiss();
+
+                              //   SnackbarWidget()
+                              //       .showsnackbar("Video Archived", context);
+                              // } catch (ex) {
+                              //   progressDialog.dismiss();
+                              //   SnackbarWidget()
+                              //       .showsnackbar(ex.toString(), context);
+                              // }
                             },
                             download: () async {
                               //                         var path = await ExternalPath

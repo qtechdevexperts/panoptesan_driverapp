@@ -16,6 +16,7 @@ class HomeVideoCard extends StatelessWidget {
   final download;
   final archive;
   final archivevisible;
+  final midbutton;
 
   HomeVideoCard(
       {required this.thumpnail,
@@ -24,9 +25,8 @@ class HomeVideoCard extends StatelessWidget {
       this.share,
       this.download,
       this.archive,
-      this.archivevisible
-      
-      });
+      this.archivevisible,
+      required this.midbutton});
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +51,16 @@ class HomeVideoCard extends StatelessWidget {
                 CircleVideoButton(
                   height: constraint.maxHeight * 0.25,
                   width: constraint.maxWidth * 0.5,
-                  onPressed: () {},
+                  onPressed: () {
+                    midbutton();
+                  },
                 ),
                 Positioned(
                   top: 0,
                   left: 0,
                   child: Visibility(
-                    visible: this.archivevisible ==null? true :archivevisible,
+                    visible:
+                        this.archivevisible == null ? true : archivevisible,
                     child: SquareIconButton(
                       squareSize: constraint.maxWidth * 0.2,
                       onPressed: () {
@@ -105,7 +108,3 @@ class HomeVideoCard extends StatelessWidget {
     });
   }
 }
-
-
-
-

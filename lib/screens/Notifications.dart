@@ -68,15 +68,15 @@ class _NOtificationsScreenState extends State<NOtificationsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            const Text('Lorem Ipsum'),
+                           // const Text('Lorem Ipsum'),
                             const SizedBox(
                               height: 5,
                             ),
-                            const ColoredCircleText(
-                              circleColor: Colors.blue,
-                              text: "0",
-                              textColor: Colors.white,
-                            )
+                            // const ColoredCircleText(
+                            //   circleColor: Colors.blue,
+                            //   text: "0",
+                            //   textColor: Colors.white,
+                            // )
                           ],
                         ),
                         title: Text(controller.notificationList[index].body),

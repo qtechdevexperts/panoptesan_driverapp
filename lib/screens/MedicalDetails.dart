@@ -177,66 +177,19 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                           fontWeight: FontWeight.w400,
                           color: black)),
                   10.verticalSpace,
-                  DropdownButtonFormField<String>(
-                    hint: Text("Please select...",
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: black)),
-                    isDense: true,
-                    icon: FaIcon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: grey,
-                      size: 25,
-                    ),
-                    value: dropdownValue1,
-                    iconSize: 24,
-
-                    elevation: 16,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none),
-                    ),
-
-                    style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: black),
-
-                    onChanged: (newValue) {
-                      setState(() {
-                        dropdownValue1 = newValue!;
-                      });
-
-                      profilecontroller.organdonor.text = newValue.toString();
-                    },
-
-                    items: <String>[
-                      'Yes/No',
-                      'Yes',
-                      'No'
-                    ] //drop down menu items list here
-
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                              value)); //drop down menu items list here with keyboard arrow down with white filled color
-                    }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
+              TextFormField(
+                  controller: profilecontroller.organdonor,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please type your carmake...',
+                    hintStyle: GoogleFonts.inter(
+                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none),
                   ),
-                  20.verticalSpace,
+                ),         20.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

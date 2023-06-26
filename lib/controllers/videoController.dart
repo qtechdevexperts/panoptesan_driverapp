@@ -13,7 +13,7 @@ import '../models/videomodel.dart';
 class VideoController extends GetxController {
   List<VideoModel>? videos = [];
 
-  List<VideoModel> archives = [];
+  //List<VideoModel> archives = [];
 
   File? file;
 
@@ -131,7 +131,7 @@ class VideoController extends GetxController {
         List<VideoModel> videos =
             data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();
 
-        this.archives = videos;
+   //     this.archives = videos;
         update();
       } else {
         print(response.reasonPhrase);

@@ -77,7 +77,7 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
               ),
               padding: EdgeInsets.zero,
               //  reverse: true,
-              itemCount: _.archives.length,
+              itemCount: _.videos!.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () async {
@@ -99,6 +99,24 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: HomeVideoCard(
+                      midbutton: () async{
+        print('tapped');
+                    ProgressDialog progressDialog = ProgressDialog(context,
+                        message: const Text("Please Wait....."),
+                        title: const Text("Loading"));
+
+                    progressDialog.show();
+                    try {
+                      _.getVideo(_.videos![index].path.toString());
+                      progressDialog.dismiss();
+                      await Get.to(() => VideoScreen());
+                    } catch (e) {
+                      SnackbarWidget().showsnackbar(e.toString(), context);
+                      progressDialog.dismiss();
+                    }
+
+
+                      },
                       archivevisible: false,
                         download: () async {
 //                         var path = await ExternalPath
@@ -121,15 +139,15 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                         share: () async {
                           await Share.share(_.videos![index].path.toString());
                         },
-                        videodate: _.archives == null
+                        videodate: _.videos == null
                             ? ""
-                            : '${_.archives?[index].createdAt?.month}/${_.archives?[index].createdAt?.day}/${_.archives?[index].createdAt?.year}',
-                        thumpnail: _.archives == null
+                            : '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
+                        thumpnail: _.videos == null
                             ? ''
-                            : _.archives?[index].thumbnail.toString(),
-                        videolink: _.archives == null
+                            : _.videos?[index].thumbnail.toString(),
+                        videolink: _.videos == null
                             ? ''
-                            : _.archives?[index].path.toString()),
+                            : _.videos?[index].path.toString()),
                   ),
                 );
               });

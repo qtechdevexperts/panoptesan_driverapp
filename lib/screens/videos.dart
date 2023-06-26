@@ -242,33 +242,34 @@ class _VideoScreenState extends State<VideoScreen> {
                                   child: VideoPlayer(_vdC.controller),
                                 )),
                     ),
-                    Positioned(
-                      bottom: 20,
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          log('sdfsdf');
-                          Get.to(() => CarDetailScreen());
-                        },
-                        child: Container(
-                          height: 56.h,
-                          width: 212.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: kprimary),
-                          child: Center(
-                            child: Text(
-                              'Fetch Car Details',
-                              style: GoogleFonts.inter(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  //   Positioned(
+                  //     bottom: 20,
+                  //     child: GestureDetector(
+                  //       behavior: HitTestBehavior.translucent,
+                  //       onTap: () {
+                  //         log('sdfsdf');
+                  //         Get.to(() => CarDetailScreen());
+                  //       },
+                  //       child: Container(
+                  //         height: 56.h,
+                  //         width: 212.w,
+                  //         decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(5),
+                  //             color: kprimary),
+                  //         child: Center(
+                  //           child: Text(
+                  //             'Fetch Car Details',
+                  //             style: GoogleFonts.inter(
+                  //               fontSize: 18,
+                  //               fontWeight: FontWeight.w700,
+                  //               color: white,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+
                   ],
                 ),
                 Row(
@@ -440,18 +441,18 @@ class _VideoScreenState extends State<VideoScreen> {
                   ],
                 ),
                 20.verticalSpace,
-                GestureDetector(
-                  onTap: () => Get.to(() => CarDetailScreen()),
-                  child: Text(
-                    'Verify Details',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: kprimary,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () => Get.to(() => CarDetailScreen()),
+                //   child: Text(
+                //     'Verify Details',
+                //     style: GoogleFonts.inter(
+                //       fontSize: 14,
+                //       fontWeight: FontWeight.w700,
+                //       color: kprimary,
+                //       decoration: TextDecoration.underline,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
