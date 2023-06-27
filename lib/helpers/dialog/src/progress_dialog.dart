@@ -361,7 +361,7 @@ class _ProgressDialogWidgetState extends State<_ProgressDialogWidget>
                   },
                   child: DefaultTextStyle(
                     child: widget.cancelText ?? Text("Cancel"),
-                    style: TextStyle(color: Theme.of(context).accentColor),
+                    style: TextStyle(color: Theme.of(context).canvasColor),
                   ),
                 ),
               )
