@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -41,12 +42,26 @@ class HomeVideoCard extends StatelessWidget {
               alignment: AlignmentDirectional.center,
               children: [
                 Container(
-                  child: Image.network(
-                    thumpnail ?? "",
-                    fit: BoxFit.cover,
-                    height: constraint.maxHeight / 1.5,
-                    width: constraint.maxWidth,
+                  child: CachedNetworkImage(
+                    imageUrl: thumpnail ?? "",
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: constraint.maxHeight / 1.5,
+                      width: constraint.maxWidth,
+                      decoration: BoxDecoration(
+                        //    shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover),
+                      ),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
+                  // child: Image.network(
+                  //   thumpnail ?? "",
+                  //   fit: BoxFit.cover,
+                  //   height: constraint.maxHeight / 1.5,
+                  //   width: constraint.maxWidth,
+                  // ),
                 ),
                 CircleVideoButton(
                   height: constraint.maxHeight * 0.25,

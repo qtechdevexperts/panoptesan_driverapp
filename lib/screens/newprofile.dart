@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/constants.dart';
 import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
@@ -76,29 +78,95 @@ class _NewProfileState extends State<NewProfile> {
                         ),
                       ),
                     ),
-                          GetBuilder<ProfileController>(
-                builder: (_) { return Positioned(
-                      top: 130,
-                      child: Container(
-                          width: constraint.maxWidth * 0.5,
-                          height: constraint.maxHeight * 0.18,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  _.profile?.userDetail?.profileImg ??
-                                      ''),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: BoxShape.circle,
-                            color: Colors.black,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2,
-                            ),
-                          )),
-                    );
-                },
-                )],
+                    GetBuilder<ProfileController>(
+                      builder: (_) {
+                        return Positioned(
+                          top: 130,
+                          child: CachedNetworkImage(
+                              imageUrl: _.profile!.userDetail!.profileImg!,
+                              imageBuilder: (context, imageProvider) => Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Container(
+                                      width: constraint.maxWidth * 0.28,
+                                      height: constraint.maxHeight * 0.2,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Container(
+                                      width: constraint.maxWidth * 0.28,
+                                      height: constraint.maxHeight * 0.2,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                "http://www.gravatar.com/avatar/?d=mp"),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  )),
+
+                          // child: FastCachedImage(
+                          //   url: _.profile?.userDetail?.profileImg ?? "",
+                          //   fit: BoxFit.cover,
+                          //   fadeInDuration: const Duration(seconds: 1),
+                          //   errorBuilder: (context, exception, stacktrace) {
+                          //     return Text(stacktrace.toString());
+                          //   },
+                          //   loadingBuilder: (context, progress) {
+                          //     return Container(
+                          //     //  color: Colors.yellow,
+                          //       child: Stack(
+                          //         alignment: Alignment.center,
+                          //         children: [
+                          //           if (progress.isDownloading &&
+                          //               progress.totalBytes != null)
+                          //             Text(
+                          //                 '${progress.downloadedBytes ~/ 1024} / ${progress.totalBytes! ~/ 1024} kb',
+                          //                 style: const TextStyle(
+                          //                     color: Colors.red)),
+                          //           SizedBox(
+                          //               width: 120,
+                          //               height: 120,
+                          //               child: CircularProgressIndicator(
+                          //                   color: Colors.red,
+                          //                   value: progress
+                          //                       .progressPercentage.value)),
+                          //         ],
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
+                          // //   child: FastCachedImage(url:  _.profile?.userDetail?.profileImg??""),
+                          // child: Container(
+                          //     width: constraint.maxWidth * 0.5,
+                          //     height: constraint.maxHeight * 0.18,
+                          //     decoration: BoxDecoration(
+                          //       image: DecorationImage(
+                          //         image: NetworkImage(
+                          //             _.profile?.userDetail?.profileImg ??
+                          //                 ''),
+                          //         fit: BoxFit.cover,
+                          //       ),
+                          //       shape: BoxShape.circle,
+                          //       color: Colors.black,
+                          //       border: Border.all(
+                          //         color: Colors.white,
+                          //         width: 2,
+                          //       ),
+                          //     )),
+                        );
+                      },
+                    )
+                  ],
                 ),
               ),
               Text(
@@ -156,122 +224,163 @@ class _NewProfileState extends State<NewProfile> {
                   ),
                 ),
               ),
-              GetBuilder<ProfileController>(
-                builder: (_) {
-                  return Column(
-                    children: [
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      controller.profile?.fleetUser == null
-                          ? Container()
-                          : Text(
-                              "Fleet Manager",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: constraint.maxHeight * 0.035),
-                            ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      controller.profile?.fleetUser == null
-                          ? Container()
-                          : Container(
-                              width: constraint.maxWidth * 0.5,
-                              height: constraint.maxHeight * 0.18,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      controller.profile?.fleetUser == null
-                                          ? controller.profile!.fleetUser!
-                                              .userDetail.profileImg
-                                              .toString()
-                                          : ""),
-                                  fit: BoxFit.cover,
+              GetBuilder<ProfileController>(builder: (_) {
+                return Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    controller.profile?.fleetUser == null
+                        ? Container()
+                        : Text(
+                            "Fleet Manager",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: constraint.maxHeight * 0.035),
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    controller.profile?.fleetUser == null
+                        ? Container()
+                        : Container(
+                            width: constraint.maxWidth * 0.5,
+                            height: constraint.maxHeight * 0.18,
+                            child: CachedNetworkImage(
+                                imageUrl: controller.profile?.fleetUser == null
+                                    ? controller.profile!.fleetUser!.userDetail
+                                        .profileImg
+                                        .toString()
+                                    : "",
+                                imageBuilder: (context, imageProvider) =>
+                                    Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: Container(
+                                        width: constraint.maxWidth * 0.28,
+                                        height: constraint.maxHeight * 0.2,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: Container(
+                                        width: constraint.maxWidth * 0.28,
+                                        height: constraint.maxHeight * 0.2,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "http://www.gravatar.com/avatar/?d=mp"),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    )),
+                          ),
+
+                    // Container(
+                    //     width: constraint.maxWidth * 0.5,
+                    //     height: constraint.maxHeight * 0.18,
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         image: NetworkImage(
+                    //             controller.profile?.fleetUser == null
+                    //                 ? controller.profile!.fleetUser!
+                    //                     .userDetail.profileImg
+                    //                     .toString()
+                    //                 : ""),
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //       shape: BoxShape.circle,
+                    //       color: Colors.black,
+                    //       border: Border.all(
+                    //         color: Colors.white,
+                    //         width: 2,
+                    //       ),
+                    //     )),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    controller.profile?.fleetUser == null
+                        ? Container()
+                        : Text(
+                            controller.profile!.fleetUser!.userDetail.name
+                                .toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: constraint.maxWidth * 0.05),
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    controller.profile?.fleetUser == null
+                        ? Container()
+                        : Text(
+                            controller.profile!.fleetUser!.username.toString(),
+                            style: TextStyle(
+                                fontSize: constraint.maxWidth * 0.035,
+                                color: Colors.grey[600]),
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    controller.profile?.fleetUser == null
+                        ? Container()
+                        : Container(
+                            width: constraint.maxWidth / 1.2,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                ProgressDialog progressDialog = ProgressDialog(
+                                    context,
+                                    message: const Text("Please Wait....."),
+                                    title: const Text("Loading"));
+
+                                progressDialog.show();
+                                try {
+                                  await controller.leavefleet(controller
+                                      .profile!.fleetUser!.userDetail!.id
+                                      .toString());
+                                  progressDialog.dismiss();
+                                  controller.profile =
+                                      await controller.getprofile();
+                                  controller.update();
+                                } catch (e) {
+                                  SnackbarWidget()
+                                      .showsnackbar(e.toString(), context);
+                                  progressDialog.dismiss();
+                                }
+
+                                // Button action goes here
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
                                 ),
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                                border: Border.all(
+                                primary: kprimary,
+                              ),
+                              child: const Text(
+                                'Leave Fleet',
+                                style: TextStyle(
                                   color: Colors.white,
-                                  width: 2,
-                                ),
-                              )),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      controller.profile?.fleetUser == null
-                          ? Container()
-                          : Text(
-                              controller.profile!.fleetUser!.userDetail.name
-                                  .toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: constraint.maxWidth * 0.05),
-                            ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      controller.profile?.fleetUser == null
-                          ? Container()
-                          : Text(
-                              controller.profile!.fleetUser!.username.toString(),
-                              style: TextStyle(
-                                  fontSize: constraint.maxWidth * 0.035,
-                                  color: Colors.grey[600]),
-                            ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      controller.profile?.fleetUser == null
-                          ? Container()
-                          : Container(
-                              width: constraint.maxWidth / 1.2,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  ProgressDialog progressDialog = ProgressDialog(
-                                      context,
-                                      message: const Text("Please Wait....."),
-                                      title: const Text("Loading"));
-
-                                  progressDialog.show();
-                                  try {
-                                    await controller.leavefleet(
-                                        controller.profile!.fleetUser!.userDetail!.id.toString());
-                                    progressDialog.dismiss();
-                           controller.profile=     await    controller.getprofile();
-                           controller.update();
-                                  } catch (e) {
-                                    SnackbarWidget()
-                                        .showsnackbar(e.toString(), context);
-                                    progressDialog.dismiss();
-                                  }
-
-                                  // Button action goes here
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  primary: kprimary,
-                                ),
-                                child: const Text(
-                                  'Leave Fleet',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  );
-                }
-              ),
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                );
+              }),
               Text(
                 "Videos",
                 style: TextStyle(

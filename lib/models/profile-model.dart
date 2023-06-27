@@ -38,65 +38,64 @@ class Profile {
   List<UserContact>? userContacts;
   List<VideoModel>? videosclips;
 
-  Profile({
-    this.id,
-    this.username,
-    this.email,
-    this.contactNumber,
-    this.password,
-    this.address,
-    this.nationalIdNumber,
-    this.cityId,
-    this.drivingLicenseNumber,
-    this.isActive,
-    this.createdAt,
-    this.createdBy,
-    this.isFleet,
-    this.updatedAt,
-    this.userDetail,
-    this.userContacts,
-    this.fleetUser,
-    this.videosclips
-  });
+  Profile(
+      {this.id,
+      this.username,
+      this.email,
+      this.contactNumber,
+      this.password,
+      this.address,
+      this.nationalIdNumber,
+      this.cityId,
+      this.drivingLicenseNumber,
+      this.isActive,
+      this.createdAt,
+      this.createdBy,
+      this.isFleet,
+      this.updatedAt,
+      this.userDetail,
+      this.userContacts,
+      this.fleetUser,
+      this.videosclips});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     List<UserContact>? userContactsList;
-      List<VideoModel>? videosclips;
+    List<VideoModel>? videosclips;
     if (json['user_contacts'] != null) {
       userContactsList = [];
       json['user_contacts'].forEach((contact) {
         userContactsList!.add(UserContact.fromJson(contact));
       });
     }
- if (json['video_clips'] != null) {
+    if (json['video_clips'] != null) {
       videosclips = [];
       json['video_clips'].forEach((contact) {
         videosclips!.add(VideoModel.fromJson(contact));
       });
     }
     return Profile(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      contactNumber: json['contact_number'],
-      password: json['password'],
-      address: json['address'],
-      nationalIdNumber: json['national_id_number'],
-      cityId: json['city_id'],
-      drivingLicenseNumber: json['driving_license_number'],
-      isActive: json['is_active'],
-      createdAt: json['created_at'],
-      createdBy: json['created_by'],
-      isFleet: json['is_fleet'],
-      updatedAt: json['updated_at'],
-      userDetail: UserDetail.fromJson(json['user_detail']),
-      fleetUser:  json['fleet_user']==null? null: FleetUser.fromJson(json['fleet_user']),
-  
-
-
-      userContacts: userContactsList,
-          videosclips:videosclips
-    );
+        id: json['id'],
+        username: json['username'],
+        email: json['email'],
+        contactNumber: json['contact_number'],
+        password: json['password'],
+        address: json['address'],
+        nationalIdNumber: json['national_id_number'],
+        cityId: json['city_id'],
+        drivingLicenseNumber: json['driving_license_number'],
+        isActive: json['is_active'],
+        createdAt: json['created_at'],
+        createdBy: json['created_by'],
+        isFleet: json['is_fleet'],
+        updatedAt: json['updated_at'],
+        userDetail: json['user_detail'] == null
+            ? null
+            : UserDetail.fromJson(json['user_detail']),
+        fleetUser: json['fleet_user'] == null
+            ? null
+            : FleetUser.fromJson(json['fleet_user']),
+        userContacts: userContactsList,
+        videosclips: videosclips);
   }
 }
 
@@ -214,23 +213,23 @@ class UserContact {
     );
   }
 }
+
 class FleetUser {
   FleetUser({
     required this.id,
     required this.username,
     required this.email,
-     this.contactNumber,
-     this.address,
-     this.nationalIdNumber,
+    this.contactNumber,
+    this.address,
+    this.nationalIdNumber,
     required this.cityId,
-     this.drivingLicenseNumber,
+    this.drivingLicenseNumber,
     required this.isActive,
     required this.createdAt,
-     this.invitedBy,
+    this.invitedBy,
     required this.isFleet,
     required this.updatedAt,
     required this.userDetail,
-
     required this.videoClips,
   });
   late final int id;
@@ -249,8 +248,8 @@ class FleetUser {
   late final UserDetail userDetail;
 
   late final List<dynamic> videoClips;
-  
-  FleetUser.fromJson(Map<String, dynamic> json){
+
+  FleetUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
     email = json['email'];
@@ -265,8 +264,7 @@ class FleetUser {
     isFleet = json['is_fleet'];
     updatedAt = json['updated_at'];
     userDetail = UserDetail.fromJson(json['user_detail']);
-   
+
     videoClips = List.castFrom<dynamic, dynamic>(json['video_clips']);
   }
-
 }

@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../Widgets/CustomButton.dart';
 import '../controllers/profilecontroller.dart';
 import '../helpers/Colors.dart';
+import '../helpers/alerts.dart';
 import 'EmergencyContacts.dart';
 
 //import 'EmergencyContacts.dart';
@@ -177,19 +178,22 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                           fontWeight: FontWeight.w400,
                           color: black)),
                   10.verticalSpace,
-              TextFormField(
-                  controller: profilecontroller.organdonor,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: white,
-                    hintText: 'Please type your carmake...',
-                    hintStyle: GoogleFonts.inter(
-                        fontSize: 12, fontWeight: FontWeight.w300, color: grey),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none),
+                  TextFormField(
+                    controller: profilecontroller.organdonor,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: white,
+                      hintText: 'Please type your carmake...',
+                      hintStyle: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                          color: grey),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none),
+                    ),
                   ),
-                ),         20.verticalSpace,
+                  20.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -274,6 +278,31 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                     tap: () {
                       FocusScope.of(context).unfocus();
                       FocusScope.of(context).requestFocus(new FocusNode());
+
+                      if (profilecontroller.medicalconditions.text.isEmpty) {
+                        return Alert().showalert("Medical Conditions", context);
+                      }
+    if (profilecontroller.medicalnotes.text.isEmpty) {
+                        return Alert().showalert("Medical Notes", context);
+                      }
+                         if (profilecontroller.allergies.text.isEmpty) {
+                        return Alert().showalert("Allergies & Reaction", context);
+                      }
+
+                        if (profilecontroller.allergies.text.isEmpty) {
+                        return Alert().showalert("Medications", context);
+                      }
+
+                          if (profilecontroller.organdonor.text.isEmpty) {
+                        return Alert().showalert("Organ Donor", context);
+                      }
+
+                          if (profilecontroller.weight.text.isEmpty) {
+                        return Alert().showalert("Weight", context);
+                      }
+                         if (profilecontroller.weight.text.isEmpty) {
+                        return Alert().showalert("height", context);
+                      }
                       Get.to(() => EmergencyContactsScreen());
                     },
 

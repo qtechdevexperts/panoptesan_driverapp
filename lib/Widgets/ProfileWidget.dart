@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ class ProfileHomeWidget extends StatelessWidget {
   final share;
   final download;
   final archive;
-  
 
   ProfileHomeWidget(
       {required this.thumpnail,
@@ -32,20 +32,30 @@ class ProfileHomeWidget extends StatelessWidget {
       return Stack(
         alignment: AlignmentDirectional.center,
         children: [
-
-
-Container(
-  padding: EdgeInsets.all(8), // Border width
-  decoration: BoxDecoration( borderRadius: borderRadius),
-  child: ClipRRect(
-    borderRadius: borderRadius,
-    child: SizedBox.fromSize(
-      size: Size.infinite, // Image radius
-      child: Image.network(thumpnail??"", fit: BoxFit.cover),
-    ),
-  ),
-) ,
-       
+          Container(
+            child: CachedNetworkImage(
+              imageUrl: thumpnail ?? "",
+              imageBuilder: (context, imageProvider) => Container(
+                padding: EdgeInsets.all(8), // Border width
+                decoration: BoxDecoration(borderRadius: borderRadius),
+                child: ClipRRect(
+                  borderRadius: borderRadius,
+                  child: SizedBox.fromSize(
+                    size: Size.infinite, // Image radius
+                    child: Image.network(thumpnail ?? "", fit: BoxFit.cover),
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+            // child: Image.network(
+            //   thumpnail ?? "",
+            //   fit: BoxFit.cover,
+            //   height: constraint.maxHeight / 1.5,
+            //   width: constraint.maxWidth,
+            // ),
+          ),
           Positioned(
             top: 5,
             right: 5,
@@ -60,4 +70,3 @@ Container(
     });
   }
 }
-

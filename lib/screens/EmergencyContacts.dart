@@ -1,5 +1,6 @@
 import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
 
+import '../helpers/alerts.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -161,6 +162,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller:profilecontroller.emergencyname,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -180,6 +182,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller: profilecontroller. emergencyrelationship,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -199,6 +202,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
+                  controller: this.profilecontroller.emergencycontactnumber,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     filled: true,
@@ -288,8 +292,25 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                 30.verticalSpace,
                 GestureDetector(
                   onTap: () async {
+
+
+                    print("tapped");
                     FocusScope.of(context).unfocus();
                     FocusScope.of(context).requestFocus(new FocusNode());
+
+                    if (profilecontroller.emergencyname.text.isEmpty) {
+                      return Alert()
+                          .showalert("Emergency Contact Name", context);
+                    }
+                    if (profilecontroller.emergencyrelationship.text.isEmpty) {
+                      return Alert()
+                          .showalert("Emergency Contact Relationship", context);
+                    }
+                    if (profilecontroller.emergencycontactnumber.text.isEmpty) {
+                      return Alert()
+                          .showalert("Emergency Contact Number", context);
+                    }
+
                     ProgressDialog progressDialog = ProgressDialog(context,
                         message: const Text("Please Wait....."),
                         title: const Text("Loading"));

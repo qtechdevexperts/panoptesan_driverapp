@@ -85,6 +85,7 @@ dependencies:
   intl: ^0.18.1
   firebase_crashlytics: ^3.3.3
   flutter_credit_card: ^3.0.6
+  cached_network_image: ^3.2.3
 
 
 

@@ -260,11 +260,31 @@ class _NewSignupScreenState extends State<NewSignupScreen> {
                             FocusScope.of(context).unfocus();
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
+
+                            if (nameController.text.isEmpty) {
+                              return SnackbarWidget()
+                                  .showsnackbar("Name is empty", context);
+                            }
+
                             if (emailController.text.isEmpty ||
                                 passwordController.text.isEmpty) {
                               return SnackbarWidget().showsnackbar(
                                   "Email or password field empty", context);
                             }
+                            if (!emailController.text.isEmail) {
+                              return SnackbarWidget().showsnackbar(
+                                  "Please enter a valid email", context);
+                            }
+
+                            RegExp passwordRegex = RegExp(
+                                r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$');
+                            if (!passwordRegex
+                                .hasMatch(this.passwordController.text)) {
+                              return SnackbarWidget().showsnackbar(
+                                  'Password must contain at least one letter, one number, and one special character',
+                                  context);
+                            }
+
                             if (passwordController.text !=
                                 repeatPasswordController.text) {
                               return SnackbarWidget().showsnackbar(

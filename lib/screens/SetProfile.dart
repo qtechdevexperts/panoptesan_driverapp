@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../controllers/profilecontroller.dart';
 import '../helpers/Colors.dart';
+import '../helpers/alerts.dart';
 import '../widgets/CustomButton.dart';
 import 'MedicalDetails.dart';
 
@@ -415,9 +416,9 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   onTap: () async {
                     var date = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: DateTime(2005),
                       firstDate: DateTime(1940),
-                      lastDate: DateTime(2030),
+                      lastDate: DateTime(2005),
                     );
                     if (date != null) {
                       profilecontroller.month.text = date.month.toString();
@@ -647,7 +648,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         fontWeight: FontWeight.w400,
                         color: black)),
                 10.verticalSpace,
-              TextFormField(
+                TextFormField(
                   controller: profilecontroller.carmake,
                   decoration: InputDecoration(
                     filled: true,
@@ -659,7 +660,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none),
                   ),
-                ),       20.verticalSpace,
+                ),
+                20.verticalSpace,
                 Text("City, State",
                     style: GoogleFonts.inter(
                         fontSize: 14,
@@ -726,7 +728,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         fontWeight: FontWeight.w400,
                         color: black)),
                 10.verticalSpace,
-              TextFormField(
+                TextFormField(
                   controller: profilecontroller.drivinghabit,
                   decoration: InputDecoration(
                     filled: true,
@@ -738,7 +740,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none),
                   ),
-                ),       20.verticalSpace,
+                ),
+                20.verticalSpace,
                 CustomButton(
                   // tap: () {
                   //   final bottomctrl = Get.put(BottomController());
@@ -753,7 +756,33 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                     FocusScope.of(context).unfocus();
                     FocusScope.of(context).requestFocus(new FocusNode());
 
-                    Get.to(() => MedicalDetailsScreen());
+                    if (profilecontroller.name.text.isEmpty) {
+               return       Alert().showalert("Name", context);
+                    }
+               if (profilecontroller.desc.text.isEmpty) {
+                   return   Alert().showalert("About Yourself", context);
+                    }
+                    if (profilecontroller.dob.text.isEmpty) {
+                  return    Alert().showalert("Date of Birth", context);
+                    }
+                     if (profilecontroller.carmake.text.isEmpty) {
+                  return    Alert().showalert("Car Make", context);
+                    }
+                           if (profilecontroller.address.text.isEmpty) {
+                  return    Alert().showalert("City, State", context);
+                    }
+           if (profilecontroller.carname.text.isEmpty) {
+                  return    Alert().showalert("Car Name", context);
+                    }
+        if (profilecontroller.model.text.isEmpty) {
+                  return    Alert().showalert("Model", context);
+                    }
+                      if (profilecontroller.drivinghabit.text.isEmpty) {
+                  return    Alert().showalert("Driving Habits", context);
+                    }
+
+
+                   Get.to(() => MedicalDetailsScreen());
                   },
                   ButtonText: "Continue ",
                   width: 1.sw,
