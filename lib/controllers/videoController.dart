@@ -17,6 +17,8 @@ class VideoController extends GetxController {
 
   File? file;
 
+  String url = "";
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -131,7 +133,7 @@ class VideoController extends GetxController {
         List<VideoModel> videos =
             data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();
 
-   //     this.archives = videos;
+        //     this.archives = videos;
         update();
       } else {
         print(response.reasonPhrase);
@@ -141,6 +143,7 @@ class VideoController extends GetxController {
 
   late VideoPlayerController controller;
   getVideo(String url) {
+    this.url = url;
     controller = VideoPlayerController.network(url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.

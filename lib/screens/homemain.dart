@@ -49,7 +49,18 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: GetBuilder<BottomController>(
-          builder: (_) => screens[bt.navigationBarIndexValue],
+          builder: (_) =>   IndexedStack(
+index: _.navigationBarIndexValue,
+            children: [
+
+   StartRecordingScreen(),
+    NewArchive(),
+    HomeScreen(),
+    NOtificationsScreen(),
+    NewProfile(),
+
+            ],
+          ), 
         ),
         extendBody: true,
         bottomNavigationBar: GetBuilder<BottomController>(
@@ -209,8 +220,8 @@ class _MainScreenState extends State<MainScreen> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/Ellipse 91.png"))),
+                                                image: NetworkImage(
+                                                    "http://www.gravatar.com/avatar/?d=mp"))),
                                       ),
                                     )
                                   : GetBuilder<ProfileController>(

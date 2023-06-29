@@ -16,6 +16,7 @@ import 'package:video_editor/video_editor.dart';
 
 import '../controllers/BottomController.dart';
 import '../helpers/Colors.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import '../screens/homemain.dart';
 import 'HomeVideoCard.dart';
 import 'SquareIconButton.dart';
@@ -56,8 +57,8 @@ class VideoEditor extends StatefulWidget {
 }
 
 class _VideoEditorState extends State<VideoEditor> {
-  final _exportingProgress = ValueNotifier<double>(0.0);
-  final _isExporting = ValueNotifier<bool>(false);
+  //final _exportingProgress = ValueNotifier<double>(0.0);
+  //final _isExporting = ValueNotifier<bool>(false);
   final double height = 60;
 
   late final VideoEditorController _controller = VideoEditorController.file(
@@ -80,8 +81,8 @@ class _VideoEditorState extends State<VideoEditor> {
 
   @override
   void dispose() {
-    _exportingProgress.dispose();
-    _isExporting.dispose();
+  //  _exportingProgress.dispose();
+  //  _isExporting.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -95,22 +96,31 @@ class _VideoEditorState extends State<VideoEditor> {
       );
 
   Future<void> _exportVideo() async {
-    _exportingProgress.value = 0;
-    _isExporting.value = true;
+
+    ProgressDialog progressDialog = ProgressDialog(context,
+        message: const Text("Please Wait....."), title: const Text("Loading"));
+
+
+  //  _exportingProgress.value = 0;
+  //  _isExporting.value = true;
     // NOTE: To use `-crf 1` and [VideoExportPreset] you need `ffmpeg_kit_flutter_min_gpl` package (with `ffmpeg_kit` only it won't work)
     await _controller.exportVideo(
       // preset: VideoExportPreset.medium,
       // customInstruction: "-crf 17",
-      onProgress: (stats, value) => _exportingProgress.value = value,
+      onProgress: (stats, value) {
+
+            progressDialog.show();
+      },
       onError: (e, s) => _showErrorSnackBar("Error on export video :("),
       onCompleted: (file) {
-        _isExporting.value = false;
-        if (!mounted) return;
+    //    _isExporting.value = false;
+  //      if (!mounted) return;
         final bottomcontroller = Get.put(VideoController());
         //   bottomcontroller.navBarChange(0);
         //    Get.to(() => MainScreen());
 
         bottomcontroller.file = File(file.path);
+         progressDialog.dismiss();
         Get.back();
         // showDialog(context: context, builder: (_) => VideoResultPopup(video: file));
 
@@ -249,11 +259,11 @@ class _VideoEditorState extends State<VideoEditor> {
             ),
             actions: [
               GestureDetector(
-                onTap: () {
+                onTap: () async{
                   // _exportVideo().then((value) {
                   //   Get.back();
                   // });
-                  _exportVideo();
+            await      _exportVideo();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -550,21 +560,21 @@ class _VideoEditorState extends State<VideoEditor> {
                             ),
                           ),
                         ),
-                        ValueListenableBuilder(
-                          valueListenable: _isExporting,
-                          builder: (_, bool export, __) => OpacityTransition(
-                            visible: export,
-                            child: AlertDialog(
-                              title: ValueListenableBuilder(
-                                valueListenable: _exportingProgress,
-                                builder: (_, double value, __) => Text(
-                                  "Exporting video ${(value * 100).ceil()}%",
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // ValueListenableBuilder(
+                        //   valueListenable: _isExporting,
+                        //   builder: (_, bool export, __) => OpacityTransition(
+                        //     visible: export,
+                        //     child: AlertDialog(
+                        //       title: ValueListenableBuilder(
+                        //         valueListenable: _exportingProgress,
+                        //         builder: (_, double value, __) => Text(
+                        //           "Exporting video ${(value * 100).ceil()}%",
+                        //           style: const TextStyle(fontSize: 12),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20,
                         ),

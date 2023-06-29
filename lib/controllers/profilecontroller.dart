@@ -85,6 +85,8 @@ class ProfileController extends GetxController {
       var list = profile?.userDetail?.dob?.split("-");
       this.carname.text = profile?.userDetail?.vehicleName ?? "";
       this.model.text = profile?.userDetail?.vehicleModel ?? "";
+      this.carmake.text =  profile?.userDetail?.vehicleMake ?? "";
+            this.drivinghabit.text =  profile?.userDetail?.drivingHabit ?? "";
       try {
         this.month.text = list![0].toString();
         this.day.text = list[1].toString();
