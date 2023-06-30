@@ -21,6 +21,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin camera_android, io.flutter.plugins.camera.CameraPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new com.apparence.camerawesome.cameraX.CameraAwesomeX());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin camerawesome, com.apparence.camerawesome.cameraX.CameraAwesomeX", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.device_info.DeviceInfoPlusPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin device_info_plus, dev.fluttercommunity.plus.device_info.DeviceInfoPlusPlugin", e);

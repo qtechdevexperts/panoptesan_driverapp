@@ -12,6 +12,12 @@
 @import camera_avfoundation;
 #endif
 
+#if __has_include(<camerawesome/CamerawesomePlugin.h>)
+#import <camerawesome/CamerawesomePlugin.h>
+#else
+@import camerawesome;
+#endif
+
 #if __has_include(<device_info_plus/FLTDeviceInfoPlusPlugin.h>)
 #import <device_info_plus/FLTDeviceInfoPlusPlugin.h>
 #else
@@ -148,6 +154,7 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [CameraPlugin registerWithRegistrar:[registry registrarForPlugin:@"CameraPlugin"]];
+  [CamerawesomePlugin registerWithRegistrar:[registry registrarForPlugin:@"CamerawesomePlugin"]];
   [FLTDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlusPlugin"]];
   [FFmpegKitFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FFmpegKitFlutterPlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];

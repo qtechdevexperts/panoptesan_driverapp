@@ -19,6 +19,8 @@ import 'package:video_player/video_player.dart';
 import '../Widgets/crop.dart';
 import '../Widgets/editVideo.dart';
 import '../controllers/videoController.dart';
+import '../widgets/CustomCameraComponent/custom_ui_example_3.dart';
+import '../widgets/CustomCameraComponent/savefile.dart';
 import '../widgets/RecordingButton.dart';
 import 'home.dart';
 
@@ -119,13 +121,15 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
           children: <Widget>[
             RoundedElevatedButton(
                 onPressed: () async {
+                  Savefile.file = null;
+                  Savefile.spnaic = false;
+                  await Get.to(CustomUiExample3());
+
                   ProgressDialog progressDialog = ProgressDialog(context,
                       message: const Text("Please Wait....."),
                       title: const Text("Loading"));
 
-                  final ImagePicker _picker = ImagePicker();
-                  final XFile? file =
-                      await _picker.pickVideo(source: ImageSource.camera);
+                  var file = Savefile.file;
 
                   //               VideoEditorController videoEditorController;
 
@@ -139,6 +143,101 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                   //               // Get.to(CropScreen(
                   //               //   controller: videoEditorController,
                   //               // ));
+
+                  if (file != null && Savefile.spnaic == true) {
+                    progressDialog.show();
+
+                    try {
+                      var controller = Get.put(VideoController());
+
+                      await controller.uploadvideo(File(file!.path));
+                      progressDialog.dismiss();
+                      await controller.setvideo();
+                      SnackbarWidget()
+                          .showsnackbar("Video Uploaded successfully", context);
+                      Get.back();
+                    } catch (e) {
+                      progressDialog.dismiss();
+                      SnackbarWidget().showsnackbar(e.toString(), context);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            insetPadding: horizontal40Padding,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0.w, vertical: 0.h),
+                            actionsPadding: EdgeInsets.zero,
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                30.verticalSpace,
+
+                                Text(
+                                  "Alert!",
+                                  style: GoogleFonts.inter(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w700,
+                                      color: black),
+                                ),
+                                SizedBox(height: 10.h),
+                                Text(
+                                  "You cannot upload video right now, \n please buy storage package",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.inter(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w400,
+                                      color: grey),
+                                ),
+                                SizedBox(height: 30.h),
+
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () => Get.back(),
+                                        child: Container(
+                                            width: 1.sw,
+                                            height: 51.h,
+                                            decoration: BoxDecoration(
+                                              color: bprimary,
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(5.0),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // CustomButton(
+                                //   tap: () {
+                                //     Get.to(() => MainScreen());
+                                //   },
+                                //   width: 1.sw,
+                                //   height: 60.h,
+                                //   ButtonText: 'Back to Home',
+                                //   gradients: bprimaryColor,
+                                // ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    return;
+                  }
 
                   if (file != null) {
                     await showDialog(
@@ -180,7 +279,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                                         progressDialog.show();
                                         final VideoEditorController ctr =
                                             VideoEditorController.file(
-                                                File(file.path),
+                                                File(file!.path),
                                                 minDuration: 0.milliseconds,
                                                 maxDuration: 10.milliseconds);
 
@@ -345,7 +444,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                                               Get.put(VideoController());
 
                                           await controller
-                                              .uploadvideo(File(file.path));
+                                              .uploadvideo(File(file!.path));
                                           progressDialog.dismiss();
                                           await controller.setvideo();
                                           SnackbarWidget().showsnackbar(

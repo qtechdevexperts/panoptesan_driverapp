@@ -88,6 +88,7 @@ dependencies:
   cached_network_image: ^3.2.3
   dio: ^5.2.1+1
   path_provider: ^2.0.15
+  camerawesome: ^2.0.0-dev.1
 
 
 
