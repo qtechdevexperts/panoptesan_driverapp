@@ -1,5 +1,11 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
+
+import 'package:dio/dio.dart';
+import 'package:panoptesan_alpha/helpers/alerts.dart';
+import 'package:panoptesan_alpha/helpers/helper.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:external_path/external_path.dart';
@@ -23,7 +29,7 @@ import '../controllers/BottomController.dart';
 import '../controllers/videoController.dart';
 import '../widgets/HomeVideoCard.dart';
 import 'Settings.dart';
-
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart' as pl;
 // class DownloadClass {
 //   static void downloadCallback(
 //       String id, DownloadTaskStatus status, int progress) {
@@ -114,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
                 //color: Colors.white,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20, bottom: 20),
@@ -124,11 +130,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-         Get.to(() => SOSMessageScreen());
+                  onTap: () {
+                    Get.to(() => SOSMessageScreen());
                   },
                   child: Padding(
-                        padding: const EdgeInsets.only(left: 20, bottom: 20,right: 20),
+                    padding:
+                        const EdgeInsets.only(left: 20, bottom: 20, right: 20),
                     child: Container(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -291,6 +298,63 @@ class _HomeScreenState extends State<HomeScreen> {
                               // }
                             },
                             download: () async {
+                              var pr = pl.ProgressDialog(context,
+                                  type: pl.ProgressDialogType.download,
+                                  isDismissible: true,
+                                  showLogs: true);
+                              pr.style(
+                                  message: 'Downloading file...',
+                                  borderRadius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  progressWidget: CircularProgressIndicator(),
+                                  elevation: 10.0,
+                                  insetAnimCurve: Curves.easeInOut,
+                                  progress: 0.0,
+                                  maxProgress: 100.0,
+                                  progressTextStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.w400),
+                                  messageTextStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19.0,
+                                      fontWeight: FontWeight.w600));
+
+                              print(_.videos![index].path.toString());
+                              var url = _.videos![index].path.toString();
+                              var dio = new Dio();
+
+                              pr.show();
+                              try {
+                                final Directory extDir =
+                                    await getApplicationDocumentsDirectory();
+                                final testDir =
+                                    await Directory('${extDir.path}/test')
+                                        .create(recursive: true);
+                                final String fileExtension = 'mp4';
+                                final String filePath =
+                                    '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+                                await dio.download(url, filePath,
+                                    onReceiveProgress: (d, d1) {
+                                  print(d.toString() + " " + d1.toString());
+
+                                  double percentage = (d / d1) * 100;
+
+                                  int item =  percentage.toInt();
+
+                                  percentage = item.toDouble();
+
+                                  pr.update(progress: percentage);
+                                });
+
+                                pr.hide();
+
+                                return Alert().showalertwithmessage(
+                                    "Video has been downloaded", context);
+                              } catch (e) {
+                                pr.hide();
+                                print(e);
+                              }
                               //                         var path = await ExternalPath
                               //                             .getExternalStoragePublicDirectory(
                               //                                 ExternalPath.DIRECTORY_DOWNLOADS);
