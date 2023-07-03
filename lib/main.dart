@@ -17,6 +17,7 @@ import 'package:panoptesan_alpha/screens/NewLoginScreen.dart';
 import 'package:panoptesan_alpha/screens/get_started.dart';
 import 'package:panoptesan_alpha/screens/homemain.dart';
 
+import 'firebase_options.dart';
 import 'handlers/LoginSignupHandler.dart';
 import 'helpers/localstorage.dart';
 
@@ -37,7 +38,7 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalStorage.init();
   HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());
