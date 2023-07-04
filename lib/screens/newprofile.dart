@@ -83,7 +83,7 @@ class _NewProfileState extends State<NewProfile> {
                         return Positioned(
                           top: 130,
                           child: CachedNetworkImage(
-                              imageUrl: _.profile?.userDetail!.profileImg! ??"",
+                              imageUrl: _.profile?.userDetail?.profileImg ??"",
                               imageBuilder: (context, imageProvider) => Padding(
                                     padding: const EdgeInsets.all(2),
                                     child: Container(
@@ -425,7 +425,7 @@ class _NewProfileState extends State<NewProfile> {
                           try {
                             _.getVideo(_.videos![index].path.toString());
                             progressDialog.dismiss();
-                            await Get.to(() => VideoScreen());
+                            await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
                           } catch (e) {
                             SnackbarWidget()
                                 .showsnackbar(e.toString(), context);

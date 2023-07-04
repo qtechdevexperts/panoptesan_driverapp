@@ -160,4 +160,45 @@ class VideoController extends GetxController {
     final newPosition = controller.value.position;
     position = newPosition;
   }
+
+  editvideo(String videoid, String filepath) async {
+    var token = LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest(
+        'PUT', Uri.parse(ApiConstants.baseUrl + '/video/$videoid'));
+    request.files.add(await http.MultipartFile.fromPath('video', filepath));
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+
+  deletevideo(String videoid) async {
+    var token = LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request(
+        'DELETE', Uri.parse(ApiConstants.baseUrl + '/video/$videoid'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      setvideo();
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
 }

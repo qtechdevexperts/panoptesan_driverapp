@@ -205,7 +205,7 @@ class Custom extends StatelessWidget {
   Widget build(BuildContext context) {
     return PagedVerticalCalendar(
       onDayPressed: (value) {
-        Get.to(() => VideoScreen());
+    //    Get.to(() => VideoScreen(id: "",));
       },
       initialDate: DateTime.now(),
 

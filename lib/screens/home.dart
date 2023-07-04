@@ -248,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         try {
                           _.getVideo(_.videos![index].path.toString());
                           progressDialog.dismiss();
-                          await Get.to(() => VideoScreen());
+                            await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
                         } catch (e) {
                           SnackbarWidget().showsnackbar(e.toString(), context);
                           progressDialog.dismiss();
@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               try {
                                 _.getVideo(_.videos![index].path.toString());
                                 progressDialog.dismiss();
-                                await Get.to(() => VideoScreen());
+                                   await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
                               } catch (e) {
                                 SnackbarWidget()
                                     .showsnackbar(e.toString(), context);
