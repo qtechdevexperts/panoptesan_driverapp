@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:panoptesan_alpha/helpers/alerts.dart';
 
 import '../controllers/profilecontroller.dart';
 import '../helpers/Colors.dart';
@@ -727,7 +728,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             }
                             await videoController.setprofile();
                             progressDialog.dismiss();
-                            SnackbarWidget().showsnackbar("Success", context);
+                         await Alert().showalertwithmessage("Profile has been Updated", context);
+                         Get.back();
                           } catch (e) {
                             SnackbarWidget()
                                 .showsnackbar(e.toString(), context);

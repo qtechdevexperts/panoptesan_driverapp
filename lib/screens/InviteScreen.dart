@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:panoptesan_alpha/controllers/BottomController.dart';
+import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
 import 'package:panoptesan_alpha/helpers/Colors.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -10,6 +12,7 @@ import '../Widgets/CustomButton.dart';
 import '../controllers/supportcontroller.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
 import '../helpers/snackbar.dart';
+import 'homemain.dart';
 
 class InviteScreen extends StatefulWidget {
   const InviteScreen({super.key});
@@ -131,9 +134,15 @@ class _InviteScreenState extends State<InviteScreen> {
                       title: const Text("Loading"));
                   progressDialog.show();
                   try {
-                    await SupportController().verifycode(this.pincode.text);
+                    // await SupportController().verifycode(this.pincode.text);
+
+                    var profilecontroller = Get.put(ProfileController());
+                    await profilecontroller.getprofile();
+                    var controller = Get.put(BottomController());
+                 
+                    controller.navBarChange(4);
                     progressDialog.dismiss();
-                    showDialog(
+                    await showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -170,7 +179,9 @@ class _InviteScreenState extends State<InviteScreen> {
                                 children: [
                                   Expanded(
                                     child: GestureDetector(
-                                      onTap: () => Get.back(),
+                                      onTap: () async {
+                                     Get.back();
+                                      },
                                       child: Container(
                                           width: 1.sw,
                                           height: 51.h,
@@ -208,6 +219,8 @@ class _InviteScreenState extends State<InviteScreen> {
                         );
                       },
                     );
+                Get.back();
+               
                   } catch (ex) {
                     progressDialog.dismiss();
                     showDialog(

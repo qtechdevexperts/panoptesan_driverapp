@@ -49,18 +49,16 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: GetBuilder<BottomController>(
-          builder: (_) =>   IndexedStack(
-index: _.navigationBarIndexValue,
+          builder: (_) => IndexedStack(
+            index: _.navigationBarIndexValue,
             children: [
-
-   StartRecordingScreen(),
-    NewArchive(),
-    HomeScreen(),
-    NOtificationsScreen(),
-    NewProfile(),
-
+              StartRecordingScreen(),
+              NewArchive(),
+              HomeScreen(),
+              NOtificationsScreen(),
+              NewProfile(),
             ],
-          ), 
+          ),
         ),
         extendBody: true,
         bottomNavigationBar: GetBuilder<BottomController>(
@@ -209,43 +207,42 @@ index: _.navigationBarIndexValue,
                                   ],
                                 ),
                               ),
-                              prof.profile?.userDetail?.profileImg == null
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        _onItemTaapped(4);
-                                      },
-                                      child: Container(
-                                        width: 45.w,
-                                        height: 45.h,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "http://www.gravatar.com/avatar/?d=mp"))),
-                                      ),
-                                    )
-                                  : GetBuilder<ProfileController>(
-                                    builder: (_) {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            _onItemTaapped(4);
-                                          },
-                                          child: Container(
-                                            width: 45.w,
-                                            height: 45.h,
-                                            decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                    image: NetworkImage(_
-                                                            .profile
-                                                            ?.userDetail
-                                                            ?.profileImg ??
-                                                        ''))),
-                                          ),
-                                        );
-                                    }
-                                  )
+
+                              GetBuilder<ProfileController>(builder: (_) {
+                                return _.profile?.userDetail?.profileImg == null
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _onItemTaapped(4);
+                                        },
+                                        child: Container(
+                                          width: 45.w,
+                                          height: 45.h,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      "http://www.gravatar.com/avatar/?d=mp"))),
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          _onItemTaapped(4);
+                                        },
+                                        child: Container(
+                                          width: 45.w,
+                                          height: 45.h,
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(_
+                                                          .profile
+                                                          ?.userDetail
+                                                          ?.profileImg ??
+                                                      ''))),
+                                        ),
+                                      );
+                              })
                             ],
                           ),
                         ),

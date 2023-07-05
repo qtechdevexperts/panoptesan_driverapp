@@ -18,6 +18,7 @@ import '../Widgets/Button.dart';
 import '../Widgets/CustomButton.dart';
 import '../helpers/Colors.dart';
 import 'AddCard.dart';
+import 'home.dart';
 import 'homemain.dart';
 
 class CardScreen extends StatefulWidget {
@@ -57,52 +58,23 @@ class _CardScreenState extends State<CardScreen> {
           leadingWidth: 70,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: GestureDetector(
-            onTap: () => Get.back(),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, bottom: 10),
-              child: Container(
-                width: 55,
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5), color: white),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SvgPicture.asset(
-                    'assets/leading.svg',
-                    color: Color(0xff005D99),
-                  ),
-                ),
-              ),
-            ),
+          leading:Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
+              Get.back();
+            },
           ),
+        ),
           centerTitle: true,
           title: Text(
             'Select Payment\n         Method',
             style: appbarstyle,
           ),
-          actions: [
-            GestureDetector(
-              onTap: () => Get.to(() => AddCardScreen()),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, bottom: 10),
-                child: Container(
-                  width: 55,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5), color: white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: SvgPicture.asset(
-                      'assets/circlePlus.svg',
-                      color: Color(0xff005D99),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            20.horizontalSpace,
-          ],
+   
         ),
         body: SafeArea(
           child: Column(
@@ -149,7 +121,7 @@ class _CardScreenState extends State<CardScreen> {
                       CreditCardForm(
                         formKey: formKey,
                         obscureCvv: true,
-                        obscureNumber: true,
+                        obscureNumber: false,
                         cardNumber: cardNumber,
                         cvvCode: cvvCode,
                         isHolderNameVisible: true,
@@ -158,22 +130,24 @@ class _CardScreenState extends State<CardScreen> {
                         cardHolderName: cardHolderName,
                         expiryDate: expiryDate,
                         themeColor: Colors.blue,
-                        textColor: Colors.white,
+                        textColor: Colors.black,
                         cardNumberDecoration: InputDecoration(
                           labelText: 'Number',
                           labelStyle: const TextStyle(color: Colors.black),
                           filled: true,
                           fillColor: white,
+                          
                           hintText: '............',
                           hintStyle: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff8b8b8b)),
+                              color: Color.fromARGB(255, 10, 0, 0)),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(35),
                               borderSide: BorderSide.none),
                         ),
                         expiryDateDecoration: InputDecoration(
+                        
                           labelStyle: const TextStyle(color: Colors.black),
                           filled: true,
                           fillColor: white,

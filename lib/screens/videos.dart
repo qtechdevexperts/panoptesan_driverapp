@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:panoptesan_alpha/helpers/alerts.dart';
 import 'package:panoptesan_alpha/helpers/helper.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -16,14 +19,19 @@ import '../controllers/videoController.dart';
 import '../helpers/Colors.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
 
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart' as pl;
+
 class VideoScreen extends StatefulWidget {
-  const VideoScreen({Key? key}) : super(key: key);
+  String id;
+
+  VideoScreen({required this.id});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
+  var videocontroller = Get.put(VideoController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +54,24 @@ class _VideoScreenState extends State<VideoScreen> {
 
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              ProgressDialog progressDialog = ProgressDialog(context,
+                  message: const Text("Please Wait....."),
+                  title: const Text("Loading"));
+
+              progressDialog.show();
+
+              try {
+                await videocontroller.deletevideo(widget.id);
+                progressDialog.dismiss();
+                await Alert()
+                    .showalertwithmessage("Video has been deleted", context)
+                    .then((value) => Get.back());
+              } catch (e) {
+                Get.snackbar("Alert", e.toString());
+                progressDialog.dismiss();
+              }
+            },
             icon: Icon(
               Icons.delete,
               color: kprimary,
@@ -55,35 +80,94 @@ class _VideoScreenState extends State<VideoScreen> {
           IconButton(
             onPressed: () async {
 
+              print(widget.id);
+              var pr = pl.ProgressDialog(context,
+                  type: pl.ProgressDialogType.download,
+                  isDismissible: true,
+                  showLogs: true);
+              pr.style(
+                  message: 'Preparing file for editing...',
+                  borderRadius: 10.0,
+                  backgroundColor: Colors.white,
+                  progressWidget: CircularProgressIndicator(),
+                  elevation: 10.0,
+                  insetAnimCurve: Curves.easeInOut,
+                  progress: 0.0,
+                  maxProgress: 100.0,
+                  progressTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w400),
+                  messageTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.w600));
 
+              var dio = new Dio();
 
-              print("tapped");
-              ProgressDialog progressDialog = ProgressDialog(context,
-                  message: const Text("Please Wait....."),
-                  title: const Text("Loading"));
-
-              progressDialog.show();
+              pr.show();
               try {
-                var videocontroller = Get.put(VideoController());
-                var file = await Helper().downloadFile(
-                  videocontroller.url,
-                );
+                final Directory extDir = await getTemporaryDirectory();
+                final testDir = await Directory('${extDir.path}/test')
+                    .create(recursive: true);
+                final String fileExtension = 'mp4';
+                final String filePath =
+                    '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+                await dio.download(videocontroller.url, filePath,
+                    onReceiveProgress: (d, d1) {
+                  print(d.toString() + " " + d1.toString());
+
+                  double percentage = (d / d1) * 100;
+
+                  int item = percentage.toInt();
+
+                  percentage = item.toDouble();
+
+                  pr.update(progress: percentage);
+                });
+
+                pr.hide();
+
                 final videoInfo = FlutterVideoInfo();
 
-                String videoFilePath = file.path;
-                var info = await videoInfo.getVideoInfo(videoFilePath);
+                var info = await videoInfo.getVideoInfo(filePath);
 
-                progressDialog.dismiss();
                 await Get.to(VideoEditor(
-                  file: file,
+                  file: File(filePath),
                   max: info!.duration!.toInt(),
                   min: 1,
-                ));
+                ))?.then((value) => Get.back());
               } catch (e) {
-                progressDialog.dismiss();
-              
-              Get.snackbar("Error", e.toString());
+                pr.hide();
+                print(e);
               }
+              // print("tapped");
+              // ProgressDialog progressDialog = ProgressDialog(context,
+              //     message: const Text("Please Wait....."),
+              //     title: const Text("Loading"));
+
+              // progressDialog.show();
+              // try {
+              //   var videocontroller = Get.put(VideoController());
+              //   var file = await Helper().downloadFile(
+              //     videocontroller.url,
+              //   );
+              //   final videoInfo = FlutterVideoInfo();
+
+              //   String videoFilePath = file.path;
+              //   var info = await videoInfo.getVideoInfo(videoFilePath);
+
+              //   progressDialog.dismiss();
+              //   await Get.to(VideoEditor(
+              //     file: file,
+              //     max: info!.duration!.toInt(),
+              //     min: 1,
+              //   ));
+              // } catch (e) {
+              //   progressDialog.dismiss();
+
+              //   Get.snackbar("Error", e.toString());
+              // }
             },
             icon: Icon(
               Icons.mode_edit_sharp,
@@ -259,7 +343,9 @@ class _VideoScreenState extends State<VideoScreen> {
       ),
       body: GetBuilder<VideoController>(
         builder: (_vdC) => Container(
-          child: Column(
+          child:!_vdC.controller.value.isInitialized
+                            ? Center(child: CircularProgressIndicator(),)
+                            :  Column(
             children: [
               20.verticalSpace,
               Stack(
