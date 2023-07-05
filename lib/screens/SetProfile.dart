@@ -30,7 +30,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
   cameraimage(BuildContext context) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? file = await _picker.pickImage(source: ImageSource.camera);
-
+    if (file == null) return;
     setState(() {
       profilecontroller.file = File(file!.path);
     });
@@ -72,12 +72,13 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
     //     notifyListeners();
     //   } else {}
     // }
-    Navigator.pop(context);
+ 
   }
 
   galleryimage(BuildContext context) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
+    if (file == null) return;
     setState(() {
       profilecontroller.file = File(file!.path);
     });
@@ -120,7 +121,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
     //   } else {}
     // }
 
-    Navigator.pop(context);
+
   }
 
   Future<void> showChoiceDialoglistimagemore(BuildContext context) {
@@ -148,8 +149,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   child: ListBody(
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {
-                          galleryimage(context);
+                        onTap: () async {
+                          await galleryimage(context);
                           Navigator.of(context).pop();
                         },
                         child: Padding(
@@ -188,7 +189,7 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          cameraimage(context);
+                          await cameraimage(context);
                           Navigator.of(context).pop();
                         },
                         child: Padding(
@@ -244,7 +245,9 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.back();
+            },
             splashColor: Colors.white, // Customize the ripple effect color
             child: Container(
               width: 20,
@@ -281,8 +284,8 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                 30.verticalSpace,
                 profilecontroller.file == null
                     ? GestureDetector(
-                        onTap: () {
-                          showChoiceDialoglistimagemore(context);
+                        onTap: () async {
+                          await showChoiceDialoglistimagemore(context);
                         },
                         child: Align(
                           alignment: Alignment.center,
@@ -752,37 +755,41 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
                   //     Get.back();
                   //   }
                   // },
-                  tap: () {
+                  tap: () async {
                     FocusScope.of(context).unfocus();
                     FocusScope.of(context).requestFocus(new FocusNode());
 
-                    if (profilecontroller.name.text.isEmpty) {
-               return       Alert().showalert("Name", context);
+                    if (profilecontroller.file == null) {
+                      return await Alert().showalertwithmessage(
+                          "Profile image not set", context);
                     }
-               if (profilecontroller.desc.text.isEmpty) {
-                   return   Alert().showalert("About Yourself", context);
+
+                    if (profilecontroller.name.text.isEmpty) {
+                      return Alert().showalert("Name", context);
+                    }
+                    if (profilecontroller.desc.text.isEmpty) {
+                      return Alert().showalert("About Yourself", context);
                     }
                     if (profilecontroller.dob.text.isEmpty) {
-                  return    Alert().showalert("Date of Birth", context);
+                      return Alert().showalert("Date of Birth", context);
                     }
-                     if (profilecontroller.carmake.text.isEmpty) {
-                  return    Alert().showalert("Car Make", context);
+                    if (profilecontroller.carmake.text.isEmpty) {
+                      return Alert().showalert("Car Make", context);
                     }
-                           if (profilecontroller.address.text.isEmpty) {
-                  return    Alert().showalert("City, State", context);
+                    if (profilecontroller.address.text.isEmpty) {
+                      return Alert().showalert("City, State", context);
                     }
-           if (profilecontroller.carname.text.isEmpty) {
-                  return    Alert().showalert("Car Name", context);
+                    if (profilecontroller.carname.text.isEmpty) {
+                      return Alert().showalert("Car Name", context);
                     }
-        if (profilecontroller.model.text.isEmpty) {
-                  return    Alert().showalert("Model", context);
+                    if (profilecontroller.model.text.isEmpty) {
+                      return Alert().showalert("Model", context);
                     }
-                      if (profilecontroller.drivinghabit.text.isEmpty) {
-                  return    Alert().showalert("Driving Habits", context);
+                    if (profilecontroller.drivinghabit.text.isEmpty) {
+                      return Alert().showalert("Driving Habits", context);
                     }
 
-
-                   Get.to(() => MedicalDetailsScreen());
+                    Get.to(() => MedicalDetailsScreen());
                   },
                   ButtonText: "Continue ",
                   width: 1.sw,

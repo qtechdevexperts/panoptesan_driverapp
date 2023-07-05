@@ -10,6 +10,7 @@ import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
 import '../Widgets/CustomButton.dart';
 import '../helpers/Colors.dart';
 import 'SelectPaymentMethod.dart';
+import 'home.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -35,25 +36,17 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           leadingWidth: 70,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: GestureDetector(
-            onTap: () => Get.back(),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, bottom: 10),
-              child: Container(
-                width: 55,
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5), color: white),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SvgPicture.asset(
-                    'assets/leading.svg',
-                    color: Color(0xff005D99),
-                  ),
-                ),
-              ),
-            ),
+          leading: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
+              Get.back();
+            },
           ),
+        ),
           centerTitle: true,
           title: Text(
             'Subscription Packages',
