@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -142,7 +143,18 @@ class LoginSignupHandler {
     final deviceInfo = await deviceInfoPlugin.deviceInfo;
     var token = await LocalStorage.prefs?.getString("token");
 
-    String id = deviceInfo.data["id"];
+    String id = "";
+
+    try {
+      if (Platform.isAndroid) {
+        id = deviceInfo.data["id"];
+      }
+      if (Platform.isIOS) {
+        id = deviceInfo.data["id"];
+      }
+    } catch (e) {
+      print(e);
+    }
 
     var headers = {
       'Content-Type': 'application/json',
