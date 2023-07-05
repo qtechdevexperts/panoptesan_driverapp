@@ -343,7 +343,9 @@ class _VideoScreenState extends State<VideoScreen> {
       ),
       body: GetBuilder<VideoController>(
         builder: (_vdC) => Container(
-          child: Column(
+          child:!_vdC.controller.value.isInitialized
+                            ? Center(child: CircularProgressIndicator(),)
+                            :  Column(
             children: [
               20.verticalSpace,
               Stack(
