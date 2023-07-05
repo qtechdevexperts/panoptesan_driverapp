@@ -150,7 +150,7 @@ class LoginSignupHandler {
         id = deviceInfo.data["id"];
       }
       if (Platform.isIOS) {
-        id = deviceInfo.data["id"];
+        id = deviceInfo.data["identifierForVendor"];
       }
     } catch (e) {
       print(e);
