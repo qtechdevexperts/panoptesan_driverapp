@@ -333,13 +333,18 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                             .setimage(profilecontroller.file);
                       }
                       await LoginSignupHandler().settoken();
+                            profilecontroller.update();
                       progressDialog.dismiss();
-                      SnackbarWidget().showsnackbar("Success", context);
-                      profilecontroller.update();
+
+                           Alert().showalertwithmessage("Profile Created Successfully", context);
+                     // SnackbarWidget().showsnackbar("Success", context);
+                
 
                       Get.off(MainScreen());
                     } catch (e) {
-                      SnackbarWidget().showsnackbar(e.toString(), context);
+                   //   SnackbarWidget().showsnackbar(e.toString(), context);
+
+                   Alert().showalertwithmessage(e.toString(), context);
                       progressDialog.dismiss();
                     }
                   },

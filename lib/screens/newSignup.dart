@@ -1,3 +1,5 @@
+import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
+
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -296,6 +298,10 @@ class _NewSignupScreenState extends State<NewSignupScreen> {
                                 title: const Text("Loading"));
                             progressDialog.show();
                             try {
+
+
+                            var profilecontroller = Get.put(ProfileController());
+                            profilecontroller.name.text = this.nameController.text;
                               await LoginSignupHandler().signup(
                                   emailController.text,
                                   passwordController.text);

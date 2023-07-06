@@ -176,6 +176,7 @@ class VideoController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      await  setvideo();
     } else {
       throw Exception(response.reasonPhrase);
     }

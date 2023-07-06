@@ -24,6 +24,24 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
   String dropdownValue = 'Ford';
   String dropdownValue1 = 'Yes/No';
   var profilecontroller = Get.put(ProfileController());
+  
+    List<String> stringList = [];
+     List<String> stringList1 = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+ 
+
+  for (int i = 50; i <= 300; i++) {
+  stringList.add('$i lbs');
+  }
+    for (int feet = 3; feet <= 8; feet++) {
+    for (int inches = 0; inches < 12; inches++) {
+      stringList1.add('$feet ft $inches in');
+    }
+  }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,24 +196,44 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                           fontWeight: FontWeight.w400,
                           color: black)),
                   10.verticalSpace,
-                  TextFormField(
-                    controller: profilecontroller.organdonor,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: white,
-                      hintText: 'Please type your carmake...',
-                      hintStyle: GoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                          color: grey),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none),
-                    ),
-                  ),
+               DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value: profilecontroller.organdonor.text.isEmpty? null : profilecontroller.organdonor.text,
+                          onChanged: (newValue) {
+                            profilecontroller.weight.text = newValue!;
+                          },
+                          items: ["Yes","No"].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 30, right: 20),
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Are you an organ donor? Yes/No',
+                            hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
                   20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,28 +245,10 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: black),
                           ),
-                          10.verticalSpace,
-                          Container(
-                            width: 0.44.sw,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: profilecontroller.weight,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: white,
-                                hintText: '/lb',
-                                hintStyle: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none),
-                              ),
-                            ),
-                          )
+                          10.verticalSpace                   
                         ],
                       ),
+                        20.horizontalSpace,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -240,29 +260,94 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                                 color: black),
                           ),
                           10.verticalSpace,
-                          Container(
-                            width: 0.44.sw,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: profilecontroller.height,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: white,
-                                hintText: 'Foot-inch',
-                                hintStyle: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none),
-                              ),
-                            ),
-                          )
+                     
                         ],
                       )
                     ],
                   ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value:  profilecontroller.weight.text.isEmpty? null : profilecontroller.weight.text,
+                          onChanged: (newValue) {
+                            profilecontroller.weight.text = newValue!;
+                          },
+                          items: stringList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 30, right: 20),
+                            filled: true,
+                            fillColor: white,
+                            hintText: '/lb',
+                            hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value:  profilecontroller.height.text.isEmpty?null :  profilecontroller.height.text,
+                          onChanged: (newValue) {
+                            profilecontroller.height.text = newValue!;
+                          },
+                          items: stringList1.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 30, right: 20),
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Foot-inch',
+                            hintStyle: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+              
                   20.verticalSpace,
                   CustomButton(
                     // tap: () {
@@ -282,27 +367,29 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                       if (profilecontroller.medicalconditions.text.isEmpty) {
                         return Alert().showalert("Medical Conditions", context);
                       }
-    if (profilecontroller.medicalnotes.text.isEmpty) {
+                      if (profilecontroller.medicalnotes.text.isEmpty) {
                         return Alert().showalert("Medical Notes", context);
                       }
-                         if (profilecontroller.allergies.text.isEmpty) {
-                        return Alert().showalert("Allergies & Reaction", context);
+                      if (profilecontroller.allergies.text.isEmpty) {
+                        return Alert()
+                            .showalert("Allergies & Reaction", context);
                       }
 
-                        if (profilecontroller.allergies.text.isEmpty) {
+                      if (profilecontroller.allergies.text.isEmpty) {
                         return Alert().showalert("Medications", context);
                       }
 
-                          if (profilecontroller.organdonor.text.isEmpty) {
+                      if (profilecontroller.organdonor.text.isEmpty) {
                         return Alert().showalert("Organ Donor", context);
                       }
 
-                          if (profilecontroller.weight.text.isEmpty) {
+                      if (profilecontroller.weight.text.isEmpty) {
                         return Alert().showalert("Weight", context);
                       }
-                         if (profilecontroller.weight.text.isEmpty) {
-                        return Alert().showalert("height", context);
+                      if (profilecontroller.height.text.isEmpty) {
+                        return Alert().showalert("Height", context);
                       }
+                      
                       Get.to(() => EmergencyContactsScreen());
                     },
 

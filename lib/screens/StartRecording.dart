@@ -293,6 +293,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                                             .getVideoInfo(videoFilePath);
 
                                         await Get.to(VideoEditor(
+                                          videoid: "",
                                           file: File(file.path),
                                           max: info!.duration!.toInt(),
                                           min: 1,

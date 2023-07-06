@@ -50,7 +50,12 @@ class VideoEditor extends StatefulWidget {
   final File file;
   final int max;
   final int min;
-  const VideoEditor({required this.file, required this.max, required this.min});
+  final String videoid;
+  const VideoEditor(
+      {required this.file,
+      required this.max,
+      required this.min,
+      required this.videoid});
 
   @override
   State<VideoEditor> createState() => _VideoEditorState();
@@ -81,8 +86,8 @@ class _VideoEditorState extends State<VideoEditor> {
 
   @override
   void dispose() {
-  //  _exportingProgress.dispose();
-  //  _isExporting.dispose();
+    //  _exportingProgress.dispose();
+    //  _isExporting.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -96,31 +101,39 @@ class _VideoEditorState extends State<VideoEditor> {
       );
 
   Future<void> _exportVideo() async {
-
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Please Wait....."), title: const Text("Loading"));
 
-
-  //  _exportingProgress.value = 0;
-  //  _isExporting.value = true;
+    //  _exportingProgress.value = 0;
+    //  _isExporting.value = true;
     // NOTE: To use `-crf 1` and [VideoExportPreset] you need `ffmpeg_kit_flutter_min_gpl` package (with `ffmpeg_kit` only it won't work)
     await _controller.exportVideo(
       // preset: VideoExportPreset.medium,
       // customInstruction: "-crf 17",
       onProgress: (stats, value) {
-
-            progressDialog.show();
+        progressDialog.show();
       },
       onError: (e, s) => _showErrorSnackBar("Error on export video :("),
-      onCompleted: (file) {
-    //    _isExporting.value = false;
-  //      if (!mounted) return;
+      onCompleted: (file) async {
+        //    _isExporting.value = false;
+        //      if (!mounted) return;
         final bottomcontroller = Get.put(VideoController());
         //   bottomcontroller.navBarChange(0);
         //    Get.to(() => MainScreen());
 
         bottomcontroller.file = File(file.path);
-         progressDialog.dismiss();
+
+        if (widget.videoid.isNotEmpty) {
+          try {
+            await bottomcontroller.editvideo(widget.videoid, file.path);
+          } catch (e) {
+            print(e);
+          }
+
+          await bottomcontroller.setvideo();
+        }
+
+        progressDialog.dismiss();
         Get.back();
         // showDialog(context: context, builder: (_) => VideoResultPopup(video: file));
 
@@ -259,11 +272,11 @@ class _VideoEditorState extends State<VideoEditor> {
             ),
             actions: [
               GestureDetector(
-                onTap: () async{
+                onTap: () async {
                   // _exportVideo().then((value) {
                   //   Get.back();
                   // });
-            await      _exportVideo();
+                  await _exportVideo();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),

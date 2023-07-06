@@ -133,6 +133,7 @@ class _VideoScreenState extends State<VideoScreen> {
                 var info = await videoInfo.getVideoInfo(filePath);
 
                 await Get.to(VideoEditor(
+                  videoid: widget.id,
                   file: File(filePath),
                   max: info!.duration!.toInt(),
                   min: 1,

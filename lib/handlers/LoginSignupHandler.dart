@@ -117,28 +117,36 @@ class LoginSignupHandler {
   }
 
   Future settoken() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? fcmToken = "";
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    print('User granted permission: ${settings.authorizationStatus}');
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+      print('User granted permission: ${settings.authorizationStatus}');
 
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-    });
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print('Got a message whilst in the foreground!');
+        print('Message data: ${message.data}');
+
+        if (message.notification != null) {
+          print(
+              'Message also contained a notification: ${message.notification}');
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+
     final deviceInfoPlugin = DeviceInfoPlugin();
     final deviceInfo = await deviceInfoPlugin.deviceInfo;
     var token = await LocalStorage.prefs?.getString("token");
@@ -156,21 +164,25 @@ class LoginSignupHandler {
       print(e);
     }
 
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-    var request =
-        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/token'));
-    request.body = json.encode({"token": fcmToken, "device_id": id});
-    request.headers.addAll(headers);
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request =
+          http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/token'));
+      request.body = json.encode({"token": fcmToken, "device_id": id});
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+      http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    } else {
-      throw (response.reasonPhrase.toString());
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        throw (response.reasonPhrase.toString());
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

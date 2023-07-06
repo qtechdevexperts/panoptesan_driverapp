@@ -248,7 +248,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         try {
                           _.getVideo(_.videos![index].path.toString());
                           progressDialog.dismiss();
-                            await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
+                          await Get.to(() => VideoScreen(
+                                id: _.videos![index].id.toString(),
+                              ));
                         } catch (e) {
                           SnackbarWidget().showsnackbar(e.toString(), context);
                           progressDialog.dismiss();
@@ -268,7 +270,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               try {
                                 _.getVideo(_.videos![index].path.toString());
                                 progressDialog.dismiss();
-                                   await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
+                                await Get.to(() => VideoScreen(
+                                      id: _.videos![index].id.toString(),
+                                    ));
                               } catch (e) {
                                 SnackbarWidget()
                                     .showsnackbar(e.toString(), context);
@@ -298,6 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               // }
                             },
                             download: () async {
+                              print("tapped download");
                               var pr = pl.ProgressDialog(context,
                                   type: pl.ProgressDialogType.download,
                                   isDismissible: true,
@@ -324,12 +329,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               var url = _.videos![index].path.toString();
                               var dio = new Dio();
 
-                              pr.show();
+                              await pr.show();
                               try {
-                                final Directory extDir =
-                                    await getApplicationDocumentsDirectory();
+                                Directory? extDir;
+
+                                if (Platform.isIOS) {
+                                  extDir = await getDownloadsDirectory();
+                                }
+
+                                if (Platform.isAndroid) {
+                                  extDir = await getExternalStorageDirectory();
+                                }
+
                                 final testDir =
-                                    await Directory('${extDir.path}/test')
+                                    await Directory('${extDir?.path}/test')
                                         .create(recursive: true);
                                 final String fileExtension = 'mp4';
                                 final String filePath =
@@ -340,20 +353,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   double percentage = (d / d1) * 100;
 
-                                  int item =  percentage.toInt();
+                                  int item = percentage.toInt();
 
                                   percentage = item.toDouble();
 
                                   pr.update(progress: percentage);
                                 });
 
-                                pr.hide();
+                                await pr.hide();
+                                var vd = filePath.split("/").last;
+                                return Alert().showalertwithmessage(
+                                    "Video has been downloaded as $vd",
+                                    context);
+                              } catch (e) {
+                                print(e);
+                                var result = await pr.hide();
 
                                 return Alert().showalertwithmessage(
-                                    "Video has been downloaded", context);
-                              } catch (e) {
-                                pr.hide();
-                                print(e);
+                                    "Failed to Download file", context);
                               }
                               //                         var path = await ExternalPath
                               //                             .getExternalStoragePublicDirectory(
