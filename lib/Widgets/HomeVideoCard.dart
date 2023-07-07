@@ -43,7 +43,12 @@ class HomeVideoCard extends StatelessWidget {
               children: [
                 Container(
                   child: CachedNetworkImage(
-                    imageUrl: thumpnail ?? "",
+                    progressIndicatorBuilder: (context, url, progress) {
+
+                      
+                      return Center(child: CircularProgressIndicator());
+                    },
+                    imageUrl: thumpnail!,
                     imageBuilder: (context, imageProvider) => Container(
                       height: constraint.maxHeight / 1.5,
                       width: constraint.maxWidth,
@@ -53,8 +58,18 @@ class HomeVideoCard extends StatelessWidget {
                             image: imageProvider, fit: BoxFit.cover),
                       ),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  //  placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Container(
+                      height: constraint.maxHeight / 1.5,
+                      width: constraint.maxWidth,
+                      
+                      child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(Icons.error),
+                          Text("Thumbnail not available ")
+                        ],
+                      )),
                   ),
                   // child: Image.network(
                   //   thumpnail ?? "",
