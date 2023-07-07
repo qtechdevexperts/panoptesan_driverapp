@@ -78,7 +78,11 @@ class LoginSignupHandler {
       var token = json['data']['token'];
       var user = UserModel.fromJson(json['data']['user']);
       await LocalStorage.prefs?.setString('token', token);
-
+      try {
+        await settoken();
+      } catch (e) {
+        print(e);
+      }
       LocalStorage.saveUser(user);
     } else if (response.statusCode == 401) {
       throw (json['message']);
@@ -109,6 +113,11 @@ class LoginSignupHandler {
       var token = json['data']['token'];
       var user = UserModel.fromJson(json['data']['user']);
       await LocalStorage.prefs?.setString('token', token);
+           try {
+        await settoken();
+      } catch (e) {
+        print(e);
+      }
     } else if (response.statusCode == 401) {
       throw (json['message']);
     } else {

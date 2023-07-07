@@ -332,7 +332,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         await profilecontroller
                             .setimage(profilecontroller.file);
                       }
-                      await LoginSignupHandler().settoken();
+               
                             profilecontroller.update();
                       progressDialog.dismiss();
 

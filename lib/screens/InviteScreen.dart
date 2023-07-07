@@ -134,10 +134,10 @@ class _InviteScreenState extends State<InviteScreen> {
                       title: const Text("Loading"));
                   progressDialog.show();
                   try {
-                    // await SupportController().verifycode(this.pincode.text);
+                   await SupportController().verifycode(this.pincode.text);
 
                     var profilecontroller = Get.put(ProfileController());
-                    await profilecontroller.getprofile();
+                   profilecontroller.profile= await profilecontroller.getprofile();
                     var controller = Get.put(BottomController());
                  
                     controller.navBarChange(4);
@@ -219,7 +219,7 @@ class _InviteScreenState extends State<InviteScreen> {
                         );
                       },
                     );
-                Get.back();
+                Get.back(result: true);
                
                   } catch (ex) {
                     progressDialog.dismiss();

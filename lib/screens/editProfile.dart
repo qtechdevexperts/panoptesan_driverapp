@@ -231,7 +231,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           },
                         ),
                       ),
-                      this.videoController.profile!.userDetail!.profileImg ==
+                      this.videoController.profile!.userDetail?.profileImg ==
                               null
                           ? Positioned(
                               top: 130,

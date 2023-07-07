@@ -156,8 +156,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             15.verticalSpace,
             GestureDetector(
-              onTap: () {
-                Get.off(() => InviteScreen());
+              onTap: () async{
+             var result = await   Get.to<bool>(() => InviteScreen());
+             if(result!=null && result){
+              Get.back();
+
+             }
               },
               child: Container(
                 height: 70.h,

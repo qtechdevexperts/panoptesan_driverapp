@@ -344,7 +344,7 @@ class _NewProfileState extends State<NewProfile> {
                                 progressDialog.show();
                                 try {
                                   await controller.leavefleet(controller
-                                      .profile!.fleetUser!.userDetail!.id
+                                      .profile!.fleetUser!.userDetail.id
                                       .toString());
                                   progressDialog.dismiss();
                                   controller.profile =
