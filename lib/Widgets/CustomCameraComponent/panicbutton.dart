@@ -31,6 +31,7 @@ class _PanicButtonState extends State<PanicButton> {
                 await videoState.stopRecording();
 
                 Savefile.spnaic = true;
+                Savefile.crash = true;
                 Get.back();
               });
             },

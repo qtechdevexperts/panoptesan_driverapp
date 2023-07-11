@@ -50,54 +50,65 @@ class _NOtificationsScreenState extends State<NOtificationsScreen> {
         ),
         body: GetBuilder<ProfileController>(
           builder: (controller) {
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: controller.notificationList.length,
-              itemBuilder: (context, index) {
-                // Use the controller to access the profile data or methods
-                return Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Container(
-                      //  height: 90,
-                      child: ListTile(
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                           // const Text('Lorem Ipsum'),
-                            const SizedBox(
-                              height: 5,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemCount: controller.notificationList.length,
+                    itemBuilder: (context, index) {
+                      // Use the controller to access the profile data or methods
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Container(
+                            //  height: 90,
+                            child: ListTile(
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                 // const Text('Lorem Ipsum'),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  // const ColoredCircleText(
+                                  //   circleColor: Colors.blue,
+                                  //   text: "0",
+                                  //   textColor: Colors.white,
+                                  // )
+                                ],
+                              ),
+                              title: Text(controller.notificationList[index].body),
+                              // subtitle: Text('Lorem Ipsum'),
+                              // leading: Container(
+                              //   height: 50,
+                              //   width: 50,
+                              //   decoration: BoxDecoration(
+                              //     shape: BoxShape.circle,
+                              //     image: DecorationImage(
+                              //       image: AssetImage(userimages[
+                              //           0]), // Replace with your image data
+                              //       fit: BoxFit.cover,
+                              //     ),
+                              //   ),
+                              // ),
                             ),
-                            // const ColoredCircleText(
-                            //   circleColor: Colors.blue,
-                            //   text: "0",
-                            //   textColor: Colors.white,
-                            // )
-                          ],
+                          ),
                         ),
-                        title: Text(controller.notificationList[index].body),
-                        // subtitle: Text('Lorem Ipsum'),
-                        // leading: Container(
-                        //   height: 50,
-                        //   width: 50,
-                        //   decoration: BoxDecoration(
-                        //     shape: BoxShape.circle,
-                        //     image: DecorationImage(
-                        //       image: AssetImage(userimages[
-                        //           0]), // Replace with your image data
-                        //       fit: BoxFit.cover,
-                        //     ),
-                        //   ),
-                        // ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                
+                
+                SizedBox(height: 150,)
+                ],
+              ),
             );
           },
         ) //   body: Column(

@@ -123,6 +123,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                 onPressed: () async {
                   Savefile.file = null;
                   Savefile.spnaic = false;
+                  Savefile.crash = false;
                   await Get.to(CustomUiExample3());
 
                   ProgressDialog progressDialog = ProgressDialog(context,
@@ -150,7 +151,12 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                     try {
                       var controller = Get.put(VideoController());
 
-                      await controller.uploadvideo(File(file!.path));
+                      if (Savefile.crash != null && Savefile.crash == true) {
+                        await controller.uploadvideocrash(File(file.path));
+                      } else {
+                        await controller.uploadvideo(File(file.path));
+                      }
+
                       progressDialog.dismiss();
                       await controller.setvideo();
                       SnackbarWidget()
@@ -444,8 +450,14 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                                           var controller =
                                               Get.put(VideoController());
 
-                                          await controller
-                                              .uploadvideo(File(file!.path));
+                                          if (Savefile.crash != null &&
+                                              Savefile.crash == true) {
+                                            await controller.uploadvideocrash(
+                                                File(file.path));
+                                          } else {
+                                            await controller
+                                                .uploadvideo(File(file.path));
+                                          }
                                           progressDialog.dismiss();
                                           await controller.setvideo();
                                           SnackbarWidget().showsnackbar(

@@ -79,7 +79,6 @@ class _VideoScreenState extends State<VideoScreen> {
           ),
           IconButton(
             onPressed: () async {
-
               print(widget.id);
               var pr = pl.ProgressDialog(context,
                   type: pl.ProgressDialogType.download,
@@ -344,235 +343,230 @@ class _VideoScreenState extends State<VideoScreen> {
       ),
       body: GetBuilder<VideoController>(
         builder: (_vdC) => Container(
-          child:!_vdC.controller.value.isInitialized
-                            ? Center(child: CircularProgressIndicator(),)
-                            :  Column(
-            children: [
-              20.verticalSpace,
-              Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: [
-                  Container(
-                    height: 574.h,
-                    width: 388.w,
-                    decoration: BoxDecoration(
-                        color: black, borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                        child: !_vdC.controller.value.isInitialized
-                            ? Text('Loading...')
-                            : AspectRatio(
-                                aspectRatio: _vdC.controller.value.aspectRatio,
-                                child: VideoPlayer(_vdC.controller),
-                              )),
-                  ),
-                  //   Positioned(
-                  //     bottom: 20,
-                  //     child: GestureDetector(
-                  //       behavior: HitTestBehavior.translucent,
-                  //       onTap: () {
-                  //         log('sdfsdf');
-                  //         Get.to(() => CarDetailScreen());
-                  //       },
-                  //       child: Container(
-                  //         height: 56.h,
-                  //         width: 212.w,
-                  //         decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(5),
-                  //             color: kprimary),
-                  //         child: Center(
-                  //           child: Text(
-                  //             'Fetch Car Details',
-                  //             style: GoogleFonts.inter(
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w700,
-                  //               color: white,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  ValueListenableBuilder(
-                    valueListenable: _vdC.controller,
-                    builder: (context, VideoPlayerValue value, child) {
-                      //Do Something with the value.
-                      return Expanded(
-                        child: Slider.adaptive(
-                          min: 0,
-                          //  divisions: 100,
-                          label: value.position.inMilliseconds
-                              .toDouble()
-                              .toString(),
-                          activeColor: kprimary,
-                          inactiveColor: kprimary,
-                          value: value.position.inMilliseconds.toDouble(),
-                          onChanged: (value) async {
-                            if (_vdC.controller.value.isPlaying) {
-                              await _vdC.controller.pause();
+          child: !_vdC.controller.value.isInitialized
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    20.verticalSpace,
+                    Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        Container(
+                          height: 574.h,
+                          width: 388.w,
+                          decoration: BoxDecoration(
+                              color: black,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: !_vdC.controller.value.isInitialized
+                                  ? Text('Loading...')
+                                  : AspectRatio(
+                                      aspectRatio:
+                                          _vdC.controller.value.aspectRatio,
+                                      child: VideoPlayer(_vdC.controller),
+                                    )),
+                        ),
+                        //   Positioned(
+                        //     bottom: 20,
+                        //     child: GestureDetector(
+                        //       behavior: HitTestBehavior.translucent,
+                        //       onTap: () {
+                        //         log('sdfsdf');
+                        //         Get.to(() => CarDetailScreen());
+                        //       },
+                        //       child: Container(
+                        //         height: 56.h,
+                        //         width: 212.w,
+                        //         decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(5),
+                        //             color: kprimary),
+                        //         child: Center(
+                        //           child: Text(
+                        //             'Fetch Car Details',
+                        //             style: GoogleFonts.inter(
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.w700,
+                        //               color: white,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ValueListenableBuilder(
+                          valueListenable: _vdC.controller,
+                          builder: (context, VideoPlayerValue value, child) {
+                            //Do Something with the value.
+                            return Expanded(
+                              child: Slider.adaptive(
+                                min: 0,
+                                // secondaryTrackValue: value.position.inMilliseconds.toDouble(),
+                                //  divisions: 100,
+                                label: value.position.inMilliseconds
+                                    .toDouble()
+                                    .toString(),
+                                activeColor: kprimary,
+                                inactiveColor: Colors.blue[200],
+                                value: value.position.inMilliseconds.toDouble(),
+                                onChanged: (value) async {
+                                  if (_vdC.controller.value.isPlaying) {
+                                    await _vdC.controller.pause();
+                                    _vdC.update();
+                                  }
+
+                                  Duration duration =
+                                      Duration(milliseconds: value.toInt());
+
+                                  await _vdC.controller.seekTo(duration);
+                                  _vdC.update();
+                                },
+                                //      min: 0.0,
+                                max: value.duration.inMilliseconds.toDouble(),
+
+                                onChangeStart: (value) {
+                                  // _vdC.controller.
+                                  //// var duration = Duration(seconds: value.toInt());
+                                  // _vdC.controller.seekTo(duration);
+                                  // _vdC.update();
+                                  // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                                },
+                                onChangeEnd: (value) {
+                                  // var duration = Duration(seconds: value.toInt());
+                                  // _vdC.controller.seekTo(duration);
+                                  //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
+                                },
+
+                              ),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                    ValueListenableBuilder(
+                      valueListenable: _vdC.controller,
+                      builder: (context, VideoPlayerValue value, child) {
+                        //Do Something with the value.
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 25),
+                              child: Text(
+                                  value.position.inMinutes.toString() +":" +    value.position.inSeconds.toString()),
+                            ),
+                              Padding(
+                              padding: const EdgeInsets.only(right: 25),
+                              child: Text(
+                                  value.duration.inMinutes.toString() +":" +    value.duration.inSeconds.toString()),
+                            ),
+                        
+                          ],
+                        );
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: kprimary,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 20,
+                                offset: Offset(0, 10), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.skip_previous,
+                                color: white,
+                              ),
+                              onPressed: () {
+                                // code to play video
+                              },
+                            ),
+                          ),
+                        ),
+                        7.horizontalSpace,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 20,
+                                offset:
+                                    Offset(0, 10), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            icon: _vdC.controller.value.isPlaying
+                                ? Icon(Icons.pause)
+                                : Icon(Icons.play_arrow),
+                            onPressed: () {
+                              _vdC.controller.value.isPlaying
+                                  ? _vdC.controller.pause()
+                                  : _vdC.controller.play();
+
                               _vdC.update();
-                            }
-
-                            Duration duration =
-                                Duration(milliseconds: value.toInt());
-
-                            await _vdC.controller.seekTo(duration);
-                            _vdC.update();
-                          },
-                          //      min: 0.0,
-                          max: value.duration.inMilliseconds.toDouble(),
-                          onChangeStart: (value) {
-                            // _vdC.controller.
-                            //// var duration = Duration(seconds: value.toInt());
-                            // _vdC.controller.seekTo(duration);
-                            // _vdC.update();
-                            // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                          },
-                          onChangeEnd: (value) {
-                            // var duration = Duration(seconds: value.toInt());
-                            // _vdC.controller.seekTo(duration);
-                            //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                          },
+                            },
+                          ),
                         ),
-                      );
-                    },
-                  )
-                  // Expanded(
-                  //   child: Slider.adaptive(
-                  //     activeColor: kprimary,
-                  //     inactiveColor: kprimary,
-                  //     value: _vdC.sliderValue,
-                  //     onChanged: (value) async {
-                  //       if (_vdC.controller.value.isPlaying) {
-                  //         await _vdC.controller.pause();
-                  //         _vdC.update();
-                  //       }
-                  //       print(value);
-
-                  //       _vdC.sliderValue = value;
-                  //       final Duration duration =
-                  //           _vdC.controller.value.duration;
-                  //       final newPosition = duration * value;
-                  //       await _vdC.controller.seekTo(newPosition);
-                  //       _vdC.update();
-                  //     },
-                  //     //      min: 0.0,
-                  //     // max: _vdC.controller.value.,
-                  //     onChangeStart: (value) {
-                  //       // _vdC.controller.
-                  //       //// var duration = Duration(seconds: value.toInt());
-                  //       // _vdC.controller.seekTo(duration);
-                  //       // _vdC.update();
-                  //       // value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                  //     },
-                  //     onChangeEnd: (value) {
-                  //       // var duration = Duration(seconds: value.toInt());
-                  //       // _vdC.controller.seekTo(duration);
-                  //       //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: kprimary,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 20,
-                          offset: Offset(0, 10), // changes position of shadow
+                        7.horizontalSpace,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: kprimary,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 20,
+                                offset: Offset(0, 10), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.skip_next,
+                              color: white,
+                            ),
+                            onPressed: () {
+                              // code to play next video
+                            },
+                          ),
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.skip_previous,
-                          color: white,
-                        ),
-                        onPressed: () {
-                          // code to play video
-                        },
-                      ),
-                    ),
-                  ),
-                  7.horizontalSpace,
-                  Container(
-                    decoration: BoxDecoration(
-                      color: white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 20,
-                          offset: Offset(0, 10), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: IconButton(
-                      icon: _vdC.controller.value.isPlaying
-                          ? Icon(Icons.pause)
-                          : Icon(Icons.play_arrow),
-                      onPressed: () {
-                        _vdC.controller.value.isPlaying
-                            ? _vdC.controller.pause()
-                            : _vdC.controller.play();
-
-                        _vdC.update();
-                      },
-                    ),
-                  ),
-                  7.horizontalSpace,
-                  Container(
-                    decoration: BoxDecoration(
-                      color: kprimary,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 20,
-                          offset: Offset(0, 10), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.skip_next,
-                        color: white,
-                      ),
-                      onPressed: () {
-                        // code to play next video
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              20.verticalSpace,
-              // GestureDetector(
-              //   onTap: () => Get.to(() => CarDetailScreen()),
-              //   child: Text(
-              //     'Verify Details',
-              //     style: GoogleFonts.inter(
-              //       fontSize: 14,
-              //       fontWeight: FontWeight.w700,
-              //       color: kprimary,
-              //       decoration: TextDecoration.underline,
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
+                    20.verticalSpace,
+                    // GestureDetector(
+                    //   onTap: () => Get.to(() => CarDetailScreen()),
+                    //   child: Text(
+                    //     'Verify Details',
+                    //     style: GoogleFonts.inter(
+                    //       fontSize: 14,
+                    //       fontWeight: FontWeight.w700,
+                    //       color: kprimary,
+                    //       decoration: TextDecoration.underline,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
         ),
       ),
     );
