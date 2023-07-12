@@ -258,7 +258,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     try {
                       await supportcontroller.sendsupport();
                       progressDialog.dismiss();
-                      showDialog(
+                     await showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -331,7 +331,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             ),
                           );
                         },
-                      );
+                      ).then((value) => Get.back());
                     } catch (e) {
                       progressDialog.dismiss();
                     }

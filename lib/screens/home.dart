@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:panoptesan_alpha/helpers/alerts.dart';
 import 'package:panoptesan_alpha/helpers/helper.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../Widgets/SquareIconButton.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
@@ -152,41 +153,42 @@ class _HomeScreenState extends State<HomeScreen> {
         //         icon: Icon(Icons.date_range))),
         backgroundColor: const Color(0xffF1F2F6),
         appBar: AppBar(
-        bottom: PreferredSize(
-            child: Container(
-                //color: Colors.white,
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, bottom: 20),
-                  child: const Text(
-                    "Recent Videos",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => SOSMessageScreen());
-                  },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, bottom: 20, right: 20),
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset('assets/Group 780.svg'),
-                      ),
-                      height: 70.h,
-                      width: 80.w,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: const Color(0xffF1F2F6)),
+          bottom: PreferredSize(
+              child: Container(
+                  //color: Colors.white,
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, bottom: 20),
+                    child: const Text(
+                      "Recent Videos",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
-                ),
-              ],
-            )),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => SOSMessageScreen());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, bottom: 20, right: 20),
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset('assets/Group 780.svg'),
+                        ),
+                        height: 70.h,
+                        width: 80.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color(0xffF1F2F6)),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
               preferredSize: Size.fromHeight(kToolbarHeight)),
 
           automaticallyImplyLeading: false,
@@ -378,20 +380,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     await pr.show();
                                     try {
+                                      var status =
+                                          await Permission.storage.status;
+                                      if (!status.isGranted) {
+                                        await Permission.storage.request();
+                                      }
                                       Directory? extDir;
+                                      String path = "";
 
                                       if (Platform.isIOS) {
                                         extDir = await getDownloadsDirectory();
                                       }
 
                                       if (Platform.isAndroid) {
-                                        extDir =
-                                            await getExternalStorageDirectory();
+                                        path = await await ExternalPath
+                                            .getExternalStoragePublicDirectory(
+                                                ExternalPath
+                                                    .DIRECTORY_DOWNLOADS);
                                       }
 
-                                      final testDir = await Directory(
-                                              '${extDir?.path}/test')
-                                          .create(recursive: true);
+                                      final testDir =
+                                          await Directory('${path}/test')
+                                              .create(recursive: true);
                                       final String fileExtension = 'mp4';
                                       final String filePath =
                                           '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
