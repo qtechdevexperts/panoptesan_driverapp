@@ -247,7 +247,7 @@ class _NewProfileState extends State<NewProfile> {
                             width: constraint.maxWidth * 0.5,
                             height: constraint.maxHeight * 0.18,
                             child: CachedNetworkImage(
-                                imageUrl: controller.profile?.fleetUser == null
+                                imageUrl: controller.profile?.fleetUser != null
                                     ? controller.profile!.fleetUser!.userDetail
                                         .profileImg
                                         .toString()
