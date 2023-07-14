@@ -124,7 +124,16 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                   Savefile.file = null;
                   Savefile.spnaic = false;
                   Savefile.crash = false;
-                  await Get.to(CustomUiExample3());
+               //   await Get.to(CustomUiExample3());
+
+
+                  var imagepicker =await ImagePicker().pickVideo(source: ImageSource.gallery);
+                  if(imagepicker==null){
+
+                    return;
+                  }
+
+                Savefile.file= new File(imagepicker.path);
 
                   ProgressDialog progressDialog = ProgressDialog(context,
                       message: const Text("Please Wait....."),
