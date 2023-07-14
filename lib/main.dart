@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 //import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -42,7 +43,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalStorage.init();
   HttpOverrides.global = new MyHttpOverrides();
-  //Stripe.publishableKey = "pk_test_51NG3fqKsOuXXDZeSK4rQR8uSvzphBgQq8tdBvTRItLZdFZzqCHpK8BYtUYgclbPuMvdyq5vBEWBQB02agpwpFeNW00dcKfmEO3";
+  Stripe.publishableKey = "pk_test_51NG3fqKsOuXXDZeSK4rQR8uSvzphBgQq8tdBvTRItLZdFZzqCHpK8BYtUYgclbPuMvdyq5vBEWBQB02agpwpFeNW00dcKfmEO3";
   runApp(const MyApp());
 }
 

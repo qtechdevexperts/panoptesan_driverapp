@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/constants.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
 import 'package:panoptesan_alpha/controllers/videoController.dart';
 import 'package:panoptesan_alpha/helpers/Colors.dart';
@@ -16,6 +19,8 @@ import '../helpers/snackbar.dart';
 import '../widgets/HomeVideoCard.dart';
 import '../widgets/ProfileWidget.dart';
 
+import 'package:http/http.dart' as http;
+
 class NewProfile extends StatefulWidget {
   NewProfile({Key? key}) : super(key: key);
 
@@ -25,6 +30,25 @@ class NewProfile extends StatefulWidget {
 
 class _NewProfileState extends State<NewProfile> {
   var controller = Get.put(ProfileController());
+
+  var _ready = false;
+  Future<void> initPaymentSheet() async {
+    try {
+      // 1. create payment intent on the server
+      //final data = await _createTestPaymentSheet();
+
+      // 2. initialize the payment sheet
+
+      setState(() {
+        _ready = true;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+      rethrow;
+    }
+  }
 
   var _ = Get.put(VideoController());
   @override
@@ -83,7 +107,7 @@ class _NewProfileState extends State<NewProfile> {
                         return Positioned(
                           top: 130,
                           child: CachedNetworkImage(
-                              imageUrl: _.profile?.userDetail?.profileImg ??"",
+                              imageUrl: _.profile?.userDetail?.profileImg ?? "",
                               imageBuilder: (context, imageProvider) => Padding(
                                     padding: const EdgeInsets.all(2),
                                     child: Container(
@@ -191,6 +215,7 @@ class _NewProfileState extends State<NewProfile> {
                 width: constraint.maxWidth / 1.2,
                 child: ElevatedButton(
                   onPressed: () async {
+                    print("tapped");
                     ProgressDialog progressDialog = ProgressDialog(context,
                         message: const Text("Please Wait....."),
                         title: const Text("Loading"));
@@ -200,9 +225,36 @@ class _NewProfileState extends State<NewProfile> {
                       if (controller.packages.isEmpty) {
                         await controller.getpackages();
                       }
+                      var body = json.encode({
+                        'amount': 10,
+                        'currency': "USD",
+                      });
+
+                      //Make post request to Stripe
+                      var response = await http.post(
+                        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+                        headers: {
+                          'Authorization':
+                              'Bearer pk_test_51NG3fqKsOuXXDZeSK4rQR8uSvzphBgQq8tdBvTRItLZdFZzqCHpK8BYtUYgclbPuMvdyq5vBEWBQB02agpwpFeNW00dcKfmEO3',
+                          'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: body,
+                      );
+
+                      var payment = json.decode(response.body);
+                      await Stripe.instance.initPaymentSheet(
+                        paymentSheetParameters: SetupPaymentSheetParameters(
+                          // Enable custom flow
+                          customFlow: true,
+                          // Main params
+                          merchantDisplayName: 'Flutter Stripe Store Demo',
+                        ),
+                      );
                       progressDialog.dismiss();
+                      //     await Stripe.instance.presentPaymentSheet();
                       await Get.to(() => SubscriptionScreen());
                     } catch (e) {
+                      print(e);
                       progressDialog.dismiss();
                     }
 
@@ -425,7 +477,9 @@ class _NewProfileState extends State<NewProfile> {
                           try {
                             _.getVideo(_.videos![index].path.toString());
                             progressDialog.dismiss();
-                            await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
+                            await Get.to(() => VideoScreen(
+                                  id: _.videos![index].id.toString(),
+                                ));
                           } catch (e) {
                             SnackbarWidget()
                                 .showsnackbar(e.toString(), context);
