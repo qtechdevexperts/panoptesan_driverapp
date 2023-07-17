@@ -80,9 +80,10 @@ class _VideoScreenState extends State<VideoScreen> {
           IconButton(
             onPressed: () async {
               print(widget.id);
+
               var pr = pl.ProgressDialog(context,
                   type: pl.ProgressDialogType.download,
-                  isDismissible: true,
+                  isDismissible: false,
                   showLogs: true);
               pr.style(
                   message: 'Preparing file for editing...',
@@ -131,12 +132,46 @@ class _VideoScreenState extends State<VideoScreen> {
 
                 var info = await videoInfo.getVideoInfo(filePath);
 
-                await Get.to(VideoEditor(
+                var isedit = await Get.to(VideoEditor(
                   videoid: widget.id,
                   file: File(filePath),
                   max: info!.duration!.toInt(),
                   min: 1,
-                ))?.then((value) => Get.back());
+                ));
+                if (isedit) {
+
+                  pr = pl.ProgressDialog(context,
+                  type: pl.ProgressDialogType.normal,
+                  isDismissible: false,
+                  showLogs: true);
+                  pr.style(
+                      message: 'Uploading video...',
+                      borderRadius: 10.0,
+                      backgroundColor: Colors.white,
+                      progressWidget: CircularProgressIndicator(),
+                      elevation: 10.0,
+                      insetAnimCurve: Curves.easeInOut,
+          
+                      progressTextStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w400),
+                      messageTextStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 19.0,
+                          fontWeight: FontWeight.w600));
+
+                  pr.show();
+                  await videocontroller.editvideo(
+                      widget.id, videocontroller.file!.path);
+
+                  await videocontroller.setvideo();
+
+                  pr.hide();
+                  await Alert()
+                      .showalertwithmessage("Video uploaded", context)
+                      .then((value) => Get.back());
+                }
               } catch (e) {
                 pr.hide();
                 print(e);
@@ -441,7 +476,6 @@ class _VideoScreenState extends State<VideoScreen> {
                                   // _vdC.controller.seekTo(duration);
                                   //  value = _vdC.controller!.value.position.inMicroseconds.toDouble();
                                 },
-
                               ),
                             );
                           },
@@ -457,15 +491,16 @@ class _VideoScreenState extends State<VideoScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                  value.position.inMinutes.toString() +":" +    value.position.inSeconds.toString()),
+                              child: Text(value.position.inMinutes.toString() +
+                                  ":" +
+                                  value.position.inSeconds.toString()),
                             ),
-                              Padding(
+                            Padding(
                               padding: const EdgeInsets.only(right: 25),
-                              child: Text(
-                                  value.duration.inMinutes.toString() +":" +    value.duration.inSeconds.toString()),
+                              child: Text(value.duration.inMinutes.toString() +
+                                  ":" +
+                                  value.duration.inSeconds.toString()),
                             ),
-                        
                           ],
                         );
                       },
@@ -482,7 +517,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 20,
-                                offset: Offset(0, 10), // changes position of shadow
+                                offset:
+                                    Offset(0, 10), // changes position of shadow
                               ),
                             ],
                           ),
@@ -536,7 +572,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 20,
-                                offset: Offset(0, 10), // changes position of shadow
+                                offset:
+                                    Offset(0, 10), // changes position of shadow
                               ),
                             ],
                           ),

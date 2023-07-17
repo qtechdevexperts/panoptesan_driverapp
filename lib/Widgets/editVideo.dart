@@ -10,17 +10,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:panoptesan_alpha/Widgets/videoeditwidet.dart';
 import 'package:panoptesan_alpha/controllers/videoController.dart';
+import 'package:panoptesan_alpha/helpers/alerts.dart';
 import 'package:panoptesan_alpha/screens/home.dart';
 
 import 'package:video_editor/video_editor.dart';
 
 import '../controllers/BottomController.dart';
 import '../helpers/Colors.dart';
-import '../helpers/dialog/src/progress_dialog.dart';
+
 import '../screens/homemain.dart';
 import 'HomeVideoCard.dart';
 import 'SquareIconButton.dart';
 import 'crop.dart';
+
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart '
+    as pr;
 
 class TransparentPlayButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -71,7 +75,7 @@ class _VideoEditorState extends State<VideoEditor> {
     minDuration: Duration(seconds: widget.min),
     maxDuration: Duration(seconds: widget.max),
   );
-
+  final bottomcontroller = Get.put(VideoController());
   @override
   void initState() {
     super.initState();
@@ -101,134 +105,50 @@ class _VideoEditorState extends State<VideoEditor> {
       );
 
   Future<void> _exportVideo() async {
-    ProgressDialog progressDialog = ProgressDialog(context,
-        message: const Text("Please Wait....."), title: const Text("Loading"));
-
+    var pl = pr.ProgressDialog(context,
+        type: pr.ProgressDialogType.download,
+        isDismissible: true,
+        showLogs: true);
+    pl.show();
     //  _exportingProgress.value = 0;
     //  _isExporting.value = true;
     // NOTE: To use `-crf 1` and [VideoExportPreset] you need `ffmpeg_kit_flutter_min_gpl` package (with `ffmpeg_kit` only it won't work)
-    await _controller.exportVideo(
-      // preset: VideoExportPreset.medium,
-      // customInstruction: "-crf 17",
-      onProgress: (stats, value) {
-        progressDialog.show();
-      },
-      onError: (e, s) => _showErrorSnackBar("Error on export video :("),
-      onCompleted: (file) async {
-        //    _isExporting.value = false;
-        //      if (!mounted) return;
-        final bottomcontroller = Get.put(VideoController());
-        //   bottomcontroller.navBarChange(0);
-        //    Get.to(() => MainScreen());
 
-        bottomcontroller.file = File(file.path);
+    try {
+      await _controller.exportVideo(
+        // preset: VideoExportPreset.medium,
+        // customInstruction: "-crf 17",
+        onProgress: (stats, value) {
+          var val = value * 100;
 
-        if (widget.videoid.isNotEmpty) {
-          try {
-            await bottomcontroller.editvideo(widget.videoid, file.path);
-          } catch (e) {
-            print(e);
-          }
+          var str = val.toStringAsFixed(0);
 
-          await bottomcontroller.setvideo();
-        }
+          pl.update(progress: double.parse(str));
+        },
+        onError: (e, s) {
+          throw (e);
+        },
+        onCompleted: (file) async {
+          bottomcontroller.file = File(file.path);
+               pl.hide();
+          await Alert()
+              .showalertwithmessage("Edit Completed", context)
+              .then((value) => Get.back(result: true));
+     
+        },
+      );
+    } catch (e) {
+      Alert()
+          .showalertwithmessage("Error failed to edit file", context)
+          .then((value) => Get.back(result: false));
+      pl.hide();
+    }
 
-        progressDialog.dismiss();
-        Get.back();
-        // showDialog(context: context, builder: (_) => VideoResultPopup(video: file));
+    //
+    //
+    //     .then((value) => Get.back());
 
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return AlertDialog(
-        //         shape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(10)),
-        //         insetPadding: horizontal40Padding,
-        //         contentPadding:
-        //             EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
-        //         actionsPadding: EdgeInsets.zero,
-        //         content: Column(
-        //           mainAxisSize: MainAxisSize.min,
-        //           children: [
-        //             30.verticalSpace,
-
-        //             Text(
-        //               "Congrats",
-        //               style: GoogleFonts.inter(
-        //                   fontSize: 30,
-        //                   fontWeight: FontWeight.w700,
-        //                   color: black),
-        //             ),
-        //             SizedBox(height: 10.h),
-        //             Text(
-        //               "Videos have been saved\n successfully",
-        //               textAlign: TextAlign.center,
-        //               style: GoogleFonts.inter(
-        //                   fontSize: 17, fontWeight: FontWeight.w400, color: grey),
-        //             ),
-        //             SizedBox(height: 20.h),
-        //             Container(
-        //               width: 200.w,
-        //               height: 180.h,
-        //               decoration: BoxDecoration(
-        //                 borderRadius: BorderRadius.circular(5),
-        //                 image: DecorationImage(
-        //                     image: AssetImage(
-        //                       roadpics[1],
-        //                     ),
-        //                     fit: BoxFit.cover),
-        //               ),
-        //               child: Center(
-        //                 child: FaIcon(
-        //                   FontAwesomeIcons.solidCircleCheck,
-        //                   color: Color(0xff44B241),
-        //                   size: 50,
-        //                 ),
-        //               ),
-        //             ),
-        //             30.verticalSpace,
-        //             GestureDetector(
-        //               onTap: () {
-
-        //                 Get.back();
-        //               },
-        //               child: Container(
-        //                   width: 1.sw,
-        //                   height: 51.h,
-        //                   decoration: BoxDecoration(
-        //                     color: kprimary,
-        //                     borderRadius: BorderRadius.only(
-        //                       bottomLeft: Radius.circular(5.0),
-        //                       bottomRight: Radius.circular(5.0),
-        //                     ),
-        //                   ),
-        //                   child: Center(
-        //                     child: Text(
-        //                       'Go Back',
-        //                       style: TextStyle(
-        //                         fontSize: 18,
-        //                         fontWeight: FontWeight.bold,
-        //                         color: white,
-        //                       ),
-        //                     ),
-        //                   )),
-        //             ),
-        //             // CustomButton(
-        //             //   tap: () {
-        //             //     Get.to(() => MainScreen());
-        //             //   },
-        //             //   width: 1.sw,
-        //             //   height: 60.h,
-        //             //   ButtonText: 'Back to Home',
-        //             //   gradients: bprimaryColor,
-        //             // ),
-        //           ],
-        //         ),
-        //       );
-        //     },
-        //   );
-      },
-    );
+// Get.back();
   }
 
   void _exportCover() async {
