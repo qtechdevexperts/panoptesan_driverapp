@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -11,6 +14,8 @@ import '../Widgets/CustomButton.dart';
 import '../helpers/Colors.dart';
 import 'SelectPaymentMethod.dart';
 import 'home.dart';
+
+import 'package:http/http.dart' as http;
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -37,16 +42,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           leading: Padding(
-          padding: const EdgeInsets.all(9.0),
-          child: CircleIconButton(
-            backgroundColor: Color(0xFF007AB6),
-            icon: Icons.arrow_back,
-            iconColor: Colors.white,
-            onPressed: () {
-              Get.back();
-            },
+            padding: const EdgeInsets.all(9.0),
+            child: CircleIconButton(
+              backgroundColor: Color(0xFF007AB6),
+              icon: Icons.arrow_back,
+              iconColor: Colors.white,
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
-        ),
           centerTitle: true,
           title: Text(
             'Subscription Packages',
@@ -338,8 +343,36 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 child: Container(
                   width: constraints.maxWidth / 1.2,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(() => CardScreen());
+                    onPressed: () async {
+                      //  Get.to(() => CardScreen());
+
+                      var model = await createPaymentIntent('100', "USD");
+
+                      BillingDetails billingDetails = new BillingDetails(
+                          address: Address(
+                              city: "",
+                              country: "",
+                              line1: "",
+                              line2: "",
+                              postalCode: "",
+                              state: ""),
+                          email: "",
+                          name: "",
+                          phone: "");
+
+                      await Stripe.instance.initPaymentSheet(
+                        paymentSheetParameters: SetupPaymentSheetParameters(
+                            merchantDisplayName: 'TEST',
+                            paymentIntentClientSecret: model["client_secret"],
+                            //    customerEphemeralKeySecret: eph.secret,
+                            customerId: model["customer"],
+                            style: ThemeMode.system,
+                            billingDetails: billingDetails,
+                            customFlow: true),
+                      );
+                      await Stripe.instance.presentPaymentSheet();
+
+                      Get.back();
                       // Get.to(() => SubscriptionScreen());
                       // Button action goes here
                     },
@@ -365,5 +398,29 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         ),
       );
     });
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      //Request body
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      //Make post request to Stripe
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51NG3fqKsOuXXDZeS3dpErpgvFsDZH7QVZ7pnz9YUG94WOUdR25GkzE5EdpFiQ4xCUcEjaNb28ojjqEtWVUPLNgyn00X4yfukrj',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+      return json.decode(response.body);
+    } catch (err) {
+      throw Exception(err.toString());
+    }
   }
 }
