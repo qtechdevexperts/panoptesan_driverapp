@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:panoptesan_alpha/screens/subscriotion.dart';
 import 'package:panoptesan_alpha/screens/videos.dart';
 import 'package:share/share.dart';
+import '../helpers/alerts.dart';
 import '../helpers/api-constants.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
 import '../helpers/snackbar.dart';
@@ -83,7 +84,7 @@ class _NewProfileState extends State<NewProfile> {
                         return Positioned(
                           top: 130,
                           child: CachedNetworkImage(
-                              imageUrl: _.profile?.userDetail?.profileImg ??"",
+                              imageUrl: _.profile?.userDetail?.profileImg ?? "",
                               imageBuilder: (context, imageProvider) => Padding(
                                     padding: const EdgeInsets.all(2),
                                     child: Container(
@@ -204,6 +205,8 @@ class _NewProfileState extends State<NewProfile> {
                       await Get.to(() => SubscriptionScreen());
                     } catch (e) {
                       progressDialog.dismiss();
+
+                      Alert().showalertwithmessage(e.toString(), context);
                     }
 
                     // Button action goes here
@@ -425,7 +428,9 @@ class _NewProfileState extends State<NewProfile> {
                           try {
                             _.getVideo(_.videos![index].path.toString());
                             progressDialog.dismiss();
-                            await Get.to(() => VideoScreen(id: _.videos![index].id.toString(),));
+                            await Get.to(() => VideoScreen(
+                                  id: _.videos![index].id.toString(),
+                                ));
                           } catch (e) {
                             SnackbarWidget()
                                 .showsnackbar(e.toString(), context);

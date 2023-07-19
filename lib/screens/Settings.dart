@@ -262,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children: [
                       Text(
-                        "Terms & Condiciton",
+                        "Terms & Conditions",
                         style: TextStyle(
                           color: black,
                           fontSize: 15,

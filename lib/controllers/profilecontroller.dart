@@ -85,8 +85,8 @@ class ProfileController extends GetxController {
       var list = profile?.userDetail?.dob?.split("-");
       this.carname.text = profile?.userDetail?.vehicleName ?? "";
       this.model.text = profile?.userDetail?.vehicleModel ?? "";
-      this.carmake.text =  profile?.userDetail?.vehicleMake ?? "";
-            this.drivinghabit.text =  profile?.userDetail?.drivingHabit ?? "";
+      this.carmake.text = profile?.userDetail?.vehicleMake ?? "";
+      this.drivinghabit.text = profile?.userDetail?.drivingHabit ?? "";
       try {
         this.month.text = list![0].toString();
         this.day.text = list[1].toString();
@@ -142,10 +142,8 @@ class ProfileController extends GetxController {
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-
+      var jsonData = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        var jsonData = await response.stream.bytesToString();
-
         final decodedData = jsonDecode(jsonData);
         final data = decodedData['data'] as List<dynamic>;
 
@@ -157,7 +155,7 @@ class ProfileController extends GetxController {
         this.notificationList = notificationList;
         update();
       } else {
-        print(response.reasonPhrase);
+        throw (jsonData);
       }
     } catch (e) {}
   }
@@ -230,9 +228,7 @@ class ProfileController extends GetxController {
       'Authorization': 'Bearer $token'
     };
     var request = http.Request(
-        'DELETE',
-        Uri.parse(
-             ApiConstants.baseUrl +'/remove/$userid'));
+        'DELETE', Uri.parse(ApiConstants.baseUrl + '/remove/$userid'));
 
     request.headers.addAll(headers);
 
@@ -241,7 +237,7 @@ class ProfileController extends GetxController {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      throw (response.reasonPhrase.toString());
     }
   }
 
@@ -257,10 +253,8 @@ class ProfileController extends GetxController {
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-
+    var jsonData = await response.stream.bytesToString();
     if (response.statusCode == 200) {
-      var jsonData = await response.stream.bytesToString();
-
       final decodedData = jsonDecode(jsonData);
       final data = decodedData['data'] as List<dynamic>;
 
@@ -270,7 +264,80 @@ class ProfileController extends GetxController {
       this.packages = videos;
       update();
     } else {
-      throw ("Error");
+      throw (jsonData);
+    }
+  }
+
+  makepayment(String mpid, int amount) async {
+    try {
+      var token = await LocalStorage.prefs?.getString("token");
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST', Uri.parse(ApiConstants.baseUrl + '/stripe-purchase'));
+      request.body = json.encode({"pmId": mpid, "amount": amount});
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        throw (response.reasonPhrase.toString());
+      }
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      //Request body
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      //Make post request to Stripe
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51NG3fqKsOuXXDZeS3dpErpgvFsDZH7QVZ7pnz9YUG94WOUdR25GkzE5EdpFiQ4xCUcEjaNb28ojjqEtWVUPLNgyn00X4yfukrj',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      }
+      throw Exception(json.decode(response.body));
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
+  Future subscription(String id) async {
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/purchase'));
+    request.body = json.encode({"subscription": id});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      throw (response.reasonPhrase.toString());
     }
   }
 }

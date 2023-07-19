@@ -8,10 +8,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:panoptesan_alpha/controllers/BottomController.dart';
 import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
+import 'package:panoptesan_alpha/helpers/alerts.dart';
 
 import '../Widgets/CustomButton.dart';
 import '../helpers/Colors.dart';
+import '../helpers/dialog/src/progress_dialog.dart';
 import 'SelectPaymentMethod.dart';
 import 'home.dart';
 
@@ -31,7 +34,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     initialPage: 0,
     viewportFraction: 1,
   );
-  int page = 0;
+
+  int currentindex = 0;
+
+  //int page = 0;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -73,7 +79,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     // width: 1.sw,
                     // color: appbarfont,
                     child: PageView.builder(
-                      controller: PageController(initialPage: page),
+                      onPageChanged: (inx) {
+                        this.currentindex = inx;
+                      },
+                      controller: PageController(initialPage: 0),
                       itemCount: controller.packages.length,
                       itemBuilder: (context, index) {
                         return Container(
@@ -291,11 +300,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              page--;
-                            });
-                          },
+                          onTap: () {},
                           child: Container(
                             decoration: BoxDecoration(
                                 color: white, shape: BoxShape.circle),
@@ -312,12 +317,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              page++;
-                              print('index');
-                            });
-                          },
+                          onTap: () {},
                           child: Container(
                             decoration: BoxDecoration(
                                 color: white, shape: BoxShape.circle),
@@ -344,35 +344,70 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   width: constraints.maxWidth / 1.2,
                   child: ElevatedButton(
                     onPressed: () async {
+                      var bottomcontroller = Get.put(BottomController());
+                      print(controller.packages[currentindex].price);
                       //  Get.to(() => CardScreen());
+                      Map<dynamic, dynamic> model = {};
 
-                      var model = await createPaymentIntent('100', "USD");
+                      ProgressDialog progressDialog = ProgressDialog(context,
+                          message: const Text("Please Wait....."),
+                          title: const Text("Loading"));
+                      progressDialog.show();
 
-                      BillingDetails billingDetails = new BillingDetails(
-                          address: Address(
-                              city: "",
-                              country: "",
-                              line1: "",
-                              line2: "",
-                              postalCode: "",
-                              state: ""),
-                          email: "",
-                          name: "",
-                          phone: "");
+                      try {
+                        var amount =
+                            controller.packages[currentindex].price * 100;
+                        model = await controller.createPaymentIntent(
+                            amount.toString(), "USD");
 
-                      await Stripe.instance.initPaymentSheet(
-                        paymentSheetParameters: SetupPaymentSheetParameters(
-                            merchantDisplayName: 'TEST',
-                            paymentIntentClientSecret: model["client_secret"],
-                            //    customerEphemeralKeySecret: eph.secret,
-                            customerId: model["customer"],
-                            style: ThemeMode.system,
-                            billingDetails: billingDetails,
-                            customFlow: true),
-                      );
-                      await Stripe.instance.presentPaymentSheet();
+                        // var pmid = await controller.retrieveTxnId(
+                        //     context: context, paymentIntent: model["id"]);
+                        progressDialog.dismiss();
+                        print("tapped");
 
-                      Get.back();
+                        BillingDetails billingDetails = new BillingDetails(
+                            address: Address(
+                                city: controller.profile?.address,
+                                country: "",
+                                line1: "",
+                                line2: "",
+                                postalCode: "",
+                                state: ""),
+                            email: controller.profile?.email,
+                            name: controller.profile?.userDetail?.name,
+                            phone: controller.profile?.contactNumber);
+
+                        await Stripe.instance.initPaymentSheet(
+                          paymentSheetParameters: SetupPaymentSheetParameters(
+                              merchantDisplayName: 'TEST',
+                              paymentIntentClientSecret: model["client_secret"],
+                              //    customerEphemeralKeySecret: eph.secret,
+                              customerId: model["customer"],
+                              style: ThemeMode.system,
+                              billingDetails: billingDetails,
+                              customFlow: true),
+                        );
+
+                        var result =
+                            await Stripe.instance.presentPaymentSheet();
+
+                        print(result!.toJson());
+
+                        await Stripe.instance.confirmPaymentSheetPayment();
+
+                        await controller.subscription(
+                            controller.packages[currentindex].id.toString());
+
+                        await Alert().showalertwithmessage(
+                            "Payment Successful", context);
+                        bottomcontroller.navBarChange(2);
+                        Get.back();
+                      } catch (e) {
+                        progressDialog.dismiss();
+                        Alert().showalertwithmessage(
+                            "Failed to Make Payment ", context);
+                      }
+
                       // Get.to(() => SubscriptionScreen());
                       // Button action goes here
                     },
@@ -398,29 +433,5 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         ),
       );
     });
-  }
-
-  createPaymentIntent(String amount, String currency) async {
-    try {
-      //Request body
-      Map<String, dynamic> body = {
-        'amount': amount,
-        'currency': currency,
-      };
-
-      //Make post request to Stripe
-      var response = await http.post(
-        Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {
-          'Authorization':
-              'Bearer sk_test_51NG3fqKsOuXXDZeS3dpErpgvFsDZH7QVZ7pnz9YUG94WOUdR25GkzE5EdpFiQ4xCUcEjaNb28ojjqEtWVUPLNgyn00X4yfukrj',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: body,
-      );
-      return json.decode(response.body);
-    } catch (err) {
-      throw Exception(err.toString());
-    }
   }
 }

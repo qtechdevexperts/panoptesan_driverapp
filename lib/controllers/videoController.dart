@@ -24,7 +24,7 @@ class VideoController extends GetxController {
     // TODO: implement onInit
 
     setvideo();
-    getarchivevideos();
+  
     super.onInit();
   }
 
@@ -44,27 +44,7 @@ class VideoController extends GetxController {
   var sliderValue = 0.0;
   var position = Duration.zero;
 
-  setarchivevideo(String? id) async {
-    var token = LocalStorage.prefs?.getString("token");
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var request = http.Request(
-        'PUT', Uri.parse(ApiConstants.baseUrl + '/$id/video/archive'));
-
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      await getarchivevideos();
-    } else {
-      print(response.reasonPhrase);
-    }
-  }
+ 
 
   uploadvideo(File file) async {
     var token = LocalStorage.prefs?.getString("token");
@@ -139,39 +119,11 @@ class VideoController extends GetxController {
 
       return videos;
     } else {
-      print(response.reasonPhrase);
+      throw(response.reasonPhrase.toString());
     }
   }
 
-  getarchivevideos() async {
-    try {
-      var token = LocalStorage.prefs?.getString("token");
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
-      };
-      var request = http.Request(
-          'GET', Uri.parse(ApiConstants.baseUrl + '/archive/videos'));
 
-      request.headers.addAll(headers);
-
-      http.StreamedResponse response = await request.send();
-
-      if (response.statusCode == 200) {
-        var result = await response.stream.bytesToString();
-        Map<String, dynamic> jsonData = jsonDecode(result);
-        List<dynamic> data = jsonData['data'] ?? [];
-
-        List<VideoModel> videos =
-            data.map((videoJson) => VideoModel.fromJson(videoJson)).toList();
-
-        //     this.archives = videos;
-        update();
-      } else {
-        print(response.reasonPhrase);
-      }
-    } catch (e) {}
-  }
 
   late VideoPlayerController controller;
   getVideo(String url) {
@@ -252,9 +204,9 @@ class VideoController extends GetxController {
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-
+  var result = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        var result = await response.stream.bytesToString();
+
         Map<String, dynamic> jsonData = jsonDecode(result);
         List<dynamic> data = jsonData['data'] ?? [];
 
@@ -266,7 +218,7 @@ class VideoController extends GetxController {
         this.videoscreenloading = false;
         update();
       } else {
-        print(response.reasonPhrase);
+        throw(result);
       }
     } catch (e) {
       this.videoscreenloading = false;

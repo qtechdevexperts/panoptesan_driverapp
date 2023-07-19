@@ -93,7 +93,7 @@ dependencies:
   custom_date_range_picker: ^1.0.10
   flutter_image: ^4.1.6
   permission_handler: ^10.4.2
-  flutter_stripe: ^7.0.0
+  flutter_stripe: ^9.2.2
 
 
  

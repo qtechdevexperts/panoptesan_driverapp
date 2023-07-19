@@ -113,7 +113,7 @@ class LoginSignupHandler {
       var token = json['data']['token'];
       var user = UserModel.fromJson(json['data']['user']);
       await LocalStorage.prefs?.setString('token', token);
-           try {
+      try {
         await settoken();
       } catch (e) {
         print(e);
@@ -161,13 +161,16 @@ class LoginSignupHandler {
     var token = await LocalStorage.prefs?.getString("token");
 
     String id = "";
+    String device_type = "";
 
     try {
       if (Platform.isAndroid) {
         id = deviceInfo.data["id"];
+        device_type = "Android";
       }
       if (Platform.isIOS) {
         id = deviceInfo.data["identifierForVendor"];
+        device_type = "IOS";
       }
     } catch (e) {
       print(e);
@@ -180,7 +183,8 @@ class LoginSignupHandler {
       };
       var request =
           http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/token'));
-      request.body = json.encode({"token": fcmToken, "device_id": id});
+      request.body = json.encode(
+          {"token": fcmToken, "device_id": id, "device_type": device_type});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
