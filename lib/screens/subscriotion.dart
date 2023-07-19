@@ -355,6 +355,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       progressDialog.show();
 
                       try {
+                        var customer = await controller.createcustomer(
+                            controller.profile?.userDetail?.name,
+                            controller.profile?.email);
                         var amount =
                             controller.packages[currentindex].price * 100;
                         model = await controller.createPaymentIntent(
@@ -382,7 +385,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               merchantDisplayName: 'TEST',
                               paymentIntentClientSecret: model["client_secret"],
                               //    customerEphemeralKeySecret: eph.secret,
-                              customerId: model["customer"],
+                              customerId:customer["id"],
                               style: ThemeMode.system,
                               billingDetails: billingDetails,
                               customFlow: true),

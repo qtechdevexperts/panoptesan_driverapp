@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:panoptesan_alpha/models/packagemodel.dart';
 
 import '../helpers/dialog/src/progress_dialog.dart';
@@ -291,6 +292,30 @@ class ProfileController extends GetxController {
       print(e);
       throw (e);
     }
+  }
+
+  createcustomer( name, email) async {
+    try {
+      var data = {
+        'name': name,
+        'email':email
+  
+      };
+      Response response = await Dio().post(
+        'https://api.stripe.com/v1/customers',
+        data: data,
+        options:
+            Options(contentType: Headers.formUrlEncodedContentType, headers: {
+          'Authorization':
+              'Bearer sk_test_51NG3fqKsOuXXDZeS3dpErpgvFsDZH7QVZ7pnz9YUG94WOUdR25GkzE5EdpFiQ4xCUcEjaNb28ojjqEtWVUPLNgyn00X4yfukrj', // your secret key
+        }),
+      );
+  
+      return response.data;
+    } catch (err) {
+     throw("failed to create customer");
+    }
+
   }
 
   createPaymentIntent(String amount, String currency) async {
