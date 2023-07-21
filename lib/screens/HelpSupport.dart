@@ -229,7 +229,15 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   //isExpanded: true,
                   value: null,
                   onChanged: (newValue) {
-             supportcontroller.category.text = newValue??'';
+                    if (newValue != null) {
+                      if (newValue == "Request to become fleet manager") {
+                        supportcontroller.category.text = "BECOME_FLEET";
+                      }
+                      if (newValue == "Other") {
+                        supportcontroller.category.text = "OTHERS";
+                      }
+                    }
+               
                   },
                   items: ["Request to become fleet manager", "Other"]
                       .map<DropdownMenuItem<String>>((String value) {
@@ -299,7 +307,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     if (supportcontroller.email.text.isEmpty ||
                         supportcontroller.name.text.isEmpty ||
                         supportcontroller.message.text.isEmpty ||
-                        supportcontroller.phonenumber.text.isEmail || supportcontroller.category.text.isEmpty) {
+                        supportcontroller.phonenumber.text.isEmail ||
+                        supportcontroller.category.text.isEmpty) {
                       return SnackbarWidget()
                           .showsnackbar("Please fill all fields", context);
                     }
