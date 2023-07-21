@@ -13,6 +13,7 @@ class SupportController extends GetxController {
   TextEditingController email = new TextEditingController();
   TextEditingController phonenumber = new TextEditingController();
   TextEditingController message = new TextEditingController();
+   TextEditingController category = new TextEditingController();
 
   sendsupport() async {
     var token = LocalStorage.prefs?.getString("token");
@@ -26,7 +27,8 @@ class SupportController extends GetxController {
       "email": email.text,
       "name": name.text,
       "message": message.text,
-      "number": phonenumber.text
+      "number": phonenumber.text,
+      "category":category.text
     });
     request.headers.addAll(headers);
 
@@ -37,6 +39,8 @@ class SupportController extends GetxController {
       name.clear();
       phonenumber.clear();
       message.clear();
+
+      category.clear();
       print(await response.stream.bytesToString());
     } else {
       print(response.reasonPhrase);

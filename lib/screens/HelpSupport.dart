@@ -182,6 +182,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 ),
               ),
               6.verticalSpace,
+
               CustomTextField(
                 keyboardtype: TextInputType.phone,
                 controller: supportcontroller.phonenumber,
@@ -200,7 +201,61 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 hintColor: grey,
                 widthh: 0.9.sw,
               ),
-              20.verticalSpace,
+              12.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    "Request Type",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              // 6.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField<String>(
+                  icon: FaIcon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: grey,
+                    size: 20,
+                  ),
+
+                  //isExpanded: true,
+                  value: null,
+                  onChanged: (newValue) {
+             supportcontroller.category.text = newValue??'';
+                  },
+                  items: ["Request to become fleet manager", "Other"]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 30, right: 20),
+                    filled: true,
+                    fillColor: white,
+                    hintText: 'Please select one option',
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      color: grey,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              //  20.verticalSpace,
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Align(
@@ -244,7 +299,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     if (supportcontroller.email.text.isEmpty ||
                         supportcontroller.name.text.isEmpty ||
                         supportcontroller.message.text.isEmpty ||
-                        supportcontroller.phonenumber.text.isEmail) {
+                        supportcontroller.phonenumber.text.isEmail || supportcontroller.category.text.isEmpty) {
                       return SnackbarWidget()
                           .showsnackbar("Please fill all fields", context);
                     }
@@ -258,7 +313,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     try {
                       await supportcontroller.sendsupport();
                       progressDialog.dismiss();
-                     await showDialog(
+                      await showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
