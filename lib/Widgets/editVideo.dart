@@ -23,8 +23,7 @@ import 'HomeVideoCard.dart';
 import 'SquareIconButton.dart';
 import 'crop.dart';
 
-import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart '
-    as pr;
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart' as pr;
 
 class TransparentPlayButton extends StatelessWidget {
   final VoidCallback onPressed;
