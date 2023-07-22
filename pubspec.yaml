@@ -94,6 +94,7 @@ dependencies:
   flutter_image: ^4.1.6
   permission_handler: ^10.4.2
   flutter_stripe: ^9.2.2
+  flutter_local_notifications: ^15.1.0+1
 
 
  

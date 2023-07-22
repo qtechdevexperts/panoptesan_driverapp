@@ -129,32 +129,7 @@ class LoginSignupHandler {
     String? fcmToken = "";
 
     try {
-   
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-NotificationSettings settings = await messaging.requestPermission(
-  alert: true,
-  announcement: false,
-  badge: true,
-  carPlay: false,
-  criticalAlert: false,
-  provisional: false,
-  sound: true,
-);
-
-   fcmToken = await FirebaseMessaging.instance.getToken();
-
-      print('User granted permission: ${settings.authorizationStatus}');
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print('Got a message whilst in the foreground!');
-        print('Message data: ${message.data}');
-
-        if (message.notification != null) {
-          print(
-              'Message also contained a notification: ${message.notification}');
-        }
-      });
+      fcmToken = await FirebaseMessaging.instance.getToken();
     } catch (e) {
       print(e);
     }

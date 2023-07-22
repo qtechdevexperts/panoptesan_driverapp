@@ -9,6 +9,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -43,8 +44,10 @@ void main() async {
   };
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalStorage.init();
+
   HttpOverrides.global = new MyHttpOverrides();
-Stripe.publishableKey = "pk_test_51NG3fqKsOuXXDZeSK4rQR8uSvzphBgQq8tdBvTRItLZdFZzqCHpK8BYtUYgclbPuMvdyq5vBEWBQB02agpwpFeNW00dcKfmEO3";
+  Stripe.publishableKey =
+      "pk_test_51NG3fqKsOuXXDZeSK4rQR8uSvzphBgQq8tdBvTRItLZdFZzqCHpK8BYtUYgclbPuMvdyq5vBEWBQB02agpwpFeNW00dcKfmEO3";
   Stripe.merchantIdentifier = 'TEST';
   await Stripe.instance.applySettings();
   runApp(const MyApp());
@@ -104,6 +107,7 @@ class _SplashState extends State<Splash> {
       () {},
     );
     try {
+      await settoken();
       if (token == null || token.isEmpty) {
         //    Get.to(() => PreLoginScreen());
         await Get.offAll(Getstarted());
@@ -119,6 +123,118 @@ class _SplashState extends State<Splash> {
       await Get.offAll(MainScreen());
       //  Route route = MaterialPageRoute(builder: (context) => PreLoginScreen());
       //  Navigator.pushReplacement(context, route);
+    }
+  }
+
+  androidnotification(RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    if (notification != null && android != null) {
+      try {
+
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        description:
+            'This channel is used for important notifications.', // description
+        importance: Importance.high,
+        playSound: true);
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+        
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+              
+              ),
+            ));
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  Future settoken() async {
+    try {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: true,
+        sound: true,
+      );
+
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        print('User granted permission');
+      } else if (settings.authorizationStatus ==
+          AuthorizationStatus.provisional) {
+        print('User granted provisional permission');
+      } else {
+        print('User declined or has not accepted permission');
+      }
+
+      if (Platform.isIOS) {
+        await FirebaseMessaging.instance
+            .setForegroundNotificationPresentationOptions(
+          alert: true, // Required to display a heads up notification
+          badge: true,
+          sound: true,
+        );
+      }
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        if (Platform.isAndroid) {
+          androidnotification(message);
+        }
+        // RemoteNotification notification = message.notification;
+        // AndroidNotification android = message.notification?.android;
+
+        // if (notification != null && android != null) {
+        //   flutterLocalNotificationsPlugin.show(
+        //       notification.hashCode,
+        //       notification.title,
+        //       notification.body,
+        //       NotificationDetails(
+        //         android: AndroidNotificationDetails(
+        //           channel.id,
+        //           channel.name,
+        //           channel.description,
+        //           icon: android?.smallIcon,
+        //           // other properties...
+        //         ),
+        //       ));
+        // }
+
+        // }
+
+        // If `onMessage` is triggered with a notification, construct our own
+        // local notification to show to users using the created channel.
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
