@@ -303,7 +303,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                       progressDialog.show();
                       try {
                         await controller
-                            .uploadvideo(File(controller.file!.path));
+                            .uploadvideo(File(file.path));
                         await controller.setvideo();
                         progressDialog.dismiss();
 

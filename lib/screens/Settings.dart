@@ -388,7 +388,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           SizedBox(height: 10.h),
                           Text(
-                            "Are you sure you want\n to logout",
+                            "Are you sure you want\n to logout?",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                                 fontSize: 17,
