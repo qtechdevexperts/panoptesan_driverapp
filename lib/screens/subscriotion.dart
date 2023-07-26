@@ -389,7 +389,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         var result =
                             await Stripe.instance.presentPaymentSheet();
 
-                        print(result!.toJson());
+                      //  print(result!.toJson());
                         progressDialog.show();
                         await Stripe.instance.confirmPaymentSheetPayment();
 
