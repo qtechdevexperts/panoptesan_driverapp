@@ -12,6 +12,7 @@ import '../controllers/BottomController.dart';
 import '../controllers/profilecontroller.dart';
 import '../helpers/Colors.dart';
 import '../helpers/snackbar.dart';
+import 'home.dart';
 import 'homemain.dart';
 
 class EmergencyContactsScreen extends StatefulWidget {
@@ -115,24 +116,14 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () {
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
               Get.back();
             },
-            splashColor: Colors.white, // Customize the ripple effect color
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFF0A7FB8),
-              ),
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            ),
           ),
         ),
         centerTitle: true,
@@ -162,7 +153,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
-                  controller:profilecontroller.emergencyname,
+                  controller: profilecontroller.emergencyname,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -182,7 +173,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         color: black)),
                 10.verticalSpace,
                 TextFormField(
-                  controller: profilecontroller. emergencyrelationship,
+                  controller: profilecontroller.emergencyrelationship,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: white,
@@ -292,8 +283,6 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                 30.verticalSpace,
                 GestureDetector(
                   onTap: () async {
-
-
                     print("tapped");
                     FocusScope.of(context).unfocus();
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -332,19 +321,19 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         await profilecontroller
                             .setimage(profilecontroller.file);
                       }
-               
-                            profilecontroller.update();
+
+                      profilecontroller.update();
                       progressDialog.dismiss();
 
-                           Alert().showalertwithmessage("Profile Created Successfully", context);
-                     // SnackbarWidget().showsnackbar("Success", context);
-                
+                      Alert().showalertwithmessage(
+                          "Profile Created Successfully", context);
+                      // SnackbarWidget().showsnackbar("Success", context);
 
                       Get.off(MainScreen());
                     } catch (e) {
-                   //   SnackbarWidget().showsnackbar(e.toString(), context);
+                      //   SnackbarWidget().showsnackbar(e.toString(), context);
 
-                   Alert().showalertwithmessage(e.toString(), context);
+                      Alert().showalertwithmessage(e.toString(), context);
                       progressDialog.dismiss();
                     }
                   },

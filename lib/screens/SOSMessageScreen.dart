@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 
 import '../handlers/LoginSignupHandler.dart';
+import 'home.dart';
 
 class SOSMessageScreen extends StatefulWidget {
   const SOSMessageScreen({super.key});
@@ -27,7 +28,7 @@ class _SOSMessageScreenState extends State<SOSMessageScreen> {
     _getCurrentPosition();
   }
 
-  String? _currentAddress;
+  String? _currentAddress = "";
   Position? _currentPosition;
 
   var lat = 24.8820169;
@@ -108,24 +109,15 @@ class _SOSMessageScreenState extends State<SOSMessageScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10, top: 10),
-            child: Container(
-              width: 55,
-              height: 52,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.r),
-                  color: Color(0xffFFFFFF)),
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: SvgPicture.asset(
-                  'assets/leading.svg',
-                  color: Color(0xff005D99),
-                ),
-              ),
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: CircleIconButton(
+            backgroundColor: Color(0xFF007AB6),
+            icon: Icons.arrow_back,
+            iconColor: Colors.white,
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,

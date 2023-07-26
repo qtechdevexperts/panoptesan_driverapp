@@ -251,12 +251,16 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                   if (file != null) {
                     var isedit = false;
 
+                    var uploadonline = false;
+
                     await Alert().customalert(
                         "How would you like to continue?", context, () {
                       isedit = true;
+                      uploadonline = false;
                       Get.back();
                     }, () {
                       isedit = false;
+                      uploadonline = true;
                       Get.back();
                     });
 
@@ -290,8 +294,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                           await controller.setvideo();
                           progressDialog.dismiss();
 
-                          Alert()
-                              .showalertwithmessage("Video Uploaded", context);
+                          Alert().showalertwithmessage("Video Edited", context);
                         } catch (e) {
                           progressDialog.dismiss();
                           Alert().showalertwithmessage(
@@ -299,11 +302,12 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                               context);
                         }
                       }
-                    } else {
+                    } else {}
+
+                    if (uploadonline) {
                       progressDialog.show();
                       try {
-                        await controller
-                            .uploadvideo(File(file.path));
+                        await controller.uploadvideo(File(file.path));
                         await controller.setvideo();
                         progressDialog.dismiss();
 

@@ -129,11 +129,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                         color: white, size: 15),
                                     5.horizontalSpace,
                                     Text(
-                                      '✔  Lorem ipsum dolor sit amet consectetur',
+                                      controller.packages[index].description,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
                                         letterSpacing: -0.04,
-                                        fontSize: 11,
+                                        fontSize: constraints.maxWidth * 0.035,
                                         fontWeight: FontWeight.w300,
                                         color: kprimary,
                                       ),
@@ -141,6 +141,28 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   ],
                                 ),
                               ),
+
+                              // Container(
+                              //   // width: 209.w,
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       FaIcon(FontAwesomeIcons.check,
+                              //           color: white, size: 15),
+                              //       5.horizontalSpace,
+                              //       Text(
+                              //         '✔  Lorem ipsum dolor sit amet consectetur',
+                              //         textAlign: TextAlign.center,
+                              //         style: GoogleFonts.inter(
+                              //           letterSpacing: -0.04,
+                              //           fontSize: 11,
+                              //           fontWeight: FontWeight.w300,
+                              //           color: kprimary,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               Divider(
                                 color: white,
                                 indent: 65,
@@ -156,38 +178,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                         color: white, size: 15),
                                     5.horizontalSpace,
                                     Text(
-                                      '✔  Lorem ipsum dolor sit amet consectetur',
+                                      controller.packages[index].storage,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
                                         letterSpacing: -0.04,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300,
-                                        color: kprimary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                color: white,
-                                indent: 65,
-                                endIndent: 65,
-                                height: 25,
-                              ),
-                              Container(
-                                // width: 209.w,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FaIcon(FontAwesomeIcons.check,
-                                        color: white, size: 15),
-                                    5.horizontalSpace,
-                                    Text(
-                                      '✔  Lorem ipsum dolor sit amet consectetur',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.inter(
-                                        letterSpacing: -0.04,
-                                        fontSize: 11,
+                                        fontSize: constraints.maxWidth * 0.035,
                                         fontWeight: FontWeight.w300,
                                         color: kprimary,
                                       ),
@@ -385,7 +380,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               merchantDisplayName: 'TEST',
                               paymentIntentClientSecret: model["client_secret"],
                               //    customerEphemeralKeySecret: eph.secret,
-                              customerId:customer["id"],
+                              customerId: customer["id"],
                               style: ThemeMode.system,
                               billingDetails: billingDetails,
                               customFlow: true),
@@ -395,12 +390,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             await Stripe.instance.presentPaymentSheet();
 
                         print(result!.toJson());
-
+                        progressDialog.show();
                         await Stripe.instance.confirmPaymentSheetPayment();
 
                         await controller.subscription(
                             controller.packages[currentindex].id.toString());
-
+                        progressDialog.dismiss();
                         await Alert().showalertwithmessage(
                             "Payment Successful", context);
                         bottomcontroller.navBarChange(2);

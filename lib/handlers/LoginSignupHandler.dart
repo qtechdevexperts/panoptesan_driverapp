@@ -58,6 +58,8 @@ class LoginSignupHandler {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
+  print(await response.stream.bytesToString());
+
       throw (response.reasonPhrase.toString());
     }
   }

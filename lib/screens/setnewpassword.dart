@@ -212,6 +212,15 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                                   return SnackbarWidget().showsnackbar(
                                       "Password does not match", context);
                                 }
+                                RegExp passwordRegex = RegExp(
+                                    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$');
+                                if (!passwordRegex
+                                    .hasMatch(this.passwordController.text)) {
+                                  return SnackbarWidget().showsnackbar(
+                                      'Password must contain at least one letter, one number, and one special character',
+                                      context);
+                                }
+
                                 ProgressDialog progressDialog = ProgressDialog(
                                     context,
                                     message: const Text("Please Wait....."),
@@ -225,6 +234,9 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                                   progressDialog.dismiss();
                                   SnackbarWidget().showsnackbar(
                                       "Password Set Successfully", context);
+
+                                      repeatPasswordController.clear();
+                                      passwordController.clear();
                                   await Get.offAll(NewLoginScreen());
                                 } catch (ex) {
                                   SnackbarWidget()
