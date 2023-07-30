@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ import '../models/videomodel.dart';
 
 class VideoController extends GetxController {
   List<VideoModel>? videos = [];
-
+ GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   //List<VideoModel> archives = [];
 
   File? file;
@@ -164,6 +165,34 @@ class VideoController extends GetxController {
       await setvideo();
     } else {
       throw Exception(response.reasonPhrase);
+    }
+  }
+
+
+
+  Future<void> loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // User cancelled the login
+        return;
+      }
+
+      // If you need an access token, you can obtain it like this:
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+ 
+      print("accessToken Token: " + googleAuth.accessToken.toString() );
+        print("idToken Token:"+ googleAuth.idToken.toString());
+
+
+      // Now you can use the access token to perform requests to your backend or other services.
+      // You can pass the access token to your server using the method described in the previous answer.
+
+      // If you want to sign out the user later, you can use:
+      // await _googleSignIn.signOut();
+
+    } catch (error) {
+      print("An error occurred: $error");
     }
   }
 

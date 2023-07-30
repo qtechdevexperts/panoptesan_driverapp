@@ -34,6 +34,7 @@ class Profile {
   bool? isFleet;
   String? updatedAt;
   UserDetail? userDetail;
+  bool? notification_enable = false;
   FleetUser? fleetUser;
   List<UserContact>? userContacts;
   List<VideoModel>? videosclips;
@@ -56,7 +57,9 @@ class Profile {
       this.userDetail,
       this.userContacts,
       this.fleetUser,
-      this.videosclips});
+      this.videosclips,
+      this.notification_enable
+      });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     List<UserContact>? userContactsList;
@@ -88,6 +91,7 @@ class Profile {
         createdBy: json['created_by'],
         isFleet: json['is_fleet'],
         updatedAt: json['updated_at'],
+        notification_enable: json['notification_enable']?? false,
         userDetail: json['user_detail'] == null
             ? null
             : UserDetail.fromJson(json['user_detail']),

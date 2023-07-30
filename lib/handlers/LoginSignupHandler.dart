@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:panoptesan_alpha/helpers/api-constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:panoptesan_alpha/helpers/localstorage.dart';
@@ -58,7 +60,7 @@ class LoginSignupHandler {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-  print(await response.stream.bytesToString());
+      print(await response.stream.bytesToString());
 
       throw (response.reasonPhrase.toString());
     }
@@ -213,6 +215,76 @@ class LoginSignupHandler {
       print(await response.stream.bytesToString());
     } else {
       throw (response.reasonPhrase.toString());
+    }
+  }
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  Future<void> handleFacebookLogin() async {
+    // Log in with Facebook and request the required permissions (default is email)
+    final result = await FacebookAuth.instance.login();
+
+    // Check if the login was successful
+    if (result.status == LoginStatus.success) {
+      // Get the access token
+      final accessToken = result.accessToken!.token;
+
+      var headers = {'Content-Type': 'application/json'};
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              ApiConstants.baseUrl +'/facebook/login'));
+      request.body = json.encode({"token": accessToken});
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        print(await response.stream.bytesToString());
+        throw (await response.stream.bytesToString());
+      }
+
+      print('Access Token: $accessToken');
+
+      // Now you can use the access token to perform requests to your backend or other services.
+      // You can pass the access token to your server using the method described in the previous answers.
+
+      // If you want to log out the user later, you can use:
+      // await FacebookAuth.instance.logOut();
+    } else {
+      print('Facebook login failed: ${result.status}');
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      // User cancelled the login
+      return;
+    }
+
+    // If you need an access token, you can obtain it like this:
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final accessToken = googleAuth.accessToken;
+
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+             ApiConstants.baseUrl +'/google/login'));
+    request.body = json.encode({"token": googleAuth.idToken});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+      throw (await response.stream.bytesToString());
     }
   }
 }

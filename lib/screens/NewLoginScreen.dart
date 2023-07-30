@@ -1,3 +1,5 @@
+import 'package:panoptesan_alpha/helpers/alerts.dart';
+
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -265,57 +267,102 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                height: 60.h,
-                                width: 0.42.sw,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(35),
-                                ),
+                              GestureDetector(
+                                onTap: () async {
+                                  ProgressDialog progressDialog =
+                                      ProgressDialog(context,
+                                          message:
+                                              const Text("Please Wait....."),
+                                          title: const Text("Loading"));
+                                  progressDialog.show();
+                         
+
+                                  try {
+                                    await LoginSignupHandler()
+                                        .loginWithGoogle();
+                                    progressDialog.dismiss();
+                                  } catch (e) {
+                                    progressDialog.dismiss();
+                                 await   Alert().showalertwithmessage(
+                                        "Failed to Login", context);
+                                  }
+                                },
                                 child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/search.png",
-                                        scale: 5,
+                                  child: Container(
+                                    height: 60.h,
+                                    width: 0.42.sw,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(35),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/search.png",
+                                            scale: 5,
+                                          ),
+                                          10.horizontalSpace,
+                                          Text(
+                                            "Google",
+                                            style: GoogleFonts.inter(
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
                                       ),
-                                      10.horizontalSpace,
-                                      Text(
-                                        "Google",
-                                        style: GoogleFonts.inter(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                              Container(
-                                height: 60.h,
-                                width: 0.42.sw,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(35),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/facebook (2).png",
-                                        scale: 5,
-                                      ),
-                                      10.horizontalSpace,
-                                      Text(
-                                        "Facebook",
-                                        style: GoogleFonts.inter(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
+                              GestureDetector(
+                                onTap: () async{
+                                   ProgressDialog progressDialog =
+                                      ProgressDialog(context,
+                                          message:
+                                              const Text("Please Wait....."),
+                                          title: const Text("Loading"));
+                                  progressDialog.show();
+                         
+
+                                  try {
+                                    await LoginSignupHandler()
+                                        .handleFacebookLogin();
+                                    progressDialog.dismiss();
+                                  } catch (e) {
+                                    progressDialog.dismiss();
+                                 await   Alert().showalertwithmessage(
+                                        "Failed to Login", context);
+                                  }
+                                },
+                                child: Container(
+                                  height: 60.h,
+                                  width: 0.42.sw,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(35),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/facebook (2).png",
+                                          scale: 5,
+                                        ),
+                                        10.horizontalSpace,
+                                        Text(
+                                          "Facebook",
+                                          style: GoogleFonts.inter(
+                                              fontSize: 15,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

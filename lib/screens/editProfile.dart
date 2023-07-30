@@ -195,559 +195,639 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         child: LayoutBuilder(builder: (context, constraint) {
           return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: constraint.maxHeight / 2.5,
-                  child: Stack(
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      Container(
-                          child: Image.asset(
-                        'assets/b3.png',
-                        fit: BoxFit.fill,
-                        height: 200,
-                        width: double.infinity,
-                      )),
-                      const Positioned(
-                        top: 50,
-                        child: Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24),
+            child: GetBuilder<ProfileController>(builder: (_) {
+              return Column(
+                children: [
+                  Container(
+                    height: constraint.maxHeight / 2.5,
+                    child: Stack(
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        Container(
+                            child: Image.asset(
+                          'assets/b3.png',
+                          fit: BoxFit.fill,
+                          height: 200,
+                          width: double.infinity,
+                        )),
+                        const Positioned(
+                          top: 50,
+                          child: Text(
+                            "Edit Profile",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 50,
-                        left: 20,
-                        child: CircleIconButton(
-                          backgroundColor: Colors.white,
-                          icon: Icons.arrow_back,
-                          iconColor: Colors.blue,
-                          onPressed: () {
-                            Get.back();
-                          },
+                        Positioned(
+                          top: 50,
+                          left: 20,
+                          child: CircleIconButton(
+                            backgroundColor: Colors.white,
+                            icon: Icons.arrow_back,
+                            iconColor: Colors.blue,
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
                         ),
-                      ),
-                      this.videoController.profile!.userDetail?.profileImg ==
-                              null
-                          ? Positioned(
-                              top: 130,
-                              child: Stack(
-                                children: [
-                                  this.file != null
-                                      ? Container(
-                                          width: 120,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: FileImage(this.file!),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            shape: BoxShape.circle,
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 2,
-                                            ),
-                                          ))
-                                      : Container(
-                                          width: 120,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            image: const DecorationImage(
-                                              image:
-                                                  AssetImage('assets/p5.jpg'),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            shape: BoxShape.circle,
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 2,
-                                            ),
-                                          )),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: CircleIconButton(
-                                        icon: FontAwesomeIcons.camera,
-                                        backgroundColor: Colors.blue,
-                                        iconColor: Colors.white,
-                                        onPressed: () {
-                                          showChoiceDialoglistimagemore(
-                                              context);
-                                        }),
-                                  )
-                                ],
-                              ),
-                            )
-                          : Positioned(
-                              top: 130,
-                              child: Stack(
-                                children: [
-                                  this.file != null
-                                      ? Container(
-                                          width: 120,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: FileImage(this.file!),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            shape: BoxShape.circle,
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 2,
-                                            ),
-                                          ))
-                                      : Container(
-                                          width: 120,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(this
-                                                  .videoController
-                                                  .profile!
-                                                  .userDetail!
-                                                  .profileImg!),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            shape: BoxShape.circle,
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 2,
-                                            ),
-                                          )),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: CircleIconButton(
-                                        icon: FontAwesomeIcons.camera,
-                                        backgroundColor: Colors.blue,
-                                        iconColor: Colors.white,
-                                        onPressed: () {
-                                          showChoiceDialoglistimagemore(
-                                              context);
-                                        }),
-                                  )
-                                ],
-                              ),
-                            )
-                    ],
+                        this.videoController.profile!.userDetail?.profileImg ==
+                                null
+                            ? Positioned(
+                                top: 130,
+                                child: Stack(
+                                  children: [
+                                    this.file != null
+                                        ? Container(
+                                            width: 120,
+                                            height: 120,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: FileImage(this.file!),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                                width: 2,
+                                              ),
+                                            ))
+                                        : Container(
+                                            width: 120,
+                                            height: 120,
+                                            decoration: BoxDecoration(
+                                              image: const DecorationImage(
+                                                image:
+                                                    AssetImage('assets/p5.jpg'),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                                width: 2,
+                                              ),
+                                            )),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: CircleIconButton(
+                                          icon: FontAwesomeIcons.camera,
+                                          backgroundColor: Colors.blue,
+                                          iconColor: Colors.white,
+                                          onPressed: () {
+                                            showChoiceDialoglistimagemore(
+                                                context);
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Positioned(
+                                top: 130,
+                                child: Stack(
+                                  children: [
+                                    this.file != null
+                                        ? Container(
+                                            width: 120,
+                                            height: 120,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: FileImage(this.file!),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                                width: 2,
+                                              ),
+                                            ))
+                                        : Container(
+                                            width: 120,
+                                            height: 120,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(this
+                                                    .videoController
+                                                    .profile!
+                                                    .userDetail!
+                                                    .profileImg!),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                                width: 2,
+                                              ),
+                                            )),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: CircleIconButton(
+                                          icon: FontAwesomeIcons.camera,
+                                          backgroundColor: Colors.blue,
+                                          iconColor: Colors.white,
+                                          onPressed: () {
+                                            showChoiceDialoglistimagemore(
+                                                context);
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: horizontal20Padding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      // 30.verticalSpace,
-                      // this.file != null
-                      //     ? GestureDetector(
-                      //         onTap: () {
-                      //           showChoiceDialoglistimagemore(context);
-                      //         },
-                      //         child: Align(
-                      //           alignment: Alignment.center,
-                      //           child: Container(
-                      //             child: Stack(
-                      //               alignment: Alignment.center,
-                      //               children: [
-                      //                 Container(
-                      //                   height: 115,
-                      //                   width: 115,
-                      //                   decoration: BoxDecoration(
-                      //                     shape: BoxShape.circle,
-                      //                     image: DecorationImage(
-                      //                       image: FileImage(this.file!),
-                      //                       fit: BoxFit.cover,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 Positioned(
-                      //                   bottom: 0,
-                      //                   right: 10,
-                      //                   child: Container(
-                      //                       height: 20,
-                      //                       width: 20,
-                      //                       decoration: BoxDecoration(
-                      //                         color: bprimary,
-                      //                         shape: BoxShape.circle,
-                      //                       ),
-                      //                       child: Center(
-                      //                         child: FaIcon(
-                      //                           FontAwesomeIcons.plus,
-                      //                           color: white,
-                      //                           size: 15,
-                      //                         ),
-                      //                       )),
-                      //                 )
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : GestureDetector(
-                      //         onTap: () {
-                      //           showChoiceDialoglistimagemore(context);
-                      //         },
-                      //         child: Align(
-                      //           alignment: Alignment.center,
-                      //           child: Container(
-                      //             child: Stack(
-                      //               alignment: Alignment.center,
-                      //               children: [
-                      //                 Container(
-                      //                   height: 115,
-                      //                   width: 115,
-                      //                   decoration: BoxDecoration(
-                      //                     shape: BoxShape.circle,
-                      //                     image: DecorationImage(
-                      //                       image: NetworkImage(videoController
-                      //                           .profile!.profile_img
-                      //                           .toString()),
-                      //                       fit: BoxFit.cover,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 Positioned(
-                      //                   bottom: 0,
-                      //                   right: 10,
-                      //                   child: Container(
-                      //                       height: 20,
-                      //                       width: 20,
-                      //                       decoration: BoxDecoration(
-                      //                         color: bprimary,
-                      //                         shape: BoxShape.circle,
-                      //                       ),
-                      //                       child: Center(
-                      //                         child: FaIcon(
-                      //                           FontAwesomeIcons.plus,
-                      //                           color: white,
-                      //                           size: 15,
-                      //                         ),
-                      //                       )),
-                      //                 )
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      // 15.verticalSpace,
-                      Text("Name",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: videoController.name,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Type your full name...',
-                          hintStyle: GoogleFonts.inter(
+                  Padding(
+                    padding: horizontal20Padding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        // 30.verticalSpace,
+                        // this.file != null
+                        //     ? GestureDetector(
+                        //         onTap: () {
+                        //           showChoiceDialoglistimagemore(context);
+                        //         },
+                        //         child: Align(
+                        //           alignment: Alignment.center,
+                        //           child: Container(
+                        //             child: Stack(
+                        //               alignment: Alignment.center,
+                        //               children: [
+                        //                 Container(
+                        //                   height: 115,
+                        //                   width: 115,
+                        //                   decoration: BoxDecoration(
+                        //                     shape: BoxShape.circle,
+                        //                     image: DecorationImage(
+                        //                       image: FileImage(this.file!),
+                        //                       fit: BoxFit.cover,
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 Positioned(
+                        //                   bottom: 0,
+                        //                   right: 10,
+                        //                   child: Container(
+                        //                       height: 20,
+                        //                       width: 20,
+                        //                       decoration: BoxDecoration(
+                        //                         color: bprimary,
+                        //                         shape: BoxShape.circle,
+                        //                       ),
+                        //                       child: Center(
+                        //                         child: FaIcon(
+                        //                           FontAwesomeIcons.plus,
+                        //                           color: white,
+                        //                           size: 15,
+                        //                         ),
+                        //                       )),
+                        //                 )
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : GestureDetector(
+                        //         onTap: () {
+                        //           showChoiceDialoglistimagemore(context);
+                        //         },
+                        //         child: Align(
+                        //           alignment: Alignment.center,
+                        //           child: Container(
+                        //             child: Stack(
+                        //               alignment: Alignment.center,
+                        //               children: [
+                        //                 Container(
+                        //                   height: 115,
+                        //                   width: 115,
+                        //                   decoration: BoxDecoration(
+                        //                     shape: BoxShape.circle,
+                        //                     image: DecorationImage(
+                        //                       image: NetworkImage(videoController
+                        //                           .profile!.profile_img
+                        //                           .toString()),
+                        //                       fit: BoxFit.cover,
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 Positioned(
+                        //                   bottom: 0,
+                        //                   right: 10,
+                        //                   child: Container(
+                        //                       height: 20,
+                        //                       width: 20,
+                        //                       decoration: BoxDecoration(
+                        //                         color: bprimary,
+                        //                         shape: BoxShape.circle,
+                        //                       ),
+                        //                       child: Center(
+                        //                         child: FaIcon(
+                        //                           FontAwesomeIcons.plus,
+                        //                           color: white,
+                        //                           size: 15,
+                        //                         ),
+                        //                       )),
+                        //                 )
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        // 15.verticalSpace,
+                        Text("Name",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          controller: videoController.name,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Type your full name...',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+                        20.verticalSpace,
+                        Text("About yourself",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          controller: videoController.desc,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Write something about yourself...',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+                        20.verticalSpace,
+                        Text("Date of birth",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          onTap: () async {
+                            var date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1940),
+                              lastDate: DateTime(2030),
+                            );
+                            if (date != null) {
+                              videoController.month.text =
+                                  date.month.toString();
+                              videoController.day.text = date.day.toString();
+                              videoController.year.text = date.year.toString();
+                              videoController.dob.text =
+                                  videoController.month.text +
+                                      "-" +
+                                      videoController.day.text +
+                                      "-" +
+                                      videoController.year.text;
+                            }
+                          },
+                          readOnly: true,
+                          controller: videoController.dob,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Please date of birth',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+                        20.verticalSpace,
+                        Text("Car Make",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value: _.profilebrand,
+                          onChanged: (newValue) {
+                            _.models = [];
+                            setState(() {});
+                            _.profilemodel = null;
+                            _.model.clear();
+
+                            print("tapped");
+                            _.carmake.text = newValue!;
+                            try {
+                              _.models = _.car_brands_cars[
+                                  _.carmake.text]!;
+                            } catch (e) {
+                              _.models = [];
+                            }
+
+                            _.update();
+                          },
+
+                          items: _.car_brands
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 20, right: 20),
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Select Car Maker',
+                            hintStyle: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
+                              color: grey,
+                            ),
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
                         ),
-                      ),
-                      20.verticalSpace,
-                      Text("About yourself",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: videoController.desc,
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Write something about yourself...',
-                          hintStyle: GoogleFonts.inter(
+                        // TextFormField(
+                        //   controller: this.videoController.carmake,
+                        //   decoration: InputDecoration(
+                        //     filled: true,
+                        //     fillColor: white,
+                        //     hintText: 'Please type your car make...',
+                        //     hintStyle: GoogleFonts.inter(
+                        //         fontSize: 12,
+                        //         fontWeight: FontWeight.w300,
+                        //         color: grey),
+                        //     border: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         borderSide: BorderSide.none),
+                        //   ),
+                        // ),
+                        20.verticalSpace,
+                        // Text("Gender",
+                        //     style: GoogleFonts.inter(
+                        //         fontSize: 14,
+                        //         fontWeight: FontWeight.w400,
+                        //         color: black)),
+                        // 10.verticalSpace,
+                        // DropdownButtonFormField<String>(
+                        //   isDense: true,
+                        //   icon: FaIcon(
+                        //     Icons.keyboard_arrow_down_rounded,
+                        //     color: grey,
+                        //     size: 25,
+                        //   ),
+                        //   value: dropdownValue,
+                        //   iconSize: 24,
+
+                        //   elevation: 16,
+                        //   decoration: InputDecoration(
+                        //     filled: true,
+                        //     fillColor: white,
+                        //     border: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         borderSide: BorderSide.none),
+                        //     enabledBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         borderSide: BorderSide.none),
+                        //     disabledBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         borderSide: BorderSide.none),
+                        //     focusedBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         borderSide: BorderSide.none),
+                        //   ),
+
+                        //   style: GoogleFonts.inter(
+                        //       fontSize: 14,
+                        //       fontWeight: FontWeight.w400,
+                        //       color: black),
+
+                        //   onChanged: (newValue) {
+                        //     videoController.gender.text = newValue.toString();
+                        //     setState(() {
+                        //       dropdownValue = newValue!;
+                        //     });
+                        //   },
+
+                        //   items: <String>[
+                        //     'Male',
+                        //     'Female',
+                        //     'Other'
+                        //   ] //drop down menu items list here
+
+                        //       .map<DropdownMenuItem<String>>((String value) {
+                        //     return DropdownMenuItem<String>(
+                        //         value: value,
+                        //         child: Text(
+                        //             value)); //drop down menu items list here with keyboard arrow down with white filled color
+                        //   }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
+                        // ),
+                        20.verticalSpace,
+
+                        Text("City, State",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          controller: this.videoController.address,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Please type your address...',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+                        20.verticalSpace,
+
+                        Text("What's your car's name",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          controller: videoController.carname,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Please type the name of your car',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+                        20.verticalSpace,
+
+                        Text("Model",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value: _.profilemodel,
+                          onChanged: (newValue) {
+                            _.profilemodel = newValue;
+                            _.model.text = newValue!;
+                            _.update();
+                          },
+                          items: _.models
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 20, right: 20),
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Select Car Model',
+                            hintStyle: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
+                              color: grey,
+                            ),
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
                         ),
-                      ),
-                      20.verticalSpace,
-                      Text("Date of birth",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        onTap: () async {
-                          var date = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1940),
-                            lastDate: DateTime(2030),
-                          );
-                          if (date != null) {
-                            videoController.month.text = date.month.toString();
-                            videoController.day.text = date.day.toString();
-                            videoController.year.text = date.year.toString();
+                        10.verticalSpace,
+                        Text("Driving Habits",
+                            style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: black)),
+                        10.verticalSpace,
+                        TextFormField(
+                          controller: videoController.drivinghabit,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: 'Please enter your driving habits ',
+                            hintStyle: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                          ),
+                        ),
+
+                        20.verticalSpace,
+                        CustomButton(
+                          tap: () async {
+                            FocusScope.of(context).unfocus();
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            ProgressDialog progressDialog = ProgressDialog(
+                                context,
+                                message: const Text("Please Wait....."),
+                                title: const Text("Loading"));
+
+                            progressDialog.show();
                             videoController.dob.text =
                                 videoController.month.text +
                                     "-" +
                                     videoController.day.text +
                                     "-" +
                                     videoController.year.text;
-                          }
-                        },
-                        readOnly: true,
-                        controller: videoController.dob,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please date of birth',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      20.verticalSpace,
-                      Text("Car Make",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: this.videoController.carmake,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please type your car make...',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      20.verticalSpace,
-                      // Text("Gender",
-                      //     style: GoogleFonts.inter(
-                      //         fontSize: 14,
-                      //         fontWeight: FontWeight.w400,
-                      //         color: black)),
-                      // 10.verticalSpace,
-                      // DropdownButtonFormField<String>(
-                      //   isDense: true,
-                      //   icon: FaIcon(
-                      //     Icons.keyboard_arrow_down_rounded,
-                      //     color: grey,
-                      //     size: 25,
-                      //   ),
-                      //   value: dropdownValue,
-                      //   iconSize: 24,
-
-                      //   elevation: 16,
-                      //   decoration: InputDecoration(
-                      //     filled: true,
-                      //     fillColor: white,
-                      //     border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //         borderSide: BorderSide.none),
-                      //     enabledBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //         borderSide: BorderSide.none),
-                      //     disabledBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //         borderSide: BorderSide.none),
-                      //     focusedBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //         borderSide: BorderSide.none),
-                      //   ),
-
-                      //   style: GoogleFonts.inter(
-                      //       fontSize: 14,
-                      //       fontWeight: FontWeight.w400,
-                      //       color: black),
-
-                      //   onChanged: (newValue) {
-                      //     videoController.gender.text = newValue.toString();
-                      //     setState(() {
-                      //       dropdownValue = newValue!;
-                      //     });
-                      //   },
-
-                      //   items: <String>[
-                      //     'Male',
-                      //     'Female',
-                      //     'Other'
-                      //   ] //drop down menu items list here
-
-                      //       .map<DropdownMenuItem<String>>((String value) {
-                      //     return DropdownMenuItem<String>(
-                      //         value: value,
-                      //         child: Text(
-                      //             value)); //drop down menu items list here with keyboard arrow down with white filled color
-                      //   }).toList(), //drop down menu items list here with keyboard arrow down with white filled color
-                      // ),
-                      20.verticalSpace,
-
-                      Text("City, State",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: this.videoController.address,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please type your address...',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      20.verticalSpace,
-
-                      Text("What's your car's name",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: videoController.carname,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please type the name of your car',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      20.verticalSpace,
-
-                      Text("Model",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: videoController.model,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please type the model of your car...',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      10.verticalSpace,
-                      Text("Driving Habits",
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: black)),
-                      10.verticalSpace,
-                      TextFormField(
-                        controller: videoController.drivinghabit,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: 'Please enter your driving habits ',
-                          hintStyle: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: grey),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      20.verticalSpace,
-                      CustomButton(
-                        tap: () async {
-                          FocusScope.of(context).unfocus();
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          ProgressDialog progressDialog = ProgressDialog(
-                              context,
-                              message: const Text("Please Wait....."),
-                              title: const Text("Loading"));
-
-                          progressDialog.show();
-                          videoController.dob.text =
-                              videoController.month.text +
-                                  "-" +
-                                  videoController.day.text +
-                                  "-" +
-                                  videoController.year.text;
-                          try {
-                            await videoController.UpdateProfile(
-                                videoController.name.text,
-                                videoController.gender.text,
-                                videoController.dob.text,
-                                videoController.desc.text,
-                                videoController.address.text);
-                            if (this.file != null) {
-                              await videoController.setimage(file);
+                            try {
+                              await videoController.UpdateProfile(
+                                  videoController.name.text,
+                                  videoController.gender.text,
+                                  videoController.dob.text,
+                                  videoController.desc.text,
+                                  videoController.address.text);
+                              if (this.file != null) {
+                                await videoController.setimage(file);
+                              }
+                              await videoController.setprofile();
+                              progressDialog.dismiss();
+                              await Alert().showalertwithmessage(
+                                  "Profile has been Updated", context);
+                              Get.back();
+                            } catch (e) {
+                              SnackbarWidget()
+                                  .showsnackbar(e.toString(), context);
+                              progressDialog.dismiss();
                             }
-                            await videoController.setprofile();
-                            progressDialog.dismiss();
-                         await Alert().showalertwithmessage("Profile has been Updated", context);
-                         Get.back();
-                          } catch (e) {
-                            SnackbarWidget()
-                                .showsnackbar(e.toString(), context);
-                            progressDialog.dismiss();
-                          }
-                        },
-                        ButtonText: "Save",
-                        width: 1.sw,
-                        textColor: white,
-                        colors: kprimary,
-                        height: 60.h,
-                      ),
-                      20.verticalSpace,
-                    ],
+                          },
+                          ButtonText: "Save",
+                          width: 1.sw,
+                          textColor: white,
+                          colors: kprimary,
+                          height: 60.h,
+                        ),
+                        20.verticalSpace,
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
           );
         }),
       ),
