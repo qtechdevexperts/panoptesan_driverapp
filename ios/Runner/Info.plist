@@ -37,7 +37,24 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<true/>	
+    <key>CFBundleURLTypes</key>
+    <array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+    <string>fb957054368828289</string>
+	<string>com.googleusercontent.apps.720936035879-mb7578mjmoal1k90tl1lt1egbvl908tr</string>
+    </array>
+    </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>957054368828289</string>
+    <key>FacebookClientToken</key>
+    <string>c77acba640a00e76266e21366c59b1b5</string>
+    <key>FacebookDisplayName</key>
+    <string>panoptesan</string>
+	
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
