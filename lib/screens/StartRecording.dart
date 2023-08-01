@@ -149,6 +149,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                   //               // ));
 
                   if (file != null && Savefile.spnaic == true) {
+                    var videouploaded = false;
                     progressDialog.show();
 
                     try {
@@ -159,13 +160,14 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                       } else {
                         await controller.uploadvideo(File(file.path));
                       }
+                      videouploaded = true;
 
-                      progressDialog.dismiss();
                       await controller.setvideo();
-                      SnackbarWidget()
-                          .showsnackbar("Video Uploaded successfully", context);
-                      Get.back();
+                      progressDialog.dismiss();
+                      await Alert().showalertwithmessage(
+                          "Video has been uploaded", context);
                     } catch (e) {
+                      videouploaded = false;
                       progressDialog.dismiss();
                       SnackbarWidget().showsnackbar(e.toString(), context);
                       showDialog(
@@ -245,6 +247,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                         },
                       );
                     }
+
                     return;
                   }
 
@@ -311,7 +314,8 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                         await controller.setvideo();
                         progressDialog.dismiss();
 
-                        Alert().showalertwithmessage("Video Uploaded", context);
+                        Alert()
+                            .showalertwithmessage("has been uploaded", context);
                       } catch (e) {
                         progressDialog.dismiss();
                         Alert().showalertwithmessage(
