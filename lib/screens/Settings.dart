@@ -109,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   progressDialog.dismiss();
                                 }
                               },
-                              value: _.profile!.notification_enable!,
+                              value: _.profile==null ?false:  _.profile!.notification_enable!,
                             ),
                           )
                         ],

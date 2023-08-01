@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:panoptesan_alpha/helpers/localstorage.dart';
 import 'package:panoptesan_alpha/models/user-model.dart';
 
+import '../firebase_options.dart';
+
 class LoginSignupHandler {
   // static Future<void> login(String email, String password, Function successCallback) async {
   //     var body = new Map<String, String>();
@@ -218,7 +220,7 @@ class LoginSignupHandler {
     }
   }
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+ 
 
   Future<void> handleFacebookLogin() async {
     // Log in with Facebook and request the required permissions (default is email)
@@ -257,13 +259,24 @@ class LoginSignupHandler {
       print('Facebook login failed: ${result.status}');
     }
   }
+  Future<void> loginWithGoogle() async {  
+    GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email'],clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
 
-  Future<void> loginWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  
+    final GoogleSignInAccount? googleUser;
+    try{
+
+  googleUser  = await _googleSignIn.signIn();
     if (googleUser == null) {
       // User cancelled the login
       return;
     }
+
+    }catch(e){
+throw(e);
+
+    }
+ 
 
     // If you need an access token, you can obtain it like this:
     final GoogleSignInAuthentication googleAuth =
