@@ -25,10 +25,22 @@ class ProfileController extends GetxController {
     super.onInit();
   }
 
+  var habbits = [
+    "Commuter",
+    "Chief errand runner",
+    "Self-employed work driver",
+    "Family Chauffeur",
+    "I drive for my job",
+    "Casual Sunday driver",
+    "Road Tripping extraordinaire",
+    "I’m the community taxi",
+  ];
+
   List<String> models = [];
   var selected;
   var profilebrand;
   var profilemodel;
+  var drivinghabitlabel;
 
   var car_brands_cars = {
     'Acura': [
@@ -542,12 +554,19 @@ class ProfileController extends GetxController {
 
       profilemodel = profile?.userDetail?.vehicleModel ?? null;
 
-      if (profilemodel == "") {
+      drivinghabitlabel = profile?.userDetail?.drivingHabit ?? null;
+     
+
+      if (profilebrand == "" ||!this.car_brands .contains(profilebrand) ) {
+        profilebrand = null;
+          profilemodel = null;
+      }
+       if (profilemodel == "") {
         profilemodel = null;
       }
 
-      if (profilebrand == "") {
-        profilebrand = null;
+      if (drivinghabitlabel == "" || !this.habbits.contains(drivinghabitlabel)) {
+        drivinghabitlabel = null;
       }
 
       try {
@@ -577,21 +596,26 @@ class ProfileController extends GetxController {
       var list = profile?.userDetail?.dob?.split("-");
 
       profilebrand = profile?.userDetail?.vehicleMake ?? null;
-
+      drivinghabitlabel = profile?.userDetail?.drivingHabit ?? null;
       try {
         this.models = car_brands_cars[this.carmake.text]!;
       } catch (e) {}
 
       profilemodel = profile?.userDetail?.vehicleModel ?? null;
 
+      if (profilebrand == "" ||!this.car_brands .contains(profilebrand) ) {
+        profilebrand = null;
+            profilemodel = null;
+      }
+      
       if (profilemodel == "") {
         profilemodel = null;
+            profilemodel = null;
       }
 
-      if (profilebrand == "") {
-        profilebrand = null;
+      if (drivinghabitlabel == "" || !this.habbits.contains(drivinghabitlabel)) {
+        drivinghabitlabel = null;
       }
-
       try {
         var dobtxt = profile?.userDetail?.dob;
         this.dob.text = dobtxt!;
@@ -700,20 +724,27 @@ class ProfileController extends GetxController {
     }
   }
 
-  leavefleet(String userid) async {
+  leavefleet() async {
     var token = await LocalStorage.prefs?.getString("token");
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
+
     var request = http.Request(
-        'DELETE', Uri.parse(ApiConstants.baseUrl + '/remove/$userid'));
+        'DELETE',
+        Uri.parse(ApiConstants.baseUrl +
+            '/remove/' +
+            profile!.fleetUser!.id.toString()));
 
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
+      this.profile = await getprofile();
+
+      update();
       print(await response.stream.bytesToString());
     } else {
       throw (response.reasonPhrase.toString());

@@ -553,8 +553,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             print("tapped");
                             _.carmake.text = newValue!;
                             try {
-                              _.models = _.car_brands_cars[
-                                  _.carmake.text]!;
+                              _.models = _.car_brands_cars[_.carmake.text]!;
                             } catch (e) {
                               _.models = [];
                             }
@@ -760,19 +759,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: black)),
                         10.verticalSpace,
-                        TextFormField(
-                          controller: videoController.drivinghabit,
+                        DropdownButtonFormField<String>(
+                          icon: FaIcon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: grey,
+                            size: 20,
+                          ),
+
+                          //isExpanded: true,
+                          value: _.drivinghabitlabel,
+                          onChanged: (newValue) {
+                            _.drivinghabitlabel = newValue;
+                            _.drivinghabit.text = newValue!;
+                            _.update();
+                          },
+                          items: [
+                            "Commuter",
+                            "Chief errand runner",
+                            "Self-employed work driver",
+                            "Family Chauffeur",
+                            "I drive for my job",
+                            "Casual Sunday driver",
+                            "Road Tripping extraordinaire",
+                            "I’m the community taxi",
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 20, right: 20),
                             filled: true,
                             fillColor: white,
-                            hintText: 'Please enter your driving habits ',
+                            hintText: 'Select Driving Habits',
                             hintStyle: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                color: grey),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: grey,
+                            ),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none),
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
 

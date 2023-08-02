@@ -111,7 +111,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       style: GoogleFonts.inter(
                                         letterSpacing: 2.05,
                                         fontSize: constraints.maxWidth * 0.05,
-                                        fontWeight: FontWeight.w300,
+                                        fontWeight: FontWeight.bold,
                                         color: white,
                                       ),
                                     ),
@@ -133,8 +133,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
                                         letterSpacing: -0.04,
-                                        fontSize: constraints.maxWidth * 0.035,
-                                        fontWeight: FontWeight.w300,
+                                        fontSize: constraints.maxWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
                                         color: kprimary,
                                       ),
                                     ),
@@ -182,8 +182,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
                                         letterSpacing: -0.04,
-                                        fontSize: constraints.maxWidth * 0.035,
-                                        fontWeight: FontWeight.w300,
+                                         fontSize: constraints.maxWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
                                         color: kprimary,
                                       ),
                                     ),
@@ -195,27 +195,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 indent: 65,
                                 endIndent: 65,
                               ),
-                              Container(
-                                // width: 209.w,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FaIcon(FontAwesomeIcons.check,
-                                        color: white, size: 15),
-                                    5.horizontalSpace,
-                                    Text(
-                                      'Lorem ipsum dolor sit amet consectetur',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.inter(
-                                        letterSpacing: -0.04,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300,
-                                        color: white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          
                               Divider(
                                 color: white,
                                 indent: 65,
@@ -225,23 +205,24 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               SizedBox(height: 17.h),
                               Container(
                                 color: Colors.white,
-                                width: 170.w,
+                             //   width: 170.w,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          controller
-                                              .packages[index].currencySymbol,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            letterSpacing: -0.14,
-                                            fontSize: 35.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: kprimary,
+                                        Container(
+                                          child: Text(
+                                            controller
+                                                .packages[index].currencySymbol,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              letterSpacing: -0.14,
+                                              fontSize: constraints.maxWidth * 0.040,
+                                              fontWeight: FontWeight.w700,
+                                              color: kprimary,
+                                            ),
                                           ),
                                         ),
                                         Text(
@@ -251,7 +232,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             letterSpacing: -0.29,
-                                            fontSize: 72.sp,
+                                            fontSize: constraints.maxWidth * 0.15,
                                             fontWeight: FontWeight.w700,
                                             color: kprimary,
                                           ),

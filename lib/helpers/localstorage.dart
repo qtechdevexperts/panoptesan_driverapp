@@ -13,6 +13,8 @@ class LocalStorage {
 
   static UserModel? userModel;
 
+  static String? password;
+
   static Future saveUser(UserModel userModel) async {
     Map<String, dynamic> userJson = userModel.toJson();
 

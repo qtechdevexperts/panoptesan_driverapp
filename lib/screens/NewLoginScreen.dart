@@ -1,4 +1,6 @@
 import 'package:panoptesan_alpha/helpers/alerts.dart';
+import 'package:panoptesan_alpha/helpers/localstorage.dart';
+import 'package:panoptesan_alpha/models/user-model.dart';
 
 import '../helpers/dialog/src/progress_dialog.dart';
 import 'package:flutter/material.dart';
@@ -275,15 +277,23 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                                               const Text("Please Wait....."),
                                           title: const Text("Loading"));
                                   progressDialog.show();
-                         
 
                                   try {
-                                    await LoginSignupHandler()
+                                  var user=  await LoginSignupHandler()
                                         .loginWithGoogle();
+                                            var password =
+                                        user?.password;
+
+                                    if (password == null) {
+                                      await Get.off(SetProfileScreen());
+                                    } else {
+                                      await Get.offAll(MainScreen());
+                                    }
                                     progressDialog.dismiss();
+                                    await Get.offAll(MainScreen());
                                   } catch (e) {
                                     progressDialog.dismiss();
-                                 await   Alert().showalertwithmessage(
+                                    await Alert().showalertwithmessage(
                                         "Failed to Login", context);
                                   }
                                 },
@@ -319,23 +329,34 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () async{
-                                   ProgressDialog progressDialog =
+                                onTap: () async {
+                                  ProgressDialog progressDialog =
                                       ProgressDialog(context,
                                           message:
                                               const Text("Please Wait....."),
                                           title: const Text("Loading"));
                                   progressDialog.show();
-                         
 
+                           
                                   try {
-                                    await LoginSignupHandler()
+                                  UserModel? user=  await LoginSignupHandler()
                                         .handleFacebookLogin();
                                     progressDialog.dismiss();
+
+                            
+                                    var password =
+                                        user?.password;
+
+                                    if (password == null) {
+                                      await Get.off(SetProfileScreen());
+                                    } else {
+                                      await Get.offAll(MainScreen());
+                                    }
                                   } catch (e) {
                                     progressDialog.dismiss();
-                                 await   Alert().showalertwithmessage(
-                                        "Failed to Login", context);
+                                    print(e);
+                                    await Alert().showalertwithmessage(
+                                        e.toString(), context);
                                   }
                                 },
                                 child: Container(
@@ -347,7 +368,8 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                                   ),
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           "assets/facebook (2).png",

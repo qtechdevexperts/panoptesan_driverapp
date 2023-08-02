@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -220,84 +221,120 @@ class LoginSignupHandler {
     }
   }
 
- 
-
-  Future<void> handleFacebookLogin() async {
+  Future<UserModel?> handleFacebookLogin() async {
     // Log in with Facebook and request the required permissions (default is email)
-    final result = await FacebookAuth.instance.login();
+    final LoginResult result = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
 
     // Check if the login was successful
     if (result.status == LoginStatus.success) {
       // Get the access token
+
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+
+      // Once signed in, return the UserCredential
+      var user = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
       final accessToken = result.accessToken!.token;
+
+      var idtoken = await FirebaseAuth.instance.currentUser?.getIdToken();
 
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request(
-          'POST',
-          Uri.parse(
-              ApiConstants.baseUrl +'/facebook/login'));
-      request.body = json.encode({"token": accessToken});
+          'POST', Uri.parse(ApiConstants.baseUrl + '/facebook/login'));
+      request.body = json.encode({"token": idtoken});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
+      var jsn = jsonDecode(await response.stream.bytesToString());
       if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
+        var token = jsn['data']['token'];
+        var user = UserModel.fromJson(jsn['data']['user']);
+
+        await LocalStorage.prefs?.setString('token', token);
+        try {
+          await settoken();
+        } catch (e) {
+          print(e);
+        }
+        LocalStorage.saveUser(user);
+
+        return user;
       } else {
-        print(await response.stream.bytesToString());
-        throw (await response.stream.bytesToString());
+        throw (json);
       }
-
-      print('Access Token: $accessToken');
-
-      // Now you can use the access token to perform requests to your backend or other services.
-      // You can pass the access token to your server using the method described in the previous answers.
-
-      // If you want to log out the user later, you can use:
-      // await FacebookAuth.instance.logOut();
     } else {
-      print('Facebook login failed: ${result.status}');
+       await FacebookAuth.instance.logOut();
+      throw ('Facebook login failed: ${result.status}');
     }
   }
-  Future<void> loginWithGoogle() async {  
-    GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email'],clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
 
-  
+  Future<UserModel?> loginWithGoogle() async {
+    GoogleSignIn _googleSignIn;
+    if (Platform.isIOS) {
+      _googleSignIn = GoogleSignIn(
+          scopes: ['email'],
+          clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
+    } else {
+      _googleSignIn = GoogleSignIn(
+          scopes: ['email'],
+          clientId: DefaultFirebaseOptions.currentPlatform.androidClientId);
+    }
+
     final GoogleSignInAccount? googleUser;
-    try{
-
-  googleUser  = await _googleSignIn.signIn();
-    if (googleUser == null) {
-      // User cancelled the login
-      return;
+    try {
+      googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // User cancelled the login
+        return null;
+      }
+    } catch (e) {
+      throw (e);
     }
-
-    }catch(e){
-throw(e);
-
-    }
- 
 
     // If you need an access token, you can obtain it like this:
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
     final accessToken = googleAuth.accessToken;
 
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    var user = await FirebaseAuth.instance.signInWithCredential(credential);
+
+    var idtoken = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    var cred = user.credential!.accessToken;
+
     var headers = {'Content-Type': 'application/json'};
-    var request = http.Request(
-        'POST',
-        Uri.parse(
-             ApiConstants.baseUrl +'/google/login'));
-    request.body = json.encode({"token": googleAuth.idToken});
+    var request =
+        http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/google/login'));
+    request.body = json.encode({"token": idtoken});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
+    var jsn = jsonDecode(await response.stream.bytesToString());
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      var token = jsn['data']['token'];
+      var user = UserModel.fromJson(jsn['data']['user']);
+      await LocalStorage.prefs?.setString('token', token);
+      try {
+        await settoken();
+      } catch (e) {
+        print(e);
+      }
+      LocalStorage.saveUser(user);
+
+      return user;
     } else {
-      print(response.reasonPhrase);
-      throw (await response.stream.bytesToString());
+      throw (json);
     }
   }
 }

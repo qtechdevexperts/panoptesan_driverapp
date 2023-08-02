@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,14 +103,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                                 try {
                                   await _.usernotifitcation(value);
-                                 _.profile = await _.getprofile();
-                                 _.update();
+                                  _.profile = await _.getprofile();
+                                  _.update();
                                   progressDialog.dismiss();
                                 } catch (e) {
                                   progressDialog.dismiss();
                                 }
                               },
-                              value: _.profile==null ?false:  _.profile!.notification_enable!,
+                              value: _.profile == null
+                                  ? false
+                                  : _.profile!.notification_enable!,
                             ),
                           )
                         ],
@@ -441,6 +444,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       //   signUp = false;
                                       // });
                                       await LocalStorage.prefs?.clear();
+
+                                      try {
+                                        await FirebaseAuth.instance.signOut();
+                                      } catch (e) {}
+
                                       await Get.offAll(NewLoginScreen());
 
                                       // Get.to(() => LoginScreen());

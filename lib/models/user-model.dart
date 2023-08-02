@@ -7,7 +7,9 @@ class UserModel {
   final String? nationalIdNumber;
   final int cityId;
   final String? drivingLicenseNumber;
+    final String? password;
   final isActive;
+
 
   UserModel({
     required this.id,
@@ -19,6 +21,7 @@ class UserModel {
     required this.cityId,
     this.drivingLicenseNumber,
     required this.isActive,
+    required this.password,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +35,7 @@ class UserModel {
       cityId: json['city_id'] ?? 0,
       drivingLicenseNumber: json['driving_license_number'],
       isActive: json['is_active'] ?? true,
+      password: json['password'] ?? null
     );
   }
   Map<String, dynamic> toJson() {

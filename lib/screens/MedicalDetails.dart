@@ -382,6 +382,9 @@ class _MedicalDetailsScreenState extends State<MedicalDetailsScreen> {
                         if (profilecontroller.medicalnotes.text.isEmpty) {
                           return Alert().showalert("Medical Notes", context);
                         }
+                         if (profilecontroller.medications.text.isEmpty) {
+                          return Alert().showalert("Medications", context);
+                        }
                         if (profilecontroller.allergies.text.isEmpty) {
                           return Alert()
                               .showalert("Allergies & Reaction", context);

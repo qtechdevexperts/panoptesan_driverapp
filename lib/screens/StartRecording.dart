@@ -315,7 +315,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                         progressDialog.dismiss();
 
                         Alert()
-                            .showalertwithmessage("has been uploaded", context);
+                            .showalertwithmessage("Video has been uploaded", context);
                       } catch (e) {
                         progressDialog.dismiss();
                         Alert().showalertwithmessage(

@@ -109,7 +109,7 @@ class _NewProfileState extends State<NewProfile> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                "http://www.gravatar.com/avatar/?d=mp"),
+                                                "https://firebasestorage.googleapis.com/v0/b/panoptesan-c6ef1.appspot.com/o/pngaaa.com-2189569.png?alt=media&token=ce959fd9-31c8-4c9e-bcbd-c277ad48311e"),
                                             fit: BoxFit.cover),
                                       ),
                                     ),
@@ -280,7 +280,7 @@ class _NewProfileState extends State<NewProfile> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                  "http://www.gravatar.com/avatar/?d=mp"),
+                                                  "https://firebasestorage.googleapis.com/v0/b/panoptesan-c6ef1.appspot.com/o/pngaaa.com-2189569.png?alt=media&token=ce959fd9-31c8-4c9e-bcbd-c277ad48311e"),
                                               fit: BoxFit.cover),
                                         ),
                                       ),
@@ -346,13 +346,10 @@ class _NewProfileState extends State<NewProfile> {
 
                                 progressDialog.show();
                                 try {
-                                  await controller.leavefleet(controller
-                                      .profile!.fleetUser!.userDetail.id
-                                      .toString());
+                                  await controller.leavefleet();
                                   progressDialog.dismiss();
-                                  controller.profile =
-                                      await controller.getprofile();
-                                  controller.update();
+                                  Alert().showalertwithmessage(
+                                      "Leave fleet successful", context);
                                 } catch (e) {
                                   SnackbarWidget()
                                       .showsnackbar(e.toString(), context);
