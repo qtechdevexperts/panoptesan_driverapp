@@ -7,9 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
+import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
 import 'package:panoptesan_alpha/helpers/Colors.dart';
 import 'package:panoptesan_alpha/helpers/alerts.dart';
 import 'package:panoptesan_alpha/helpers/snackbar.dart';
@@ -33,6 +37,52 @@ class StartRecordingScreen extends StatefulWidget {
 }
 
 class _StartRecordingScreenState extends State<StartRecordingScreen> {
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    try {
+      final hasPermission = await _handleLocationPermission();
+
+      if (!hasPermission) return;
+      var position = await Geolocator.getCurrentPosition();
+
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+      var _currentAddress =
+          '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      await LoginSignupHandler().sendsos(position.latitude.toString(),
+          position!.longitude.toString(), _currentAddress);
+    } catch (e) {}
+  }
+
   var controller = Get.put(VideoController());
 
   @override
@@ -157,6 +207,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
 
                       if (Savefile.crash != null && Savefile.crash == true) {
                         await controller.uploadvideocrash(File(file.path));
+                        _getCurrentPosition();
                       } else {
                         await controller.uploadvideo(File(file.path));
                       }
@@ -314,8 +365,8 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                         await controller.setvideo();
                         progressDialog.dismiss();
 
-                        Alert()
-                            .showalertwithmessage("Video has been uploaded", context);
+                        Alert().showalertwithmessage(
+                            "Video has been uploaded", context);
                       } catch (e) {
                         progressDialog.dismiss();
                         Alert().showalertwithmessage(
