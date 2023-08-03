@@ -147,20 +147,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ],
                       ),
-                      Row(
+                       Row(
                         children: [
                           Transform.scale(
                             scale: 0.7,
                             child: CupertinoSwitch(
                               activeColor: kprimaryColor,
-                              onChanged: (value) {
-                                setState(
-                                  () {
-                                    switchnot1 = value;
-                                  },
-                                );
+                              onChanged: (value) async {
+                                ProgressDialog progressDialog = ProgressDialog(
+                                    context,
+                                    message: const Text("Please Wait....."),
+                                    title: const Text("Loading"));
+                                progressDialog.show();
+
+                                try {
+                                  await _.usercrash(value);
+                                  _.profile = await _.getprofile();
+                                  _.update();
+                                  progressDialog.dismiss();
+                                } catch (e) {
+                                  progressDialog.dismiss();
+                                }
                               },
-                              value: switchnot1,
+                              value: _.profile == null
+                                  ? false
+                                  : _.profile!.crash_enable!,
                             ),
                           )
                         ],

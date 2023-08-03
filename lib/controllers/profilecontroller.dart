@@ -890,4 +890,25 @@ class ProfileController extends GetxController {
       print(response.reasonPhrase);
     }
   }
+  
+  usercrash(bool) async {
+    int myIntValue = bool ? 1 : 0;
+    var token = await LocalStorage.prefs?.getString("token");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request(
+        'PUT', Uri.parse(ApiConstants.baseUrl + '/crash/setting/$myIntValue'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 }
