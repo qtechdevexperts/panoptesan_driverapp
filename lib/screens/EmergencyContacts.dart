@@ -322,6 +322,27 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                             .setimage(profilecontroller.file);
                       }
 
+                      profilecontroller.file = null;
+                      profilecontroller.name.clear();
+                      profilecontroller.gender.clear();
+                      profilecontroller.dob.clear();
+                      profilecontroller.desc.clear();
+                      profilecontroller.address.clear();
+                      profilecontroller.desc.clear();
+                      profilecontroller.carmake.clear();
+                      profilecontroller.carname.clear();
+                      profilecontroller.medicalconditions.clear();
+                      profilecontroller.medicalnotes.clear();
+                      profilecontroller.allergies.clear();
+                      profilecontroller.medications.clear();
+                      profilecontroller.emergencyname.clear();
+                      profilecontroller.emergencyrelationship.clear();
+                      profilecontroller.emergencycontactnumber.clear();
+
+
+
+
+
                       profilecontroller.update();
                       progressDialog.dismiss();
 
