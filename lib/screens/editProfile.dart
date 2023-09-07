@@ -496,9 +496,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onTap: () async {
                             var date = await showDatePicker(
                               context: context,
-                              initialDate: DateTime.now(),
+                               initialDate: DateTime(2005),
                               firstDate: DateTime(1940),
-                              lastDate: DateTime(2030),
+                              lastDate: DateTime(2005),
                             );
                             if (date != null) {
                               videoController.month.text =
