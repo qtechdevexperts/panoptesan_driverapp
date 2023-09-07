@@ -393,7 +393,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         if (e is PackageExistExeption) {
                           // Handle the custom exception
                           return Alert().showalertwithmessage(
-                              "Subscription is active already!", context);
+                              "User has already Subscribed", context);
                         }
 
                         Alert().showalertwithmessage(
