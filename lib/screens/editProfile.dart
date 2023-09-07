@@ -260,7 +260,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             decoration: BoxDecoration(
                                               image: const DecorationImage(
                                                 image:
-                                                    AssetImage('assets/p5.jpg'),
+                                                    NetworkImage("https://firebasestorage.googleapis.com/v0/b/panoptesan-c6ef1.appspot.com/o/pngaaa.com-2189569.png?alt=media&token=ce959fd9-31c8-4c9e-bcbd-c277ad48311e"),
                                                 fit: BoxFit.cover,
                                               ),
                                               shape: BoxShape.circle,

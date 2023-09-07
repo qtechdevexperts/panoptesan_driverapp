@@ -108,12 +108,11 @@ class LoginSignupHandler {
       "is_active": true
     });
 
-    final timeout = Duration(seconds: 10);
+ 
     var url = ApiConstants.baseUrl + ApiConstants.registerEndpoint;
 
     final response = await http
-        .post(Uri.parse(url), headers: headers, body: body)
-        .timeout(timeout);
+        .post(Uri.parse(url), headers: headers, body: body);
 
     var json = jsonDecode(response.body);
     if (response.statusCode == 200) {
