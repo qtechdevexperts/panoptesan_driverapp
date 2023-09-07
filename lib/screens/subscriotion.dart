@@ -15,6 +15,7 @@ import 'package:panoptesan_alpha/helpers/alerts.dart';
 import '../Widgets/CustomButton.dart';
 import '../helpers/Colors.dart';
 import '../helpers/dialog/src/progress_dialog.dart';
+import '../helpers/exceptions/packageexistexception.dart';
 import 'SelectPaymentMethod.dart';
 import 'home.dart';
 
@@ -182,7 +183,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
                                         letterSpacing: -0.04,
-                                         fontSize: constraints.maxWidth * 0.04,
+                                        fontSize: constraints.maxWidth * 0.04,
                                         fontWeight: FontWeight.bold,
                                         color: kprimary,
                                       ),
@@ -195,7 +196,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 indent: 65,
                                 endIndent: 65,
                               ),
-                          
+
                               Divider(
                                 color: white,
                                 indent: 65,
@@ -205,12 +206,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               SizedBox(height: 17.h),
                               Container(
                                 color: Colors.white,
-                             //   width: 170.w,
+                                //   width: 170.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                           child: Text(
@@ -219,7 +221,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               letterSpacing: -0.14,
-                                              fontSize: constraints.maxWidth * 0.040,
+                                              fontSize:
+                                                  constraints.maxWidth * 0.040,
                                               fontWeight: FontWeight.w700,
                                               color: kprimary,
                                             ),
@@ -232,7 +235,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             letterSpacing: -0.29,
-                                            fontSize: constraints.maxWidth * 0.15,
+                                            fontSize:
+                                                constraints.maxWidth * 0.15,
                                             fontWeight: FontWeight.w700,
                                             color: kprimary,
                                           ),
@@ -331,6 +335,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       progressDialog.show();
 
                       try {
+                        await controller.checkpackage(
+                            controller.profile?.id.toString());
+
                         var customer = await controller.createcustomer(
                             controller.profile?.userDetail?.name,
                             controller.profile?.email);
@@ -370,7 +377,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         var result =
                             await Stripe.instance.presentPaymentSheet();
 
-                      //  print(result!.toJson());
+                        //  print(result!.toJson());
                         progressDialog.show();
                         await Stripe.instance.confirmPaymentSheetPayment();
 
@@ -383,6 +390,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         Get.back();
                       } catch (e) {
                         progressDialog.dismiss();
+                        if (e is PackageExistExeption) {
+                          // Handle the custom exception
+                          return Alert().showalertwithmessage(
+                              "Subscription is active already!", context);
+                        }
+
                         Alert().showalertwithmessage(
                             "Failed to Make Payment ", context);
                       }

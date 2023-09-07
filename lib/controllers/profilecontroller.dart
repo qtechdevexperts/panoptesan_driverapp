@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:panoptesan_alpha/helpers/api-constants.dart';
 import 'package:panoptesan_alpha/helpers/localstorage.dart';
 
+import '../helpers/exceptions/packageexistexception.dart';
 import '../helpers/snackbar.dart';
 import '../models/notificationmodel.dart';
 import '../models/profile-model.dart';
@@ -555,17 +556,17 @@ class ProfileController extends GetxController {
       profilemodel = profile?.userDetail?.vehicleModel ?? null;
 
       drivinghabitlabel = profile?.userDetail?.drivingHabit ?? null;
-     
 
-      if (profilebrand == "" ||!this.car_brands .contains(profilebrand) ) {
+      if (profilebrand == "" || !this.car_brands.contains(profilebrand)) {
         profilebrand = null;
-          profilemodel = null;
+        profilemodel = null;
       }
-       if (profilemodel == "") {
+      if (profilemodel == "") {
         profilemodel = null;
       }
 
-      if (drivinghabitlabel == "" || !this.habbits.contains(drivinghabitlabel)) {
+      if (drivinghabitlabel == "" ||
+          !this.habbits.contains(drivinghabitlabel)) {
         drivinghabitlabel = null;
       }
 
@@ -603,17 +604,18 @@ class ProfileController extends GetxController {
 
       profilemodel = profile?.userDetail?.vehicleModel ?? null;
 
-      if (profilebrand == "" ||!this.car_brands .contains(profilebrand) ) {
+      if (profilebrand == "" || !this.car_brands.contains(profilebrand)) {
         profilebrand = null;
-            profilemodel = null;
-      }
-      
-      if (profilemodel == "") {
         profilemodel = null;
-            profilemodel = null;
       }
 
-      if (drivinghabitlabel == "" || !this.habbits.contains(drivinghabitlabel)) {
+      if (profilemodel == "") {
+        profilemodel = null;
+        profilemodel = null;
+      }
+
+      if (drivinghabitlabel == "" ||
+          !this.habbits.contains(drivinghabitlabel)) {
         drivinghabitlabel = null;
       }
       try {
@@ -778,6 +780,40 @@ class ProfileController extends GetxController {
     }
   }
 
+  checkpackage(String? userid) async {
+    try {
+      var token = await LocalStorage.prefs?.getString("token");
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
+      var request = http.Request(
+          'GET',
+          Uri.parse(
+              ApiConstants.baseUrl + '/check/subscription?user_id=' + userid!));
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        throw new PackageExistExeption("Package already exists");
+      } else if (response.statusCode == 404) {
+      } else {
+        throw (response.reasonPhrase!);
+      }
+    } catch (e) {
+      if (e is PackageExistExeption) {
+        // Handle the custom exception
+        throw new PackageExistExeption("Package already exists");
+      } else {
+        // Let other exceptions propagate
+        throw e;
+      }
+    }
+  }
+
   makepayment(String mpid, int amount) async {
     try {
       var token = await LocalStorage.prefs?.getString("token");
@@ -890,7 +926,7 @@ class ProfileController extends GetxController {
       print(response.reasonPhrase);
     }
   }
-  
+
   usercrash(bool) async {
     int myIntValue = bool ? 1 : 0;
     var token = await LocalStorage.prefs?.getString("token");
