@@ -120,7 +120,9 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     IconButton(
                                         constraints: BoxConstraints(),
-                                        color: Colors.grey,
+                                        color: _.navigationBarIndexValue == 0
+                                            ? Color(0xff017cb7)
+                                            : Colors.grey,
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           _onItemTaapped(0);
@@ -130,7 +132,9 @@ class _MainScreenState extends State<MainScreen> {
                                     Text(
                                       "Record",
                                       style: GoogleFonts.inter(
-                                        color: Color(0xff0A0D26),
+                                        color: _.navigationBarIndexValue == 0
+                                            ? Color(0xff017cb7)
+                                            : Color(0xff0A0D26),
                                         fontSize: 11,
                                         fontWeight: FontWeight.w300,
                                       ),
@@ -143,7 +147,9 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     IconButton(
                                         constraints: BoxConstraints(),
-                                        color: Colors.grey,
+                                        color: _.navigationBarIndexValue == 1
+                                            ? Color(0xff017cb7)
+                                            : Colors.grey,
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           _onItemTaapped(1);
@@ -152,7 +158,9 @@ class _MainScreenState extends State<MainScreen> {
                                     Text(
                                       "Archive",
                                       style: GoogleFonts.inter(
-                                        color: Color(0xff0A0D26),
+                                        color: _.navigationBarIndexValue == 1
+                                            ? Color(0xff017cb7)
+                                            : Color(0xff0A0D26),
                                         fontSize: 11,
                                         fontWeight: FontWeight.w300,
                                       ),
@@ -189,7 +197,9 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     IconButton(
                                         constraints: BoxConstraints(),
-                                        color: Colors.grey,
+                                        color: _.navigationBarIndexValue == 3
+                                            ? Color(0xff017cb7)
+                                            : Colors.grey,
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           _onItemTaapped(3);
@@ -199,7 +209,9 @@ class _MainScreenState extends State<MainScreen> {
                                     Text(
                                       "Notifications",
                                       style: GoogleFonts.inter(
-                                        color: Color(0xff0A0D26),
+                                        color: _.navigationBarIndexValue == 3
+                                            ? Color(0xff017cb7)
+                                            : Color(0xff0A0D26),
                                         fontSize: 11,
                                         fontWeight: FontWeight.w300,
                                       ),
@@ -208,18 +220,28 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                               ),
 
-                              GetBuilder<ProfileController>(builder: (_) {
-                                return _.profile?.userDetail?.profileImg == null
+                              GetBuilder<ProfileController>(builder: (a) {
+                                return a.profile?.userDetail?.profileImg == null
                                     ? GestureDetector(
                                         onTap: () {
                                           _onItemTaapped(4);
                                         },
                                         child: Container(
+                                          //    color: _.navigationBarIndexValue==4?  Color(0xff017cb7): Colors.grey,
                                           width: 45.w,
                                           height: 45.h,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
+                                              border: Border.all(
+                                                width: 1,
+                                                color:
+                                                    _.navigationBarIndexValue ==
+                                                            4
+                                                        ? Color(0xff017cb7)
+                                                        : Colors.white,
+                                              ),
                                               image: DecorationImage(
+                                                  //  invertColors: true,
                                                   image: NetworkImage(
                                                       "https://firebasestorage.googleapis.com/v0/b/panoptesan-c6ef1.appspot.com/o/pngaaa.com-2189569.png?alt=media&token=ce959fd9-31c8-4c9e-bcbd-c277ad48311e"))),
                                         ),
@@ -235,7 +257,7 @@ class _MainScreenState extends State<MainScreen> {
                                               color: Colors.black,
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                  image: NetworkImage(_
+                                                  image: NetworkImage(a
                                                           .profile
                                                           ?.userDetail
                                                           ?.profileImg ??
@@ -288,6 +310,9 @@ class _MainScreenState extends State<MainScreen> {
                                     child: Image.asset(
                                       "assets/Icon material-home.png",
                                       scale: 3.5,
+                                      color: _.navigationBarIndexValue == 2
+                                          ? Color.fromARGB(255, 141, 198, 224)
+                                          : Colors.white,
                                     )),
                               ),
                             ),

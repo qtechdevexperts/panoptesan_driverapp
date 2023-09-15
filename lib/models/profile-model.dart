@@ -80,7 +80,7 @@ class Profile {
     }
     return Profile(
         id: json['id'],
-        username: json['username'],
+        username: json['username'] ?? "",
         email: json['email'],
         contactNumber: json['contact_number'],
         password: json['password'],
@@ -240,7 +240,7 @@ class FleetUser {
     required this.videoClips,
   });
   late final int id;
-  late final String username;
+  late final String? username;
   late final String email;
   late final Null contactNumber;
   late final Null address;
@@ -258,12 +258,12 @@ class FleetUser {
 
   FleetUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    username = json['username'];
+    username = json['username']??"";
     email = json['email'];
     contactNumber = null;
     address = null;
     nationalIdNumber = null;
-    cityId = json['city_id'];
+    cityId = json['city_id'] ?? 0;
     drivingLicenseNumber = null;
     isActive = json['is_active'];
     createdAt = json['created_at'];

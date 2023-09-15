@@ -69,7 +69,7 @@ class _VideoEditorState extends State<VideoEditor> {
   //final _isExporting = ValueNotifier<bool>(false);
   final double height = 60;
 
-  late final VideoEditorController _controller = VideoEditorController.file(
+  late VideoEditorController _controller = VideoEditorController.file(
     widget.file,
     minDuration: Duration(seconds: widget.min),
     maxDuration: Duration(seconds: widget.max),
@@ -129,11 +129,10 @@ class _VideoEditorState extends State<VideoEditor> {
         },
         onCompleted: (file) async {
           bottomcontroller.file = File(file.path);
-               pl.hide();
+          pl.hide();
           await Alert()
               .showalertwithmessage("Edit Completed", context)
               .then((value) => Get.back(result: true));
-     
         },
       );
     } catch (e) {
@@ -228,12 +227,15 @@ class _VideoEditorState extends State<VideoEditor> {
                   child: Container(
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: constraint.maxHeight * 0.05,
+                        ),
                         Stack(
                           alignment: Alignment.center,
                           children: [
                             Container(
-                                height: constraint.maxHeight / 2,
-                                width: constraint.maxWidth * 0.8,
+                                height: constraint.maxHeight * 0.5,
+                                width: constraint.maxWidth / 2,
                                 child: CropGridViewer.preview(
                                     controller: _controller)),
                             AnimatedBuilder(
@@ -263,6 +265,10 @@ class _VideoEditorState extends State<VideoEditor> {
                               ),
                             ),
                           ],
+                        ),
+
+                         SizedBox(
+                          height: constraint.maxHeight * 0.05,
                         ),
                         SafeArea(
                           child: SizedBox(
@@ -322,13 +328,38 @@ class _VideoEditorState extends State<VideoEditor> {
                                 ),
                                 IconButton(
                                   color: white,
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (context) =>
-                                          CropScreen(controller: _controller),
-                                    ),
-                                  ),
+                                  onPressed: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CropScreen(controller: _controller),
+                                      ),
+                                    );
+
+                                    // if (file != null) {
+                                    //   setState(() {
+
+                                    //   });
+                                    //   _controller = VideoEditorController.file(
+                                    //     file,
+                                    //     minDuration:
+                                    //         Duration(seconds: widget.min),
+                                    //     maxDuration:
+                                    //         Duration(seconds: widget.max),
+                                    //   );
+                                    //   _controller
+                                    //       .initialize(aspectRatio: 9 / 16)
+                                    //       .then((_) => setState(() {}))
+                                    //       .catchError((error) {
+                                    //     // handle minumum duration bigger than video duration error
+                                    //     Navigator.pop(context);
+                                    //   },
+                                    //           test: (e) =>
+                                    //               e is VideoMinDurationError);
+
+                                    // }
+                                  },
                                   icon: const Icon(
                                     Icons.crop,
                                     color: kprimary,
@@ -478,20 +509,20 @@ class _VideoEditorState extends State<VideoEditor> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: constraint.maxWidth * 0.08, top: 20),
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SquareIconButton(
-                              squareSize: constraint.maxWidth * 0.12,
-                              onPressed: () {
-                                Get.to(CropScreen(controller: _controller));
-                              },
-                              icon: Icons.crop_free_outlined,
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //       left: constraint.maxWidth * 0.08, top: 20),
+                        //   child: Align(
+                        //     alignment: Alignment.topLeft,
+                        //     child: SquareIconButton(
+                        //       squareSize: constraint.maxWidth * 0.12,
+                        //       onPressed: () {
+                        //         Get.to(CropScreen(controller: _controller));
+                        //       },
+                        //       icon: Icons.crop_free_outlined,
+                        //     ),
+                        //   ),
+                        // ),
                         // ValueListenableBuilder(
                         //   valueListenable: _isExporting,
                         //   builder: (_, bool export, __) => OpacityTransition(
@@ -518,108 +549,6 @@ class _VideoEditorState extends State<VideoEditor> {
         ),
       );
     });
-  }
-
-  Widget _topNavBar() {
-    return SafeArea(
-      child: SizedBox(
-        height: height,
-        child: Row(
-          children: [
-            // Expanded(
-            //   child: IconButton(
-            //     color: white,
-            //     onPressed: () => Navigator.of(context).pop(),
-            //     icon: const Icon(
-            //       Icons.exit_to_app,
-            //       color: kprimary,
-            //     ),
-            //     tooltip: 'Leave editor',
-            //   ),
-            // ),
-            // const VerticalDivider(
-            //   endIndent: 22,
-            //   indent: 22,
-            //   color: kprimary,
-            // ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.play_arrow,
-                size: 32,
-                color: Color(0xFF007AB6),
-              ),
-              color: Colors.transparent,
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-            ),
-            IconButton(
-              color: white,
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (context) => CropScreen(controller: _controller),
-                ),
-              ),
-              icon: const Icon(
-                Icons.crop,
-                color: kprimary,
-              ),
-              tooltip: 'Open crop screen',
-            ),
-            //  const VerticalDivider(endIndent: 22, indent: 22),
-            // Expanded(
-            //   child: PopupMenuButton(
-            //     tooltip: 'Open export menu',
-            //     icon: Icon(
-            //       Icons.save,
-            //       color: kprimary,
-            //     ),
-            //     itemBuilder: (context) => [
-            //       PopupMenuItem(
-            //         onTap: _exportCover,
-            //         child: Text('Export cover',
-            //             style: TextStyle(
-            //               color: black,
-            //             )),
-            //       ),
-            //       PopupMenuItem(
-            //         onTap: _exportVideo,
-            //         child: Text(
-            //           'Export video',
-            //           style: TextStyle(
-            //             color: black,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
-            IconButton(
-              color: white,
-              onPressed: () =>
-                  _controller.rotate90Degrees(RotateDirection.left),
-              icon: SvgPicture.asset(
-                'assets/arrowCurveleft.svg',
-                color: kprimary,
-              ),
-              tooltip: 'Rotate unclockwise',
-            ),
-            IconButton(
-              color: white,
-              onPressed: () =>
-                  _controller.rotate90Degrees(RotateDirection.right),
-              icon: SvgPicture.asset(
-                'assets/arrowCurveRight.svg',
-                color: kprimary,
-              ),
-              tooltip: 'Rotate clockwise',
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   String formatter(Duration duration) => [

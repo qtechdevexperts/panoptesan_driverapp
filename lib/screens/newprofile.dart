@@ -27,7 +27,7 @@ class NewProfile extends StatefulWidget {
 class _NewProfileState extends State<NewProfile> {
   var controller = Get.put(ProfileController());
 
-  var _ = Get.put(VideoController());
+  //var _ = Get.put(VideoController());
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
@@ -399,62 +399,66 @@ class _NewProfileState extends State<NewProfile> {
                   ),
                 ),
               ),
-              Container(
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: .99,
-                      crossAxisSpacing: 2,
-                      //   mainAxisSpacing: 8,
-                    ),
-                    padding: EdgeInsets.zero,
-                    itemCount: _.videos!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          print('tapped');
-                          ProgressDialog progressDialog = ProgressDialog(
-                              context,
-                              message: const Text("Please Wait....."),
-                              title: const Text("Loading"));
-
-                          progressDialog.show();
-                          try {
-                            _.getVideo(_.videos![index].path.toString());
-                            progressDialog.dismiss();
-                            await Get.to(() => VideoScreen(
-                                  id: _.videos![index].id.toString(),
-                                ));
-                          } catch (e) {
-                            SnackbarWidget()
-                                .showsnackbar(e.toString(), context);
-                            progressDialog.dismiss();
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: ProfileHomeWidget(
-                            videodate:
-                                '${_.videos?[index].createdAt?.month}/${_.videos?[index].createdAt?.day}/${_.videos?[index].createdAt?.year}',
-                            thumpnail: _.videos == null
-                                ? ""
-                                : _.videos?[index].thumbnail.toString() ?? "",
-                            videolink: _.videos == null
-                                ? ""
-                                : _.videos?[index].path.toString(),
-                            archive: () {},
-                            download: () {},
-                            share: () async {
-                              await Share.share(
-                                  _.videos![index].path.toString());
-                            },
-                          ),
+               GetBuilder<VideoController>(
+                builder: (_v) {
+                  return Container(
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: .99,
+                          crossAxisSpacing: 2,
+                          //   mainAxisSpacing: 8,
                         ),
-                      );
-                    }),
+                        padding: EdgeInsets.zero,
+                        itemCount: _v.videos!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () async {
+                              print('tapped');
+                              ProgressDialog progressDialog = ProgressDialog(
+                                  context,
+                                  message: const Text("Please Wait....."),
+                                  title: const Text("Loading"));
+
+                              progressDialog.show();
+                              try {
+                                _v.getVideo(_v.videos![index].path.toString());
+                                progressDialog.dismiss();
+                                await Get.to(() => VideoScreen(
+                                      id: _v.videos![index].id.toString(),
+                                    ));
+                              } catch (e) {
+                                SnackbarWidget()
+                                    .showsnackbar(e.toString(), context);
+                                progressDialog.dismiss();
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: ProfileHomeWidget(
+                                videodate:
+                                    '${_v.videos?[index].createdAt?.month}/${_v.videos?[index].createdAt?.day}/${_v.videos?[index].createdAt?.year}',
+                                thumpnail: _v.videos == null
+                                    ? ""
+                                    : _v.videos?[index].thumbnail.toString() ?? "",
+                                videolink: _v.videos == null
+                                    ? ""
+                                    : _v.videos?[index].path.toString(),
+                                archive: () {},
+                                download: () {},
+                                share: () async {
+                                  await Share.share(
+                                      _v.videos![index].path.toString());
+                                },
+                              ),
+                            ),
+                          );
+                        }),
+                  );
+                }
               ),
               SizedBox(
                 height: constraint.maxHeight / 2,

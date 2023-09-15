@@ -25,7 +25,15 @@ class LocalStorage {
 
   static getUserData() {
     try {
-      userModel = UserModel.fromJson(jsonDecode(prefs!.getString('user')!));
-    } catch (e) {}
+
+      String? result =  prefs?.getString('user');
+
+      userModel = result==null?null:UserModel.fromJson(jsonDecode(result));
+
+   
+    } catch (e) {
+
+      print(e);
+    }
   }
 }

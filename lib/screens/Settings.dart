@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:panoptesan_alpha/controllers/profilecontroller.dart';
+import 'package:panoptesan_alpha/handlers/LoginSignupHandler.dart';
 import 'package:panoptesan_alpha/screens/NewLoginScreen.dart';
 
 import '../helpers/Colors.dart';
@@ -147,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ],
                       ),
-                       Row(
+                      Row(
                         children: [
                           Transform.scale(
                             scale: 0.7,
@@ -459,7 +460,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       try {
                                         await FirebaseAuth.instance.signOut();
                                       } catch (e) {}
-
+                                      LoginSignupHandler().cleartoken();
                                       await Get.offAll(NewLoginScreen());
 
                                       // Get.to(() => LoginScreen());

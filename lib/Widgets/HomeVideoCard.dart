@@ -66,8 +66,8 @@ class HomeVideoCard extends StatelessWidget {
                       child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(Icons.error),
-                          Text("Thumbnail not available ")
+                          Icon(Icons.preview),
+                          Text("Preview Video")
                         ],
                       )),
                   ),

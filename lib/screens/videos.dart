@@ -32,6 +32,15 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   var videocontroller = Get.put(VideoController());
+
+  @override
+  void dispose() {
+    // videoPlayerController?.dispose();
+    videocontroller.controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,11 +148,10 @@ class _VideoScreenState extends State<VideoScreen> {
                   min: 1,
                 ));
                 if (isedit) {
-
                   pr = pl.ProgressDialog(context,
-                  type: pl.ProgressDialogType.normal,
-                  isDismissible: false,
-                  showLogs: true);
+                      type: pl.ProgressDialogType.normal,
+                      isDismissible: false,
+                      showLogs: true);
                   pr.style(
                       message: 'Uploading video...',
                       borderRadius: 10.0,
@@ -151,7 +159,6 @@ class _VideoScreenState extends State<VideoScreen> {
                       progressWidget: CircularProgressIndicator(),
                       elevation: 10.0,
                       insetAnimCurve: Curves.easeInOut,
-          
                       progressTextStyle: TextStyle(
                           color: Colors.black,
                           fontSize: 13.0,
@@ -709,11 +716,5 @@ class _VideoScreenState extends State<VideoScreen> {
 //     // );
 //   }
 
-//   @override
-//   void dispose() {
-//     // videoPlayerController?.dispose();
-//     _controller.dispose();
 
-//     super.dispose();
-//   }
 // }

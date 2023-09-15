@@ -129,7 +129,7 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                                 ),
                                 filled: true,
                                 fillColor: white,
-                                hintText: 'info@loremipsum.com',
+                                hintText: 'Enter a Valid Email Address',
                                 hintStyle: GoogleFonts.inter(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,

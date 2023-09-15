@@ -93,7 +93,10 @@ class LoginSignupHandler {
       LocalStorage.saveUser(user);
     } else if (response.statusCode == 401) {
       throw (json['message']);
-    } else {
+    } else if (response.statusCode == 404) {
+      throw (json['message']);
+    } 
+     else {
       throw (json);
     }
   }
@@ -131,6 +134,54 @@ class LoginSignupHandler {
     }
   }
 
+
+Future cleartoken() async {
+
+   String? fcmToken = "";
+
+    final deviceInfoPlugin = DeviceInfoPlugin();
+    final deviceInfo = await deviceInfoPlugin.deviceInfo;
+    var token = await LocalStorage.prefs?.getString("token");
+
+    String id = "";
+    String device_type = "";
+
+    try {
+      if (Platform.isAndroid) {
+        id = deviceInfo.data["id"];
+        device_type = "Android";
+      }
+      if (Platform.isIOS) {
+        id = deviceInfo.data["identifierForVendor"];
+        device_type = "IOS";
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request =
+          http.Request('POST', Uri.parse(ApiConstants.baseUrl + '/token'));
+      request.body = json.encode(
+          {"token": fcmToken, "device_id": id, "device_type": device_type});
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        throw (response.reasonPhrase.toString());
+      }
+    } catch (e) {
+      print(e);
+    }
+
+}
   Future settoken() async {
     String? fcmToken = "";
 

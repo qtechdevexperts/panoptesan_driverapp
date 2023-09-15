@@ -18,6 +18,7 @@ class CropScreen extends StatelessWidget {
             Row(children: [
               Expanded(
                 child: IconButton(
+                  color: Colors.white,
                   onPressed: () =>
                       controller.rotate90Degrees(RotateDirection.left),
                   icon: const Icon(Icons.rotate_left),
@@ -25,6 +26,7 @@ class CropScreen extends StatelessWidget {
               ),
               Expanded(
                 child: IconButton(
+                  color: Colors.white,
                   onPressed: () =>
                       controller.rotate90Degrees(RotateDirection.right),
                   icon: const Icon(Icons.rotate_right),
@@ -48,7 +50,8 @@ class CropScreen extends StatelessWidget {
                   icon: const Center(
                     child: Text(
                       "cancel",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
                 ),
@@ -63,12 +66,14 @@ class CropScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () =>
-                                controller.preferredCropAspectRatio = controller
-                                    .preferredCropAspectRatio
-                                    ?.toFraction()
-                                    .inverse()
-                                    .toDouble(),
+                            color: Colors.white,
+                            onPressed: () {
+                              controller.preferredCropAspectRatio = controller
+                                  .preferredCropAspectRatio
+                                  ?.toFraction()
+                                  .inverse()
+                                  .toDouble();
+                            },
                             icon: controller.preferredCropAspectRatio != null &&
                                     controller.preferredCropAspectRatio! < 1
                                 ? const Icon(
@@ -76,6 +81,7 @@ class CropScreen extends StatelessWidget {
                                 : const Icon(Icons.panorama_vertical_rounded),
                           ),
                           IconButton(
+                                color: Colors.white,
                             onPressed: () =>
                                 controller.preferredCropAspectRatio = controller
                                     .preferredCropAspectRatio
@@ -107,12 +113,7 @@ class CropScreen extends StatelessWidget {
                 flex: 2,
                 child: IconButton(
                   onPressed: () {
-                    // 2 WAYS TO UPDATE CROP
-                    // WAY 1:
-                    // controller.updateCrop();
-                    // WAY 2:
-                    // controller.minCrop = controller.cacheMinCrop;
-                    // controller.maxCrop = controller.cacheMaxCrop;
+                controller.applyCacheCrop();
                     Navigator.pop(context);
                   },
                   icon: Center(
