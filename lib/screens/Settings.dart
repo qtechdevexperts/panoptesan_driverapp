@@ -472,12 +472,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       _.emergencyname.clear();
                                       _.emergencyrelationship.clear();
                                       _.emergencycontactnumber.clear();
-                                      await LocalStorage.prefs?.clear();
+                                   
 
                                       try {
                                         await FirebaseAuth.instance.signOut();
                                       } catch (e) {}
-                                      LoginSignupHandler().cleartoken();
+                                    await  LoginSignupHandler().cleartoken();
+                                         await LocalStorage.prefs?.clear();
                                       await Get.offAll(NewLoginScreen());
 
                                       // Get.to(() => LoginScreen());
