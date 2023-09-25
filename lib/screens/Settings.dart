@@ -455,6 +455,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       // setState(() {
                                       //   signUp = false;
                                       // });
+
+                                      _.file = null;
+                                      _.name.clear();
+                                      _.gender.clear();
+                                      _.dob.clear();
+                                      _.desc.clear();
+                                      _.address.clear();
+                                      _.desc.clear();
+                                      _.carmake.clear();
+                                      _.carname.clear();
+                                      _.medicalconditions.clear();
+                                      _.medicalnotes.clear();
+                                      _.allergies.clear();
+                                      _.medications.clear();
+                                      _.emergencyname.clear();
+                                      _.emergencyrelationship.clear();
+                                      _.emergencycontactnumber.clear();
                                       await LocalStorage.prefs?.clear();
 
                                       try {

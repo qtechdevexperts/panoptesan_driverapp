@@ -128,12 +128,13 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                               squareSize: constraints.maxWidth * 0.1,
                               onPressed: () {
                                 showCustomDateRangePicker(
+
+                                  
                                   context,
                                   dismissible: true,
-                                  minimumDate: DateTime.now()
-                                      .subtract(const Duration(days: 30)),
+                                 minimumDate: DateTime(1970),
                                   maximumDate: DateTime.now()
-                                      .add(const Duration(days: 30)),
+                                      .add( Duration(days: 365)),
                                   endDate: endDate,
                                   startDate: startDate,
                                   backgroundColor: Colors.white,

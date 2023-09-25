@@ -207,7 +207,7 @@ class Custom extends StatelessWidget {
       onDayPressed: (value) {
     //    Get.to(() => VideoScreen(id: "",));
       },
-      initialDate: DateTime.now(),
+    //  initialDate: DateTime.now(),
 
       /// customize the month header look by adding a week indicator
       monthBuilder: (context, month, year) {

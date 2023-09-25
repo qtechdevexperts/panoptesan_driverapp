@@ -95,8 +95,7 @@ class LoginSignupHandler {
       throw (json['message']);
     } else if (response.statusCode == 404) {
       throw (json['message']);
-    } 
-     else {
+    } else {
       throw (json);
     }
   }
@@ -111,11 +110,10 @@ class LoginSignupHandler {
       "is_active": true
     });
 
- 
     var url = ApiConstants.baseUrl + ApiConstants.registerEndpoint;
 
-    final response = await http
-        .post(Uri.parse(url), headers: headers, body: body);
+    final response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
 
     var json = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -129,15 +127,15 @@ class LoginSignupHandler {
       }
     } else if (response.statusCode == 401) {
       throw (json['message']);
+    } else if (response.statusCode == 500) {
+      throw (json['message']);
     } else {
       throw (json);
     }
   }
 
-
-Future cleartoken() async {
-
-   String? fcmToken = "";
+  Future cleartoken() async {
+    String? fcmToken = "";
 
     final deviceInfoPlugin = DeviceInfoPlugin();
     final deviceInfo = await deviceInfoPlugin.deviceInfo;
@@ -180,8 +178,8 @@ Future cleartoken() async {
     } catch (e) {
       print(e);
     }
+  }
 
-}
   Future settoken() async {
     String? fcmToken = "";
 
@@ -317,7 +315,7 @@ Future cleartoken() async {
         throw (json);
       }
     } else {
-       await FacebookAuth.instance.logOut();
+      await FacebookAuth.instance.logOut();
       throw ('Facebook login failed: ${result.status}');
     }
   }

@@ -327,7 +327,7 @@ class _InviteScreenState extends State<InviteScreen> {
           ),
           centerTitle: true,
           title: Text(
-            "Invites",
+            "Invite",
             style: appbarstyle,
           ),
           backgroundColor: Colors.transparent,

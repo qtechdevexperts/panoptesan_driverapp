@@ -385,10 +385,12 @@ editvideo(String videoid, String filepath) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token'
       };
+
+      var url = ApiConstants.baseUrl +
+              '/videos?startdate=$startdate&enddate=$endDate';
       var request = http.Request(
           'GET',
-          Uri.parse(ApiConstants.baseUrl +
-              '/videos?startdate=$startdate&enddate=$endDate'));
+          Uri.parse(url));
 
       request.headers.addAll(headers);
 
