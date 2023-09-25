@@ -94,7 +94,7 @@ class LoginSignupHandler {
     } else if (response.statusCode == 401) {
       throw (json['message']);
     } else if (response.statusCode == 404) {
-      throw (json['message']);
+      throw ("Email or Password is incorrect");
     } else {
       throw (json);
     }
