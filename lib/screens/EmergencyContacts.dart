@@ -296,8 +296,17 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                           .showalert("Emergency Contact Relationship", context);
                     }
                     if (profilecontroller.emergencycontactnumber.text.isEmpty) {
-                      return Alert()
-                          .showalert("Emergency Contact Number", context);
+                      return Alert().showalert(
+                          "Emergency Contact Number is required", context);
+                    }
+
+                    if (profilecontroller.emergencycontactnumber.text.length <
+                            8 ||
+                        profilecontroller.emergencycontactnumber.text.length >
+                            15) {
+                      return Alert().showalert(
+                          "Emergency Contact Number must be between 8 and 15 characters",
+                          context);
                     }
 
                     ProgressDialog progressDialog = ProgressDialog(context,
@@ -338,10 +347,6 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                       profilecontroller.emergencyname.clear();
                       profilecontroller.emergencyrelationship.clear();
                       profilecontroller.emergencycontactnumber.clear();
-
-
-
-
 
                       profilecontroller.update();
                       progressDialog.dismiss();

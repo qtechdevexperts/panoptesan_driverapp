@@ -94,7 +94,7 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        backgroundColor: Color(0xFFE8F1FE),
+        backgroundColor: const Color(0xffF1F2F6),
         appBar: AppBar(
           bottom: PreferredSize(
               child: Container(
@@ -128,13 +128,11 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
                               squareSize: constraints.maxWidth * 0.1,
                               onPressed: () {
                                 showCustomDateRangePicker(
-
-                                  
                                   context,
                                   dismissible: true,
-                                 minimumDate: DateTime(1970),
-                                  maximumDate: DateTime.now()
-                                      .add( Duration(days: 365)),
+                                  minimumDate: DateTime(1970),
+                                  maximumDate:
+                                      DateTime.now().add(Duration(days: 365)),
                                   endDate: endDate,
                                   startDate: startDate,
                                   backgroundColor: Colors.white,
@@ -167,7 +165,7 @@ class _NewArchiveState extends State<NewArchive> with TickerProviderStateMixin {
             "Archive",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          backgroundColor: Color(0xFFE8F1FE),
+             backgroundColor: const Color(0xffF1F2F6),
         ),
         body: GetBuilder<VideoController>(builder: (_) {
           return _.videoscreenloading

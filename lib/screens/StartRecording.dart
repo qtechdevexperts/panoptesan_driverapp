@@ -348,7 +348,7 @@ class _StartRecordingScreenState extends State<StartRecordingScreen> {
                           await controller.setvideo();
                           progressDialog.dismiss();
 
-                          Alert().showalertwithmessage("Video Edited", context);
+                          Alert().showalertwithmessage("Video uploaded successfully", context);
                         } catch (e) {
                           progressDialog.dismiss();
                           Alert().showalertwithmessage(
