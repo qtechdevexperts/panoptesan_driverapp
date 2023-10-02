@@ -54,11 +54,7 @@ class VideoEditor extends StatefulWidget {
   final int max;
   final int min;
   final String videoid;
-  const VideoEditor(
-      {required this.file,
-      required this.max,
-      required this.min,
-      required this.videoid});
+  const VideoEditor({required this.file, required this.max, required this.min, required this.videoid});
 
   @override
   State<VideoEditor> createState() => _VideoEditorState();
@@ -71,6 +67,7 @@ class _VideoEditorState extends State<VideoEditor> {
 
   late VideoEditorController _controller = VideoEditorController.file(
     widget.file,
+    cropStyle: CropGridStyle(background: Color(0xffF1F2F6)),
     minDuration: Duration(seconds: widget.min),
     maxDuration: Duration(seconds: widget.max),
   );
@@ -78,10 +75,7 @@ class _VideoEditorState extends State<VideoEditor> {
   @override
   void initState() {
     super.initState();
-    _controller
-        .initialize(aspectRatio: 9 / 16)
-        .then((_) => setState(() {}))
-        .catchError((error) {
+    _controller.initialize(aspectRatio: 9 / 16).then((_) => setState(() {})).catchError((error) {
       // handle minumum duration bigger than video duration error
       Navigator.pop(context);
     }, test: (e) => e is VideoMinDurationError);
@@ -95,8 +89,7 @@ class _VideoEditorState extends State<VideoEditor> {
     super.dispose();
   }
 
-  void _showErrorSnackBar(String message) =>
-      ScaffoldMessenger.of(context).showSnackBar(
+  void _showErrorSnackBar(String message) => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
           duration: const Duration(seconds: 1),
@@ -104,10 +97,7 @@ class _VideoEditorState extends State<VideoEditor> {
       );
 
   Future<void> _exportVideo() async {
-    var pl = pr.ProgressDialog(context,
-        type: pr.ProgressDialogType.download,
-        isDismissible: true,
-        showLogs: true);
+    var pl = pr.ProgressDialog(context, type: pr.ProgressDialogType.download, isDismissible: true, showLogs: true);
     pl.show();
     //  _exportingProgress.value = 0;
     //  _isExporting.value = true;
@@ -130,15 +120,11 @@ class _VideoEditorState extends State<VideoEditor> {
         onCompleted: (file) async {
           bottomcontroller.file = File(file.path);
           pl.hide();
-          await Alert()
-              .showalertwithmessage("Edit Completed", context)
-              .then((value) => Get.back(result: true));
+          await Alert().showalertwithmessage("Edit Completed", context).then((value) => Get.back(result: true));
         },
       );
     } catch (e) {
-      Alert()
-          .showalertwithmessage("Error failed to edit file", context)
-          .then((value) => Get.back(result: false));
+      Alert().showalertwithmessage("Error failed to edit file", context).then((value) => Get.back(result: false));
       pl.hide();
     }
 
@@ -212,9 +198,7 @@ class _VideoEditorState extends State<VideoEditor> {
                         ),
                       ],
                     ),
-                    child: Center(
-                        child:
-                            Icon(Icons.check)), // x icon in center of container
+                    child: Center(child: Icon(Icons.check)), // x icon in center of container
                   ),
                 ),
               ),
@@ -233,11 +217,7 @@ class _VideoEditorState extends State<VideoEditor> {
                         Stack(
                           alignment: Alignment.center,
                           children: [
-                            Container(
-                                height: constraint.maxHeight * 0.5,
-                                width: constraint.maxWidth / 2,
-                                child: CropGridViewer.preview(
-                                    controller: _controller)),
+                            Container(height: constraint.maxHeight * 0.5, width: constraint.maxWidth / 2, child: CropGridViewer.preview(controller: _controller)),
                             AnimatedBuilder(
                               animation: _controller.video,
                               builder: (_, __) => OpacityTransition(
@@ -267,7 +247,7 @@ class _VideoEditorState extends State<VideoEditor> {
                           ],
                         ),
 
-                         SizedBox(
+                        SizedBox(
                           height: constraint.maxHeight * 0.05,
                         ),
                         SafeArea(
@@ -298,29 +278,21 @@ class _VideoEditorState extends State<VideoEditor> {
                                     _controller.video,
                                   ]),
                                   builder: (_, __) {
-                                    final duration =
-                                        _controller.videoDuration.inSeconds;
-                                    final pos =
-                                        _controller.trimPosition * duration;
+                                    final duration = _controller.videoDuration.inSeconds;
+                                    final pos = _controller.trimPosition * duration;
 
                                     return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: height / 4),
+                                      padding: EdgeInsets.symmetric(horizontal: height / 4),
                                       child: Row(children: [
-                                        Text(formatter(
-                                            Duration(seconds: pos.toInt()))),
+                                        Text(formatter(Duration(seconds: pos.toInt()))),
                                         //const Expanded(child: SizedBox()),
                                         OpacityTransition(
                                           visible: _controller.isTrimming,
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(formatter(
-                                                    _controller.startTrim)),
-                                                const SizedBox(width: 10),
-                                                Text(formatter(
-                                                    _controller.endTrim)),
-                                              ]),
+                                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                            Text(formatter(_controller.startTrim)),
+                                            const SizedBox(width: 10),
+                                            Text(formatter(_controller.endTrim)),
+                                          ]),
                                         ),
                                       ]),
                                     );
@@ -332,8 +304,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            CropScreen(controller: _controller),
+                                        builder: (context) => CropScreen(controller: _controller),
                                       ),
                                     );
 
@@ -422,8 +393,7 @@ class _VideoEditorState extends State<VideoEditor> {
 
                                 IconButton(
                                   color: white,
-                                  onPressed: () => _controller
-                                      .rotate90Degrees(RotateDirection.left),
+                                  onPressed: () => _controller.rotate90Degrees(RotateDirection.left),
                                   icon: SvgPicture.asset(
                                     'assets/arrowCurveleft.svg',
                                     color: kprimary,
@@ -432,8 +402,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                 ),
                                 IconButton(
                                   color: white,
-                                  onPressed: () => _controller
-                                      .rotate90Degrees(RotateDirection.right),
+                                  onPressed: () => _controller.rotate90Degrees(RotateDirection.right),
                                   icon: SvgPicture.asset(
                                     'assets/arrowCurveRight.svg',
                                     color: kprimary,
@@ -445,15 +414,12 @@ class _VideoEditorState extends State<VideoEditor> {
                           ),
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: constraint.maxWidth * 0.08),
+                          padding: EdgeInsets.only(left: constraint.maxWidth * 0.08),
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
                               "Mute clip audio",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: constraint.maxWidth * 0.04),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: constraint.maxWidth * 0.04),
                             ),
                           ),
                         ),
@@ -476,10 +442,8 @@ class _VideoEditorState extends State<VideoEditor> {
                                   ),
                                   Container(
                                     color: bprimary,
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.5,
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 2, horizontal: 2),
+                                    width: MediaQuery.of(context).size.width / 1.5,
+                                    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
                                     child: TrimSlider(
                                       hasHaptic: true,
                                       controller: _controller,
@@ -497,15 +461,12 @@ class _VideoEditorState extends State<VideoEditor> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: constraint.maxWidth * 0.08, top: 20),
+                          padding: EdgeInsets.only(left: constraint.maxWidth * 0.08, top: 20),
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
                               "Mute clip audio",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: constraint.maxWidth * 0.04),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: constraint.maxWidth * 0.04),
                             ),
                           ),
                         ),
@@ -551,10 +512,7 @@ class _VideoEditorState extends State<VideoEditor> {
     });
   }
 
-  String formatter(Duration duration) => [
-        duration.inMinutes.remainder(60).toString().padLeft(2, '0'),
-        duration.inSeconds.remainder(60).toString().padLeft(2, '0')
-      ].join(":");
+  String formatter(Duration duration) => [duration.inMinutes.remainder(60).toString().padLeft(2, '0'), duration.inSeconds.remainder(60).toString().padLeft(2, '0')].join(":");
 
   List<Widget> _trimSlider() {
     return [
